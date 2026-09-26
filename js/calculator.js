@@ -88,6 +88,47 @@ class PhysicsCalculator {
     };
 
     [ohmI, ohmR].forEach(input => input && input.addEventListener('input', calcOhm));
+
+    // 5. Faraday's Law of Induction: e = -N * (dPhi / dt)
+    const indN = document.getElementById('ind-n');
+    const indDphi = document.getElementById('ind-dphi');
+    const indDt = document.getElementById('ind-dt');
+    const indRes = document.getElementById('ind-res');
+
+    const calcInd = () => {
+      if (!indN || !indDphi || !indDt || !indRes) return;
+      const n = parseFloat(indN.value) || 0;
+      const dPhi = parseFloat(indDphi.value) || 0;
+      const dt = parseFloat(indDt.value) || 1;
+      if (dt === 0) return;
+      const e = Math.abs(n * (dPhi / dt));
+      indRes.innerText = e.toFixed(2) + " V";
+    };
+
+    [indN, indDphi, indDt].forEach(input => input && input.addEventListener('input', calcInd));
+
+    // 6. Self-Induction & Magnetic Energy: e = -L * (di / dt), W = 0.5 * L * i^2
+    const selfL = document.getElementById('self-l');
+    const selfDi = document.getElementById('self-di');
+    const selfDt = document.getElementById('self-dt');
+    const selfI = document.getElementById('self-i');
+    const selfResE = document.getElementById('self-res-e');
+    const selfResW = document.getElementById('self-res-w');
+
+    const calcSelf = () => {
+      if (!selfL || !selfDi || !selfDt || !selfResE) return;
+      const l = parseFloat(selfL.value) || 0;
+      const di = parseFloat(selfDi.value) || 0;
+      const dt = parseFloat(selfDt.value) || 1;
+      const i = parseFloat(selfI ? selfI.value : 0) || 0;
+      if (dt === 0) return;
+      const e = Math.abs(l * (di / dt));
+      const w = 0.5 * l * Math.pow(i, 2);
+      selfResE.innerText = e.toFixed(2) + " V";
+      if (selfResW) selfResW.innerText = w.toFixed(3) + " J";
+    };
+
+    [selfL, selfDi, selfDt, selfI].forEach(input => input && input.addEventListener('input', calcSelf));
   }
 }
 

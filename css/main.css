@@ -1790,6 +1790,54 @@ input[type="range"] {
   border-radius: 3px;
 }
 
+.lab-extra-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 6px 0;
+}
+
+.lab-action-btn {
+  padding: 8px 14px;
+  background: rgba(0, 242, 254, 0.08);
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  color: var(--cyan-glow);
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lab-action-btn:hover {
+  background: var(--cyan-glow);
+  color: #080b14;
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+  transform: translateY(-1px);
+}
+
+.lab-action-btn.active {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  color: #080b14;
+  border-color: #fbbf24;
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+}
+
+.lab-action-btn.btn-danger {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #f87171;
+}
+
+.lab-action-btn.btn-danger:hover {
+  background: #ef4444;
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+}
+
 .telemetry-box {
   background: rgba(0, 0, 0, 0.4);
   border: 1px dashed var(--border-glass-active);

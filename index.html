@@ -155,7 +155,7 @@
               <div class="dropdown-icon">🔬</div>
               <div class="dropdown-text">
                 <span class="dropdown-title">បន្ទប់ពិសោធន៍និម្មិត</span>
-                <span class="dropdown-desc">Virtual Lab: ច្បាប់ឧស្ម័ន រលក ព្រីស</span>
+                <span class="dropdown-desc">Virtual Lab: អគ្គិសនី ច្បាប់ឧស្ម័ន ព្រីស</span>
               </div>
               <span class="dropdown-badge hot">Interactive</span>
             </a>
@@ -1679,19 +1679,25 @@
     </div>
   </section>
 
-  <!-- Virtual Physics Lab Section (with Gas Laws: Boyle, Charles, Gay-Lussac) -->
+  <!-- Virtual Physics Lab Section (with Electricity, Gas Laws & Mechanics) -->
   <section id="lab" class="section">
     <div class="container">
       <div class="text-center">
         <span class="section-tag">Interactive Sandbox</span>
         <h2 class="section-title font-moul">បន្ទប់ពិសោធន៍រូបវិទ្យានិម្មិត (Virtual Physics Lab)</h2>
-        <p class="section-subtitle">ពិសោធន៍ច្បាប់ឧស្ម័នរូបវិទ្យា (ច្បាប់ប៊យ, ច្បាប់សាល, ច្បាប់កេលុយសាក់) និងបាតុភូតរូបវិទ្យាលើ Canvas ក្នុងពេលជាក់ស្ដែង!</p>
+        <p class="section-subtitle">ពិសោធន៍បាតុភូតអគ្គិសនី (អាំងឌុចស្យុង & អូតូអាំងឌុចស្យុងអេឡិចត្រូម៉ាញេទិច) ច្បាប់ឧស្ម័ន និងបាតុភូតរូបវិទ្យាលើ Canvas ក្នុងពេលជាក់ស្ដែង!</p>
       </div>
 
       <div class="lab-container">
-        <!-- Tab Selector Buttons (Includes Gas Laws) -->
+        <!-- Tab Selector Buttons (Includes Electricity & Gas Laws) -->
         <div class="lab-tabs">
-          <button class="lab-tab-btn active" data-mode="boyle">
+          <button class="lab-tab-btn active" data-mode="induction">
+            <span>⚡ អាំងឌុចស្យុងអេឡិចត្រូម៉ាញេទិច \(e = -N\frac{\Delta\Phi}{\Delta t}\)</span>
+          </button>
+          <button class="lab-tab-btn" data-mode="self_induction">
+            <span>🧲 អូតូអាំងឌុចស្យុង \(e = -L\frac{\Delta i}{\Delta t}\)</span>
+          </button>
+          <button class="lab-tab-btn" data-mode="boyle">
             <span>🧪 ច្បាប់ប៊យ \(P_1 V_1 = P_2 V_2\)</span>
           </button>
           <button class="lab-tab-btn" data-mode="charles">
@@ -1725,27 +1731,30 @@
 
             <div class="control-group">
               <label class="control-label" id="lab-label1">
-                កែប្រែមាឌ ពីស្តុង (\(V\)): <span id="lab-val1">10 L</span>
+                ទីតាំងមេដែក (\(x\)): <span id="lab-val1">35%</span>
               </label>
-              <input type="range" id="lab-param1" min="4" max="16" step="0.5" value="10">
+              <input type="range" id="lab-param1" min="0" max="100" step="1" value="35">
             </div>
 
             <div class="control-group">
               <label class="control-label" id="lab-label2">
-                សំទុះទាញ (\(g\)): <span id="lab-val2">9.8 m/s²</span>
+                ចំនួនរង្វាយរបុំ (\(N\)): <span id="lab-val2">200</span>
               </label>
-              <input type="range" id="lab-param2" min="1.6" max="20" step="0.1" value="9.8">
+              <input type="range" id="lab-param2" min="50" max="500" step="25" value="200">
             </div>
+
+            <!-- Dynamic Action Controls for Induction / Self-Induction -->
+            <div id="lab-extra-controls" class="lab-extra-controls"></div>
 
             <div class="telemetry-box">
               <div style="font-weight:bold; margin-bottom:8px; color:var(--text-main);">📡 ព័ត៌មានគណនា (MathType Readout)</div>
               <div class="telemetry-row">
-                <span id="tel-label1">សម្ពាធ (\(P = \frac{k}{V}\)):</span>
-                <span id="tel-1" style="font-weight:bold;">10.00 atm</span>
+                <span id="tel-label1">ហ្លុចម៉ាញេទិច (\(\Phi = B \cdot S\)):</span>
+                <span id="tel-1" style="font-weight:bold;">0.00 mWb</span>
               </div>
               <div class="telemetry-row">
-                <span id="tel-label2">ថេរច្បាប់ប៊យ (\(P \cdot V\)):</span>
-                <span id="tel-2" style="font-weight:bold;">100.0 atm·L</span>
+                <span id="tel-label2">ក.អ.ច. អាំងឌ្វី (\(e = -N\frac{\Delta\Phi}{\Delta t}\)):</span>
+                <span id="tel-2" style="font-weight:bold;">0.00 V</span>
               </div>
             </div>
           </div>
@@ -1777,6 +1786,12 @@
           </button>
           <button class="calc-tab" data-target="calc-ohm">
             🔌 ច្បាប់អូម \(V = I \cdot R\)
+          </button>
+          <button class="calc-tab" data-target="calc-induction">
+            ⚡ ច្បាប់ហ្វារ៉ាដេ \(e = -N\frac{\Delta\Phi}{\Delta t}\)
+          </button>
+          <button class="calc-tab" data-target="calc-self-ind">
+            🧲 អូតូអាំងឌុចស្យុង \(e = -L\frac{\Delta i}{\Delta t}\)
           </button>
         </div>
 
@@ -1867,6 +1882,66 @@
             <div class="calc-result-box">
               <div style="font-size:0.9rem; color:var(--text-muted);">តង់ស្យុង \(V\)៖</div>
               <div id="ohm-res" class="result-val">220.00 V</div>
+            </div>
+          </div>
+
+          <!-- Panel 5: Faraday's Law of Induction -->
+          <div id="calc-induction" class="calc-panel">
+            <div class="formula-display">
+              $$\displaystyle e = -N \cdot \frac{\Delta\Phi}{\Delta t}$$
+            </div>
+            <div class="calc-form-grid">
+              <div class="input-field">
+                <label>ចំនួនរង្វាយ \(N\) (រង្វាយ)</label>
+                <input type="number" id="ind-n" value="250">
+              </div>
+              <div class="input-field">
+                <label>បម្រែបម្រួលហ្លុច \(\Delta\Phi\) (Wb)</label>
+                <input type="number" id="ind-dphi" step="0.001" value="0.04">
+              </div>
+              <div class="input-field" style="grid-column: span 2;">
+                <label>រយៈពេល \(\Delta t\) (s)</label>
+                <input type="number" id="ind-dt" step="0.01" value="0.2">
+              </div>
+            </div>
+            <div class="calc-result-box">
+              <div style="font-size:0.9rem; color:var(--text-muted);">កម្លាំងអគ្គិសនីចលករអាំងឌ្វី \(|e|\)៖</div>
+              <div id="ind-res" class="result-val">50.00 V</div>
+            </div>
+          </div>
+
+          <!-- Panel 6: Self-Induction & Energy -->
+          <div id="calc-self-ind" class="calc-panel">
+            <div class="formula-display">
+              $$\displaystyle e = -L \cdot \frac{\Delta i}{\Delta t} \quad \text{និង} \quad W_L = \frac{1}{2} L \cdot i^2$$
+            </div>
+            <div class="calc-form-grid">
+              <div class="input-field">
+                <label>អាំងឌុចតង់ \(L\) (H)</label>
+                <input type="number" id="self-l" step="0.1" value="0.8">
+              </div>
+              <div class="input-field">
+                <label>បម្រែបម្រួលចរន្ត \(\Delta i\) (A)</label>
+                <input type="number" id="self-di" step="0.1" value="2.0">
+              </div>
+              <div class="input-field">
+                <label>រយៈពេល \(\Delta t\) (s)</label>
+                <input type="number" id="self-dt" step="0.01" value="0.05">
+              </div>
+              <div class="input-field">
+                <label>អាំងតង់ស៊ីតេចរន្ត \(i\) (A)</label>
+                <input type="number" id="self-i" step="0.1" value="2.0">
+              </div>
+            </div>
+            <div class="calc-result-box" style="display:flex; justify-content:space-around;">
+              <div>
+                <div style="font-size:0.85rem; color:var(--text-muted);">ក.អ.ច. អូតូអាំងឌ្វី \(|e|\)៖</div>
+                <div id="self-res-e" class="result-val">32.00 V</div>
+              </div>
+              <div>
+                <div style="font-size:0.85rem; color:var(--text-muted);">ថាមពលសន្សុក \(W_L\)៖</div>
+                <div id="self-res-w" class="result-val">1.600 J</div>
+              </div>
             </div>
           </div>
         </div>
