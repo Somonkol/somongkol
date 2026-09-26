@@ -445,9 +445,14 @@ function initContactForm() {
       status: 'បានចុះឈ្មោះជាក់ស្តែង'
     };
 
-    // Add to actual students database
+    // 1. Add locally so user sees immediate feedback
     if (window.addActualStudent) {
       window.addActualStudent(newStudent);
+    }
+
+    // 2. Send data to Google Sheets via Webhook
+    if (window.sendStudentToGoogleSheet) {
+      window.sendStudentToGoogleSheet(newStudent);
     }
 
     // Play celebration audio chime
@@ -466,13 +471,100 @@ function initContactForm() {
   });
 }
 
-// 6. Enrolled Students Directory & Google Sheets System (Actual Count)
+// ----------------------------------------------------------------------------
+// 6. Enrolled Students Directory & Google Sheets Two-Way Sync System
+// ----------------------------------------------------------------------------
+
+// Google Apps Script source code template for 1-click copy
+const GOOGLE_APPS_SCRIPT_CODE = `/**
+ * Google Apps Script for Kim Somangkol Physics Platform
+ * -----------------------------------------------------
+ * 1. doGet: Returns enrolled students from Google Sheet as JSON
+ * 2. doPost: Appends new student registration to Google Sheet
+ */
+function doGet(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = sheet.getDataRange().getValues();
+    if (data.length <= 1) {
+      return ContentService.createTextOutput(JSON.stringify({ status: 'success', count: 0, data: [] }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    var students = [];
+    for (var i = 1; i < data.length; i++) {
+      var row = data[i];
+      var name = row[1];
+      if (!name || String(name).trim() === '') continue;
+      students.push({
+        id: row[0] || i,
+        name: String(row[1] || '').trim(),
+        grade: String(row[2] || '').trim(),
+        day: String(row[3] || '').trim(),
+        time: String(row[4] || '').trim(),
+        schedule: (row[3] && row[4]) ? (row[3] + ' (' + row[4] + ')') : String(row[4] || row[3] || ''),
+        phone: String(row[5] || '').trim(),
+        date: String(row[6] || '').trim(),
+        status: String(row[7] || 'បានចុះឈ្មោះជាក់ស្តែង').trim()
+      });
+    }
+    return ContentService.createTextOutput(JSON.stringify({ status: 'success', count: students.length, data: students }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(['ល.រ', 'ឈ្មោះសិស្ស', 'ថ្នាក់ទី', 'ថ្ងៃសិក្សា', 'ម៉ោងសិក្សា', 'លេខទូរស័ព្ទ / Telegram', 'កាលបរិច្ឆេទចុះឈ្មោះ', 'ស្ថានភាព']);
+      sheet.getRange(1, 1, 1, 8).setFontWeight('bold').setBackground('#0F9D58').setFontColor('#FFFFFF');
+      sheet.setFrozenRows(1);
+    }
+    var data = {};
+    if (e.postData && e.postData.contents) {
+      try { data = JSON.parse(e.postData.contents); } catch (ex) { data = e.parameter || {}; }
+    } else {
+      data = e.parameter || {};
+    }
+    var nextId = sheet.getLastRow();
+    var name = data.name || '';
+    var grade = data.grade || '';
+    var day = data.day || '';
+    var time = data.time || '';
+    var phone = data.phone || '';
+    var date = data.date || Utilities.formatDate(new Date(), 'Asia/Phnom_Penh', 'dd/MM/yyyy hh:mm a');
+    var status = data.status || 'បានចុះឈ្មោះជាក់ស្តែង';
+
+    if (name && String(name).trim() !== '') {
+      sheet.appendRow([nextId, String(name).trim(), String(grade).trim(), String(day).trim(), String(time).trim(), String(phone).trim(), String(date).trim(), String(status).trim()]);
+    }
+    return ContentService.createTextOutput(JSON.stringify({ status: 'success', id: nextId }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}`;
+
+// Helper: Extract Google Spreadsheet ID from any Google Sheets URL
+function extractGoogleSheetId(url) {
+  if (!url) return null;
+  const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+  return match ? match[1] : null;
+}
+
 function initEnrolledStudentsTable() {
   const tableBody = document.getElementById('students-table-body');
   if (!tableBody) return;
 
   const countBadge = document.getElementById('student-count-badge');
   const googleSheetBtn = document.getElementById('google-sheet-link-btn');
+  const syncSheetsBtn = document.getElementById('btn-sync-sheets');
+  const syncStatusPill = document.getElementById('sync-status-pill');
+  const syncStatusText = document.getElementById('sync-status-text');
   const configSheetBtn = document.getElementById('btn-config-sheet');
   const copySheetsBtn = document.getElementById('btn-copy-sheets');
   const downloadCsvBtn = document.getElementById('btn-download-csv');
@@ -488,23 +580,13 @@ function initEnrolledStudentsTable() {
     googleSheetBtn.href = savedSheetUrl;
   }
 
-  // Load actual students from localStorage
+  // Storage key for client cache
   const STORAGE_KEY = 'ap_phy_actual_students';
   let students = [];
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       students = JSON.parse(stored);
-    } else {
-      // Check legacy key if exists and migrate non-default
-      const legacy = localStorage.getItem('ap_phy_enrolled_students');
-      if (legacy) {
-        const parsed = JSON.parse(legacy);
-        // Only keep if it was custom user data
-        if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].id > 100) {
-          students = parsed;
-        }
-      }
     }
   } catch (err) {
     students = [];
@@ -514,20 +596,18 @@ function initEnrolledStudentsTable() {
   let activeSearch = '';
   let recentlyAddedId = null;
 
-  // Render Table function
+  // Render Table
   function renderTable() {
     tableBody.innerHTML = '';
 
     const filtered = students.filter(st => {
-      // Filter logic
       let matchFilter = true;
-      if (activeFilter === '12') matchFilter = st.grade.includes('១២');
-      else if (activeFilter === '11') matchFilter = st.grade.includes('១១');
-      else if (activeFilter === '10') matchFilter = st.grade.includes('១០');
-      else if (activeFilter === 'ចន្ទ - សុក្រ') matchFilter = (st.day === 'ចន្ទ - សុក្រ' || st.schedule.includes('ចន្ទ'));
-      else if (activeFilter === 'សៅរ៍ - អាទិត្យ') matchFilter = (st.day === 'សៅរ៍ - អាទិត្យ' || st.schedule.includes('សៅរ៍'));
+      if (activeFilter === '12') matchFilter = st.grade && st.grade.includes('១២');
+      else if (activeFilter === '11') matchFilter = st.grade && st.grade.includes('១១');
+      else if (activeFilter === '10') matchFilter = st.grade && st.grade.includes('១០');
+      else if (activeFilter === 'ចន្ទ - សុក្រ') matchFilter = (st.day === 'ចន្ទ - សុក្រ' || (st.schedule && st.schedule.includes('ចន្ទ')));
+      else if (activeFilter === 'សៅរ៍ - អាទិត្យ') matchFilter = (st.day === 'សៅរ៍ - អាទិត្យ' || (st.schedule && st.schedule.includes('សៅរ៍')));
 
-      // Search logic
       let matchSearch = true;
       if (activeSearch) {
         const q = activeSearch.toLowerCase();
@@ -540,14 +620,12 @@ function initEnrolledStudentsTable() {
       return matchFilter && matchSearch;
     });
 
-    // Update count badge to actual total registered count
     if (countBadge) {
       const khmerCount = toKhmerDigits(students.length);
       countBadge.innerText = `${khmerCount} នាក់`;
     }
 
     if (students.length === 0) {
-      // Empty state when no actual students are registered
       tableBody.innerHTML = `
         <tr>
           <td colspan="7" class="students-empty-state">
@@ -555,8 +633,8 @@ function initEnrolledStudentsTable() {
             <div style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
               មិនទាន់មានសិស្សចុះឈ្មោះជាក់ស្តែងនៅឡើយទេ
             </div>
-            <div style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 18px; max-width: 480px; margin-left: auto; margin-right: auto;">
-              នៅពេលសិស្សចុះឈ្មោះក្នុងទម្រង់ខាងក្រោម ឬលោកគ្រូបញ្ចូលសិស្សផ្ទាល់ ទិន្នន័យនឹងបង្ហាញនៅទីនេះតាមចំនួនជាក់ស្តែងភ្លាមៗ។
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 18px; max-width: 500px; margin-left: auto; margin-right: auto;">
+              នៅពេលសិស្សចុះឈ្មោះក្នុងទម្រង់ខាងក្រោម ទិន្នន័យនឹងត្រូវបញ្ជូនទៅ Google Sheets និងទាញយកមកបង្ហាញនៅទីនេះជាក់ស្តែងភ្លាមៗ។
             </div>
             <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
               <a href="#contact" class="btn-primary" style="padding: 7px 18px; font-size: 0.86rem;">
@@ -570,11 +648,8 @@ function initEnrolledStudentsTable() {
         </tr>
       `;
 
-      // Bind seed sample button
       const seedBtn = document.getElementById('btn-seed-sample');
-      if (seedBtn) {
-        seedBtn.addEventListener('click', seedSampleStudents);
-      }
+      if (seedBtn) seedBtn.addEventListener('click', seedSampleStudents);
       return;
     }
 
@@ -596,14 +671,13 @@ function initEnrolledStudentsTable() {
         tr.classList.add('highlight-new-row');
       }
 
-      // Grade styling class
       let gradeClass = 'g12';
       if (st.grade && st.grade.includes('១១')) gradeClass = 'g11';
       else if (st.grade && st.grade.includes('១០')) gradeClass = 'g10';
 
       const khmerIdx = toKhmerDigits(idx + 1);
-      const studentDay = st.day || (st.schedule.includes('សៅរ៍') ? 'សៅរ៍ - អាទិត្យ' : 'ចន្ទ - សុក្រ');
-      const studentTime = st.time || st.schedule.replace(/^[^(]+\(([^)]+)\).*$/, '$1');
+      const studentDay = st.day || ((st.schedule && st.schedule.includes('សៅរ៍')) ? 'សៅរ៍ - អាទិត្យ' : 'ចន្ទ - សុក្រ');
+      const studentTime = st.time || (st.schedule ? st.schedule.replace(/^[^(]+\(([^)]+)\).*$/, '$1') : 'ម៉ោង 1-2');
 
       tr.innerHTML = `
         <td style="text-align: center;">
@@ -652,6 +726,150 @@ function initEnrolledStudentsTable() {
     });
   }
 
+  // --------------------------------------------------------------------------
+  // Core Google Sheets Pull / Fetch Logic
+  // --------------------------------------------------------------------------
+  async function fetchStudentsFromGoogleSheets(silent = false) {
+    if (syncSheetsBtn) syncSheetsBtn.classList.add('syncing');
+    if (syncStatusPill) {
+      syncStatusPill.className = 'sync-status-pill syncing';
+      if (syncStatusText) syncStatusText.innerText = 'កំពុងទាញយកទិន្នន័យពី Sheets...';
+    }
+
+    const currentSheetUrl = localStorage.getItem('ap_phy_google_sheet_url') || defaultSheetUrl;
+    const webhookUrl = localStorage.getItem('ap_phy_sheet_webhook_url');
+    let fetchedStudents = null;
+
+    // 1. First attempt: Google Apps Script Webhook (GET request)
+    if (webhookUrl && webhookUrl.startsWith('http')) {
+      try {
+        const resp = await fetch(webhookUrl, { method: 'GET' });
+        if (resp.ok) {
+          const json = await resp.json();
+          if (json && json.status === 'success' && Array.isArray(json.data)) {
+            fetchedStudents = json.data;
+          }
+        }
+      } catch (err) {
+        console.warn('Webhook GET fetch notice:', err);
+      }
+    }
+
+    // 2. Second attempt: Google Visualization API (GViz) from Google Sheets URL
+    if (!fetchedStudents && currentSheetUrl) {
+      const sheetId = extractGoogleSheetId(currentSheetUrl);
+      if (sheetId) {
+        try {
+          const gvizUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
+          const resp = await fetch(gvizUrl);
+          if (resp.ok) {
+            const text = await resp.text();
+            const jsonStr = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+            const gvizData = JSON.parse(jsonStr);
+
+            if (gvizData && gvizData.table && Array.isArray(gvizData.table.rows)) {
+              const rows = gvizData.table.rows;
+              const parsed = [];
+
+              // Detect header row
+              let startIdx = 0;
+              if (rows.length > 0 && rows[0].c) {
+                const c0 = String(rows[0].c[0]?.v || '').toLowerCase();
+                const c1 = String(rows[0].c[1]?.v || '').toLowerCase();
+                if (c0 === 'ល.រ' || c0 === 'id' || c0 === 'no' || c0 === '#' || c1.includes('ឈ្មោះ') || c1.includes('name')) {
+                  startIdx = 1;
+                }
+              }
+
+              for (let i = startIdx; i < rows.length; i++) {
+                const r = rows[i];
+                if (!r || !r.c) continue;
+                const cells = r.c.map(c => (c && c.v !== null && c.v !== undefined) ? c.v : '');
+
+                let id = cells[0];
+                let name = cells[1];
+                let grade = cells[2];
+                let day = cells[3];
+                let time = cells[4];
+                let phone = cells[5];
+                let date = cells[6];
+                let status = cells[7] || 'បានចុះឈ្មោះជាក់ស្តែង';
+
+                // Check if name is in column 0
+                if (!name || String(name).trim() === '') {
+                  if (cells[0] && isNaN(cells[0])) {
+                    name = cells[0];
+                    id = i + 1;
+                  } else {
+                    continue; // Skip empty row
+                  }
+                }
+
+                parsed.push({
+                  id: id || (i + 1),
+                  name: String(name).trim(),
+                  grade: String(grade || 'ថ្នាក់ទី ១២').trim(),
+                  day: String(day || 'ចន្ទ - សុក្រ').trim(),
+                  time: String(time || 'ម៉ោង 1-2').trim(),
+                  schedule: (day && time) ? (day + ' (' + time + ')') : String(time || day || ''),
+                  phone: String(phone || '').trim(),
+                  date: String(date || '').trim(),
+                  status: String(status).trim()
+                });
+              }
+
+              fetchedStudents = parsed;
+            }
+          }
+        } catch (err) {
+          console.warn('GViz fetch notice:', err);
+        }
+      }
+    }
+
+    if (syncSheetsBtn) syncSheetsBtn.classList.remove('syncing');
+
+    if (fetchedStudents !== null) {
+      students = fetchedStudents;
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
+      } catch (e) {}
+
+      renderTable();
+
+      if (syncStatusPill) {
+        syncStatusPill.className = 'sync-status-pill';
+        const khmerTotal = toKhmerDigits(students.length);
+        if (syncStatusText) {
+          syncStatusText.innerText = `🟢 ភ្ជាប់ Google Sheets (${khmerTotal} នាក់)`;
+        }
+      }
+
+      if (!silent) {
+        showToast(`✅ បានទាញយកទិន្នន័យសិស្ស ${toKhmerDigits(students.length)} នាក់ពី Google Sheets ដោយជោគជ័យ!`);
+      }
+    } else {
+      // Fallback to local storage
+      renderTable();
+      if (syncStatusPill) {
+        syncStatusPill.className = 'sync-status-pill';
+        if (syncStatusText) {
+          syncStatusText.innerText = `🟡 ទិន្នន័យក្នុងម៉ាស៊ីន (${toKhmerDigits(students.length)} នាក់)`;
+        }
+      }
+      if (!silent) {
+        showToast('💡 បានបង្ហាញទិន្នន័យចុងក្រោយដែលបានរក្សាទុកក្នុងម៉ាស៊ីន (Offline Cache)');
+      }
+    }
+  }
+
+  // Bind Sync Button
+  if (syncSheetsBtn) {
+    syncSheetsBtn.addEventListener('click', () => {
+      fetchStudentsFromGoogleSheets(false);
+    });
+  }
+
   // Filter Buttons
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -678,8 +896,8 @@ function initEnrolledStudentsTable() {
     }
     const header = ['ល.រ', 'ឈ្មោះសិស្ស', 'ថ្នាក់ទី', 'ថ្ងៃសិក្សា', 'ម៉ោងសិក្សា', 'លេខទូរស័ព្ទ', 'កាលបរិច្ឆេទ'].join('\t');
     const rows = students.map((st, i) => {
-      const sDay = st.day || (st.schedule.includes('សៅរ៍') ? 'សៅរ៍ - អាទិត្យ' : 'ចន្ទ - សុក្រ');
-      const sTime = st.time || st.schedule.replace(/^[^(]+\(([^)]+)\).*$/, '$1');
+      const sDay = st.day || ((st.schedule && st.schedule.includes('សៅរ៍')) ? 'សៅរ៍ - អាទិត្យ' : 'ចន្ទ - សុក្រ');
+      const sTime = st.time || (st.schedule ? st.schedule.replace(/^[^(]+\(([^)]+)\).*$/, '$1') : 'ម៉ោង 1-2');
       return [
         i + 1,
         st.name || '',
@@ -724,7 +942,7 @@ function initEnrolledStudentsTable() {
       }
       const header = ['"ល.រ"', '"ឈ្មោះសិស្ស"', '"ថ្នាក់ទី"', '"ថ្ងៃសិក្សា"', '"ម៉ោងសិក្សា"', '"លេខទូរស័ព្ទ"', '"កាលបរិច្ឆេទ"'].join(',');
       const rows = students.map((st, i) => {
-        const sDay = st.day || (st.schedule.includes('សៅរ៍') ? 'សៅរ៍ - អាទិត្យ' : 'ចន្ទ - សុក្រ');
+        const sDay = st.day || ((st.schedule && st.schedule.includes('សៅរ៍')) ? 'សៅរ៍ - អាទិត្យ' : 'ចន្ទ - សុក្រ');
         const sTime = st.time || st.schedule;
         return [
           `"${i + 1}"`,
@@ -817,7 +1035,7 @@ function initEnrolledStudentsTable() {
   window.copySingleStudent = function(studentId) {
     const st = students.find(s => s.id === studentId);
     if (!st) return;
-    const sDay = st.day || (st.schedule.includes('សៅរ៍') ? 'សៅរ៍ - អាទិត្យ' : 'ចន្ទ - សុក្រ');
+    const sDay = st.day || ((st.schedule && st.schedule.includes('សៅរ៍')) ? 'សៅរ៍ - អាទិត្យ' : 'ចន្ទ - សុក្រ');
     const sTime = st.time || st.schedule;
     const rowTsv = [st.name, st.grade, sDay, sTime, st.phone, st.date].join('\t');
     navigator.clipboard.writeText(rowTsv).then(() => {
@@ -841,7 +1059,7 @@ function initEnrolledStudentsTable() {
     }
   };
 
-  // Global helper: Add enrolled student
+  // Global helper: Add enrolled student locally
   window.addActualStudent = function(newStudent) {
     students.unshift(newStudent);
     recentlyAddedId = newStudent.id;
@@ -849,16 +1067,45 @@ function initEnrolledStudentsTable() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
     } catch (e) {}
     renderTable();
+  };
 
-    // Trigger auto webhook if configured
+  // Global helper: Send student to Google Sheets via Webhook (POST)
+  window.sendStudentToGoogleSheet = function(newStudent) {
     const webhookUrl = localStorage.getItem('ap_phy_sheet_webhook_url');
-    if (webhookUrl && webhookUrl.startsWith('http')) {
+    if (!webhookUrl || !webhookUrl.startsWith('http')) {
+      console.warn('Google Apps Script Webhook URL is not configured.');
+      return;
+    }
+
+    try {
+      const params = new URLSearchParams();
+      params.append('name', newStudent.name || '');
+      params.append('grade', newStudent.grade || '');
+      params.append('day', newStudent.day || '');
+      params.append('time', newStudent.time || '');
+      params.append('schedule', newStudent.schedule || '');
+      params.append('phone', newStudent.phone || '');
+      params.append('date', newStudent.date || '');
+      params.append('status', newStudent.status || 'បានចុះឈ្មោះជាក់ស្តែង');
+
       fetch(webhookUrl, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newStudent)
-      }).catch(err => console.log('Google Sheets Webhook Sync:', err));
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: params.toString()
+      }).then(() => {
+        console.log('Student successfully sent to Google Sheets via Webhook');
+        // Re-fetch from Google Sheets after 2 seconds to synchronize
+        setTimeout(() => {
+          fetchStudentsFromGoogleSheets(true);
+        }, 2000);
+      }).catch(err => {
+        console.error('Error sending student to Google Sheets:', err);
+      });
+    } catch (e) {
+      console.error('Webhook dispatch exception:', e);
     }
   };
 
@@ -878,7 +1125,6 @@ function initEnrolledStudentsTable() {
     if (!alertModal || !alertCard) return;
     currentAlertStudent = student;
 
-    // Update Sheets Link
     const currentSheetUrl = localStorage.getItem('ap_phy_google_sheet_url') || defaultSheetUrl;
     if (alertOpenSheetsBtn) alertOpenSheetsBtn.href = currentSheetUrl;
 
@@ -1017,6 +1263,10 @@ function initEnrolledStudentsTable() {
       };
 
       window.addActualStudent(newRec);
+      if (window.sendStudentToGoogleSheet) {
+        window.sendStudentToGoogleSheet(newRec);
+      }
+
       playEnrollmentChime();
       quickAddForm.reset();
       if (quickDaySelect && quickTimeSelect) {
@@ -1024,8 +1274,6 @@ function initEnrolledStudentsTable() {
       }
       quickAddModal.classList.remove('active');
       showToast(`✅ បានបន្ថែមសិស្ស "${name}" ចូលក្នុងបញ្ជីជាក់ស្តែងដោយជោគជ័យ!`);
-
-      // Show alert modal for the added student
       window.showNewStudentAlertModal(newRec);
     });
   }
@@ -1041,10 +1289,22 @@ function initEnrolledStudentsTable() {
   // --------------------------------------------------------------------------
   const sheetModal = document.getElementById('sheet-config-modal');
   const sheetClose = document.getElementById('sheet-config-close');
+  const copyAppsScriptBtn = document.getElementById('btn-copy-apps-script');
   const cfgSheetUrlInput = document.getElementById('cfg-sheet-url');
   const cfgWebhookInput = document.getElementById('cfg-webhook-url');
   const cfgSaveBtn = document.getElementById('cfg-sheet-save');
   const cfgResetBtn = document.getElementById('cfg-sheet-reset');
+
+  // Copy Google Apps Script code button
+  if (copyAppsScriptBtn) {
+    copyAppsScriptBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(GOOGLE_APPS_SCRIPT_CODE).then(() => {
+        showToast('📋 បានចម្លងកូដ Google Apps Script រួចរាល់! សូមចូលទៅ Extensions -> Apps Script រួចបិទភ្ជាប់ (Ctrl+V)។');
+      }).catch(() => {
+        fallbackCopy(GOOGLE_APPS_SCRIPT_CODE);
+      });
+    });
+  }
 
   if (configSheetBtn && sheetModal) {
     configSheetBtn.addEventListener('click', () => {
@@ -1081,6 +1341,9 @@ function initEnrolledStudentsTable() {
 
       sheetModal.classList.remove('active');
       showToast('💾 បានរក្សាទុកការកំណត់ Google Sheets និង Webhook ដោយជោគជ័យ!');
+
+      // Automatically pull from the newly configured sheet
+      fetchStudentsFromGoogleSheets(false);
     });
   }
 
@@ -1092,6 +1355,7 @@ function initEnrolledStudentsTable() {
       localStorage.removeItem('ap_phy_sheet_webhook_url');
       if (googleSheetBtn) googleSheetBtn.href = defaultSheetUrl;
       showToast('🔄 បានកំណត់តំណភ្ជាប់ Google Sheets មកលំនាំដើមវិញ!');
+      fetchStudentsFromGoogleSheets(false);
     });
   }
 
@@ -1101,8 +1365,11 @@ function initEnrolledStudentsTable() {
     });
   }
 
-  // Initial table render
+  // Initial table render from cache
   renderTable();
+
+  // Automatically pull live data from Google Sheets on page load
+  fetchStudentsFromGoogleSheets(true);
 }
 
 // Global Toast System

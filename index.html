@@ -2140,12 +2140,26 @@
       <div class="students-container glass-card">
         <!-- Header Actions & Google Sheets Drive Link -->
         <div class="students-header-actions">
-          <div class="students-stats-pill">
-            <span class="stat-dot"></span>
-            <span>ចំនួនសិស្សជាក់ស្តែង៖ <strong id="student-count-badge">០ នាក់</strong></span>
+          <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+            <div class="students-stats-pill">
+              <span class="stat-dot"></span>
+              <span>ចំនួនសិស្សជាក់ស្តែង៖ <strong id="student-count-badge">០ នាក់</strong></span>
+            </div>
+
+            <!-- Sync Status Indicator -->
+            <div id="sync-status-pill" class="sync-status-pill">
+              <span class="sync-dot"></span>
+              <span id="sync-status-text">កំពុងភ្ជាប់ Google Sheets...</span>
+            </div>
           </div>
 
           <div class="students-btns-group">
+            <!-- Sync / Pull from Google Sheets Button -->
+            <button id="btn-sync-sheets" class="btn-sheet-sync" title="ទាញយកទិន្នន័យថ្មីពី Google Sheets ឥឡូវនេះ">
+              <span class="sync-icon">🔄</span>
+              <span>ទាញយកពី Sheets</span>
+            </button>
+
             <!-- Main Google Sheets in My Drive Link -->
             <a href="https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit?usp=sharing" 
                id="google-sheet-link-btn"
@@ -2521,6 +2535,16 @@
         </div>
       </div>
 
+      <!-- Quick Action Buttons -->
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px;">
+        <a href="https://sheets.new" target="_blank" rel="noopener noreferrer" class="btn-primary" style="font-size:0.84rem; padding:8px 16px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+          <span>➕ បង្កើត Sheet ថ្មីក្នុង My Drive</span>
+        </a>
+        <button type="button" id="btn-copy-apps-script" class="btn-outline" style="font-size:0.84rem; padding:8px 16px; display:inline-flex; align-items:center; gap:6px;">
+          <span>📋 ចម្លងកូដ Apps Script</span>
+        </button>
+      </div>
+
       <div class="form-group" style="margin-bottom:16px;">
         <label for="cfg-sheet-url" style="display:block; font-weight:600; margin-bottom:8px; font-size:0.9rem;">
           តំណភ្ជាប់ Google Sheets URL ក្នុង My Drive:
@@ -2533,17 +2557,20 @@
 
       <div class="form-group" style="margin-bottom:16px;">
         <label for="cfg-webhook-url" style="display:block; font-weight:600; margin-bottom:8px; font-size:0.9rem;">
-          Google Apps Script Webhook URL (ស្រេចចិត្ត - សម្រាប់ Auto-Sync ស្វ័យប្រវត្តិ):
+          Google Apps Script Webhook URL (សម្រាប់ Auto-Send & Auto-Pull ស្វ័យប្រវត្តិ):
         </label>
         <input type="url" id="cfg-webhook-url" class="sheet-cfg-input" placeholder="https://script.google.com/macros/s/.../exec">
-        <small style="display:block; margin-top:6px; color:var(--text-muted); font-size:0.8rem;">
-          ⚡ ប្រសិនបើមាន Webhook URL នៅពេលសិស្សចុះឈ្មោះ ព័ត៌មាននឹងរត់ចូល Google Sheet ក្នុង Drive ភ្លាមៗដោយស្វ័យប្រវត្តិ!
+        <small style="display:block; margin-top:6px; color:var(--cyan-glow); font-size:0.8rem;">
+          ⚡ នៅពេលសិស្សចុះឈ្មោះ ព័ត៌មាននឹងរត់ចូល Google Sheet ក្នុង Drive ភ្លាមៗ និងទាញយកមកបង្ហាញលើទំព័រនេះវិញ!
         </small>
       </div>
 
-      <div style="background:rgba(0,242,254,0.06); border:1px solid rgba(0,242,254,0.2); border-radius:10px; padding:12px 16px; margin-bottom:20px; font-size:0.83rem; line-height:1.6; color:var(--text-muted);">
-        <strong style="color:var(--cyan-glow);">📌 វិធីងាយៗបំផុតក្នុងការ Sync ចូល Sheets៖</strong><br>
-        គ្រាន់តែចុចប៊ូតុង <strong>"📋 ចម្លងសម្រាប់ Sheets"</strong> លើតារាងសិស្ស រួចបើក Google Sheets របស់អ្នកហើយចុច <strong>Ctrl + V</strong> នោះទិន្នន័យសិស្សទាំងអស់នឹងបែងចែកតាមជួរឈរ (Columns) យ៉ាងស្អាតដោយស្វ័យប្រវត្តិ!
+      <div style="background:rgba(0,242,254,0.06); border:1px solid rgba(0,242,254,0.25); border-radius:10px; padding:14px 16px; margin-bottom:20px; font-size:0.84rem; line-height:1.7; color:var(--text-muted);">
+        <strong style="color:var(--cyan-glow);">📌 របៀបភ្ជាប់ Google Sheets ក្នុង ៤ ជំហាន (ចំណាយពេលត្រឹមតែ ១ នាទី)៖</strong><br>
+        <strong>១.</strong> ចុច <strong>"➕ បង្កើត Sheet ថ្មីក្នុង My Drive"</strong> រួចចម្លង Link ដាក់ក្នុងប្រអប់ "តំណភ្ជាប់ Google Sheets URL"<br>
+        <strong>២.</strong> ក្នុង Google Sheets ចុចម៉ឺនុយ <strong>Extensions</strong> -> <strong>Apps Script</strong><br>
+        <strong>៣.</strong> ចុច <strong>"📋 ចម្លងកូដ Apps Script"</strong> ខាងលើ រួច Paste ក្នុង Apps Script -> ចុច Save (រូបថាស)<br>
+        <strong>៤.</strong> ចុច <strong>Deploy</strong> -> <strong>New deployment</strong> -> ជ្រើស <strong>Web app</strong> -> Who has access: <strong>Anyone</strong> -> ចុច <strong>Deploy</strong> រួចចម្លង Web app URL ដាក់ក្នុងប្រអប់ "Webhook URL" ជាការស្រេច!
       </div>
 
       <div style="display:flex; gap:12px; justify-content:flex-end;">

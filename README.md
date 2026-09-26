@@ -14,9 +14,12 @@
   - **ជម្រើសថ្ងៃ និងម៉ោងសិក្សាមានកំណត់ច្បាស់លាស់ (Study Schedule Slots):**
     - **ចន្ទ - សុក្រ:** ម៉ោង 1-2, ម៉ោង 3-4, ម៉ោង 4-5, ម៉ោង 5-6, ម៉ោង 6-7, ម៉ោង 7-8
     - **សៅរ៍ - អាទិត្យ:** ម៉ោង 1-3, ម៉ោង 3-5
-  - **ការភ្ជាប់ជាមួយ Google Sheets ក្នុង My Drive:**
-    - ប៊ូតុងបើក Google Sheets ក្នុង My Drive ផ្ទាល់ និងអាចកំណត់ Link ផ្ទាល់ខ្លួន
-    - មុខងារ "📋 ចម្លងសម្រាប់ Sheets" (Tab-Separated Values) សម្រាប់ Ctrl+V បិទភ្ជាប់ចូល Sheets បានស្អាតតាមជួរឈរភ្លាមៗ
-    - មុខងារទាញយកជា CSV (UTF-8 BOM) និងការភ្ជាប់ Webhook Google Apps Script ស្វ័យប្រវត្តិ
-    - ប៊ូតុងបន្ថែមសិស្សផ្ទាល់ (➕ Quick Add) និងគ្រប់គ្រងទិន្នន័យជាក់ស្តែង
+  - **ការភ្ជាប់ជាមួយ Google Sheets ក្នុង My Drive (Two-Way Synchronization):**
+    - **បញ្ជូនទិន្នន័យទៅ Sheets (Auto-Send to Sheets):** នៅពេលសិស្សចុះឈ្មោះក្នុងទម្រង់ ទិន្នន័យត្រូវបានបញ្ជូនទៅ Google Sheets ក្នុង My Drive ស្វ័យប្រវត្តិតាមរយៈ Webhook (`google-apps-script.js`)។
+    - **ទាញយកទិន្នន័យពី Sheets (Auto-Pull from Sheets):** គេហទំព័រទាញយកបញ្ជីសិស្សជាក់ស្តែងពី Google Sheets មកបង្ហាញលើតារាងភ្លាមៗតាមរយៈ Google Visualization API (GViz) និង Google Apps Script។
+    - **ប៊ូតុង Refresh ("🔄 ទាញយកពី Sheets"):** អនុញ្ញាតឱ្យលោកគ្រូចុចទាញយកទិន្នន័យបច្ចុប្បន្នភាពចុងក្រោយបំផុតពី Sheets បានគ្រប់ពេលវេលា។
+    - **ប៊ូតុងបើក Google Sheets ក្នុង My Drive ផ្ទាល់** និងមុខងារកំណត់តំណភ្ជាប់ Sheets ផ្ទាល់ខ្លួន។
+    - **មុខងារ "📋 ចម្លងសម្រាប់ Sheets" (Tab-Separated Values):** សម្រាប់ Ctrl+V បិទភ្ជាប់ចូល Sheets ស្អាតតាមជួរឈរ។
+    - **មុខងារទាញយកជា CSV (UTF-8 BOM)** និងប៊ូតុងបន្ថែមសិស្សផ្ទាល់ (➕ Quick Add)។
+
 
