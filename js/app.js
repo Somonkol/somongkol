@@ -579,7 +579,7 @@ function initEnrolledStudentsTable() {
   // ==========================================================================
   const CLOUD_REGISTRY_URL = 'https://api.restful-api.dev/objects/ff808181a09d98f701a0dc728bfc19ef';
   const DEFAULT_WEBHOOK_URL = ''; // e.g. 'https://script.google.com/macros/s/.../exec'
-  const DEFAULT_SHEET_URL = '';   // e.g. 'https://docs.google.com/spreadsheets/d/.../edit'
+  const DEFAULT_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1dB5oZnM8qgCBoblr7pVa9u6Y_WS-NzmpUI16sBTmcM4/edit';
   const defaultSheetUrl = DEFAULT_SHEET_URL;
   const defaultWebhookUrl = DEFAULT_WEBHOOK_URL;
 
