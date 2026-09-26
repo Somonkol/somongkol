@@ -1,0 +1,3237 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ជំពូកទី ១៖ ទែម៉ូឌីណាមិច • មេរៀនទី ១៖ ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន | លោកគ្រូ គឹម សុមង្គល</title>
+  
+  <!-- Google Fonts for Khmer -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Moul&family=Orbitron:wght@600;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- KaTeX CSS & JS for Math equations -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderAllMath()"></script>
+
+  <style>
+    :root {
+      --bg-dark: #070b14;
+      --bg-slide: #0d1527;
+      --bg-card: rgba(18, 28, 52, 0.75);
+      --border-card: rgba(0, 242, 254, 0.22);
+      --border-card-hover: rgba(0, 242, 254, 0.5);
+      
+      --cyan: #00f2fe;
+      --blue: #4facfe;
+      --purple: #a855f7;
+      --gold: #fbbf24;
+      --emerald: #10b981;
+      --rose: #f43f5e;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
+      --font-moul: 'Moul', cursive;
+      --font-main: 'Kantumruy Pro', sans-serif;
+      --font-code: 'Fira Code', monospace;
+      --font-num: 'Orbitron', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Top Progress Bar */
+    .progress-bar-container {
+      width: 100%;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.08);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--cyan), var(--purple), var(--gold));
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 12px var(--cyan);
+    }
+
+    /* Slide Navigation Bar (Header) */
+    .slide-navbar {
+      height: 54px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      background: rgba(13, 21, 39, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      z-index: 90;
+      flex-shrink: 0;
+    }
+
+    .slide-branding {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.95rem;
+    }
+
+    .slide-tag {
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(168, 85, 247, 0.25));
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .slide-title-header {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .slide-nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-icon {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-icon:hover {
+      background: rgba(0, 242, 254, 0.15);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .slide-counter {
+      font-family: var(--font-num);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--cyan);
+      padding: 0 8px;
+    }
+
+    /* Main Slide Viewport */
+    .slide-viewport {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    .slide {
+      position: absolute;
+      width: 94%;
+      max-width: 1400px;
+      height: 90%;
+      background: var(--bg-slide);
+      border: 1px solid var(--border-card);
+      border-radius: 20px;
+      padding: 36px 44px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(60px) scale(0.98);
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0) scale(1);
+    }
+
+    .slide.prev {
+      transform: translateX(-60px) scale(0.98);
+    }
+
+    /* Slide Header Inside */
+    .slide-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      flex-shrink: 0;
+    }
+
+    .slide-category {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--cyan);
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slide-main-title {
+      font-family: var(--font-moul);
+      font-size: 1.45rem;
+      color: #fff;
+      line-height: 1.45;
+      text-shadow: 0 2px 10px rgba(0, 242, 254, 0.2);
+    }
+
+    .slide-badge-pill {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: rgba(0, 242, 254, 0.12);
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      white-space: nowrap;
+    }
+
+    .slide-badge-pill.gold {
+      background: rgba(251, 191, 36, 0.15);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .slide-badge-pill.emerald {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: var(--emerald);
+      color: var(--emerald);
+    }
+
+    .slide-badge-pill.rose {
+      background: rgba(244, 63, 94, 0.15);
+      border-color: var(--rose);
+      color: var(--rose);
+    }
+
+    /* Slide Content Layouts */
+    .slide-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    .grid-2-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      height: 100%;
+    }
+
+    .grid-3-col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    /* Cards inside slides */
+    .slide-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 20px 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      position: relative;
+      transition: border-color 0.2s;
+    }
+
+    .slide-card:hover {
+      border-color: var(--border-card-hover);
+    }
+
+    .slide-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.12rem;
+      margin-bottom: 12px;
+      color: var(--cyan);
+    }
+
+    .slide-card-header.gold {
+      color: var(--gold);
+    }
+
+    .slide-card-header.emerald {
+      color: var(--emerald);
+    }
+
+    .slide-card-header.purple {
+      color: #c084fc;
+    }
+
+    /* Formula Highlight Box */
+    .math-highlight-box {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--border-card);
+      border-left: 4px solid var(--cyan);
+      border-radius: 10px;
+      padding: 14px 20px;
+      margin: 10px 0;
+      text-align: center;
+      font-size: 1.25rem;
+      color: var(--cyan);
+      box-shadow: inset 0 0 20px rgba(0, 242, 254, 0.05);
+      overflow-x: auto;
+    }
+
+    .math-highlight-box.gold {
+      border-left-color: var(--gold);
+      color: var(--gold);
+      border-color: rgba(251, 191, 36, 0.3);
+    }
+
+    .math-highlight-box.emerald {
+      border-left-color: var(--emerald);
+      color: var(--emerald);
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    /* Step List */
+    .step-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .step-num {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: #000;
+      font-weight: 800;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    .step-num.gold {
+      background: linear-gradient(135deg, var(--gold), #f59e0b);
+    }
+
+    /* Solution Box / Toggle */
+    .solution-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-top: 10px;
+    }
+
+    .solution-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      color: var(--emerald);
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .btn-toggle-solution {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--emerald);
+      color: var(--emerald);
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .solution-content {
+      line-height: 1.8;
+      font-size: 0.98rem;
+    }
+
+    /* Slide Bottom Footer */
+    .slide-footer-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+
+    .author-tag {
+      color: var(--cyan);
+      font-weight: 600;
+    }
+
+    /* Table styles */
+    .slide-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0;
+      font-size: 0.92rem;
+    }
+
+    .slide-table th {
+      background: rgba(0, 242, 254, 0.12);
+      color: var(--cyan);
+      padding: 8px 12px;
+      text-align: left;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-weight: 700;
+    }
+
+    .slide-table td {
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    /* Floating Arrow Keys */
+    .slide-arrow-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(13, 21, 39, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      color: var(--cyan);
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 80;
+      transition: all 0.2s;
+    }
+
+    .slide-arrow-btn:hover {
+      background: var(--cyan);
+      color: #000;
+      box-shadow: 0 0 20px var(--cyan);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .slide-arrow-btn.prev {
+      left: 16px;
+    }
+
+    .slide-arrow-btn.next {
+      right: 16px;
+    }
+
+    /* Slide Overview Modal / Thumbnails */
+    .overview-drawer {
+      position: fixed;
+      top: 54px;
+      right: -420px;
+      width: 400px;
+      height: calc(100vh - 54px);
+      background: rgba(10, 16, 32, 0.95);
+      backdrop-filter: blur(20px);
+      border-left: 1px solid var(--border-card);
+      z-index: 150;
+      transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .overview-drawer.open {
+      right: 0;
+    }
+
+    .overview-header {
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .overview-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .overview-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      transition: all 0.2s;
+    }
+
+    .overview-item:hover, .overview-item.active {
+      background: rgba(0, 242, 254, 0.12);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .overview-num {
+      font-family: var(--font-num);
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: var(--cyan);
+      min-width: 24px;
+    }
+
+    /* ===================================================
+       SLIDE EDITING MODE STYLES (មុខងារកែប្រែខ្លឹមសារស្លាយ)
+       =================================================== */
+    .btn-edit-toggle {
+      background: rgba(251, 191, 36, 0.18) !important;
+      border: 1.5px solid rgba(251, 191, 36, 0.5) !important;
+      color: var(--gold) !important;
+      font-weight: 700 !important;
+    }
+    .btn-edit-toggle:hover, .btn-edit-toggle.active {
+      background: var(--gold) !important;
+      color: #070b14 !important;
+      box-shadow: 0 0 16px rgba(251, 191, 36, 0.6) !important;
+    }
+
+    /* Edit Toolbar right under header */
+    .slide-edit-toolbar {
+      display: none;
+      position: fixed;
+      top: 54px;
+      left: 0;
+      right: 0;
+      min-height: 48px;
+      background: rgba(10, 16, 32, 0.98);
+      backdrop-filter: blur(16px);
+      border-bottom: 2px solid var(--gold);
+      z-index: 140;
+      padding: 6px 20px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
+      animation: slideDownBar 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes slideDownBar {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    body.editing-active .slide-edit-toolbar {
+      display: flex;
+    }
+    body.editing-active .slide-viewport {
+      padding-top: 52px;
+    }
+
+    .edit-toolbar-left, .edit-toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .edit-mode-badge {
+      background: rgba(251, 191, 36, 0.2);
+      color: var(--gold);
+      border: 1px solid rgba(251, 191, 36, 0.4);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .edit-tools-group {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 6px;
+      padding: 2px 4px;
+      gap: 4px;
+    }
+
+    .btn-tool {
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s;
+    }
+    .btn-tool:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--cyan);
+    }
+    .btn-tool.highlight {
+      background: rgba(0, 242, 254, 0.18);
+      color: var(--cyan);
+      border: 1px solid rgba(0, 242, 254, 0.35);
+    }
+    .btn-tool.highlight:hover {
+      background: var(--cyan);
+      color: #070b14;
+    }
+    .btn-tool.danger {
+      color: #f87171;
+    }
+    .btn-tool.danger:hover {
+      background: rgba(248, 113, 113, 0.25);
+      color: #fff;
+    }
+
+    .btn-save-edit {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      border: none;
+      padding: 7px 16px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      box-shadow: 0 2px 10px rgba(16, 185, 129, 0.35);
+    }
+    .btn-save-edit:hover {
+      background: #10b981;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.55);
+    }
+
+    .btn-reset-edit {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-reset-edit:hover {
+      background: rgba(239, 68, 68, 0.25);
+      color: #f87171;
+      border-color: #ef4444;
+    }
+
+    .btn-close-edit {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+    .btn-close-edit:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Visual Feedback on Editable Elements */
+    body.editing-active [contenteditable="true"] {
+      cursor: text !important;
+      outline: 1.5px dashed rgba(0, 242, 254, 0.4) !important;
+      outline-offset: 3px;
+      border-radius: 4px;
+      transition: outline 0.15s, background 0.15s;
+    }
+    body.editing-active [contenteditable="true"]:hover {
+      outline: 1.5px dashed var(--gold) !important;
+      background: rgba(251, 191, 36, 0.05) !important;
+    }
+    body.editing-active [contenteditable="true"]:focus {
+      outline: 2px solid var(--gold) !important;
+      background: rgba(251, 191, 36, 0.08) !important;
+    }
+
+    /* Card Context Delete Tool */
+    body.editing-active .slide-card,
+    body.editing-active .solution-box {
+      position: relative;
+    }
+    .card-edit-actions {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      display: none;
+      gap: 4px;
+      z-index: 20;
+    }
+    body.editing-active .slide-card:hover .card-edit-actions,
+    body.editing-active .solution-box:hover .card-edit-actions {
+      display: flex;
+    }
+    .btn-card-del {
+      background: rgba(239, 68, 68, 0.85);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: transform 0.15s, background 0.15s;
+    }
+    .btn-card-del:hover {
+      transform: scale(1.15);
+      background: #ef4444;
+    }
+
+    /* Floating Edit Indicator on Bottom Right */
+    .floating-edit-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(13, 21, 39, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1.5px solid var(--gold);
+      color: var(--gold);
+      padding: 10px 18px;
+      border-radius: 30px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 120;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      transition: all 0.25s;
+    }
+    .floating-edit-btn:hover {
+      background: var(--gold);
+      color: #070b14;
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(251, 191, 36, 0.6);
+    }
+    body.editing-active .floating-edit-btn {
+      background: #10b981;
+      border-color: #10b981;
+      color: #fff;
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
+    }
+
+    /* Slide Toast Message */
+    .slide-toast {
+      position: fixed;
+      bottom: 82px;
+      left: 50%;
+      transform: translateX(-50%) translateY(30px);
+      background: rgba(10, 16, 32, 0.96);
+      border: 1.5px solid var(--cyan);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 242, 254, 0.3);
+      z-index: 300;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .slide-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        overflow: visible;
+        height: auto;
+        background: #fff;
+        color: #000;
+      }
+      .slide-navbar, .slide-arrow-btn, .overview-drawer, .progress-bar-container {
+        display: none !important;
+      }
+      .slide-viewport {
+        display: block;
+        padding: 0;
+      }
+      .slide {
+        position: relative !important;
+        opacity: 1 !important;
+        transform: none !important;
+        page-break-after: always;
+        height: 100vh;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        background: #fff !important;
+        color: #000 !important;
+      }
+      .slide-card, .math-highlight-box, .solution-box {
+        background: #f8fafc !important;
+        color: #000 !important;
+        border-color: #cbd5e1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Progress Bar -->
+  <div class="progress-bar-container">
+    <div id="progress-bar-fill" class="progress-bar-fill"></div>
+  </div>
+
+  <!-- Slide Navigation Bar (Header) -->
+  <header class="slide-navbar">
+    <div class="slide-branding">
+      <span class="slide-tag">⚛️ រូបវិទ្យាថ្នាក់ទី ១២</span>
+      <span class="slide-title-header">ជំពូកទី ១៖ ទែម៉ូឌីណាមិច • មេរៀនទី ១៖ ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន</span>
+    </div>
+
+    <div class="slide-nav-controls">
+      <button class="btn-icon" id="btn-prev" title="ស្លាយមុន (Left Arrow)">◀</button>
+      <span id="slide-counter" class="slide-counter">01 / 33</span>
+      <button class="btn-icon" id="btn-next" title="ស្លាយបន្ទាប់ (Right Arrow / Space)">▶</button>
+      
+      <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.15); margin: 0 4px;"></div>
+      
+      <button class="btn-icon" id="btn-overview" title="បញ្ជីស្លាយទាំងអស់">📑 បញ្ជីស្លាយ</button>
+      <button class="btn-icon btn-edit-toggle" id="btn-edit-mode" title="បើក/បិទ មុខងារកែប្រែខ្លឹមសារស្លាយ (Ctrl+E)">✏️ កែប្រែ (Edit)</button>
+      <a href="../assets/docs/grade12_ch1_kinetic_theory_of_gases.pdf" target="_blank" class="btn-icon" style="text-decoration:none; color:var(--cyan); border-color:var(--cyan);" title="បើកមើល / ទាញយកឯកសារមេរៀនផ្លូវការ PDF (៩ ទំព័រ)">📄 មេរៀន PDF</a>
+      <a href="../lessons/grade12_ch1_kinetic_theory_of_gases.html" target="_blank" class="btn-icon" style="text-decoration:none;" title="អានមេរៀនពេញលេញលើវេបសាយ">📖 អានមេរៀន</a>
+      <button class="btn-icon" id="btn-fullscreen" title="ពេញអេក្រង់ (F)">⛶ ពេញអេក្រង់</button>
+      <button class="btn-icon" id="btn-print" title="បោះពុម្ព / Print to PDF" onclick="window.print()">🖨️ Print / PDF</button>
+      <a href="../index.html#curriculum" class="btn-icon" style="text-decoration:none;" title="ត្រឡប់ទៅគេហទំព័រដើម">🏠 គេហទំព័រ</a>
+    </div>
+  </header>
+
+  <!-- Slide Content Edit Toolbar (លេចចេញនៅពេលចុច "កែប្រែ") -->
+  <div id="slide-edit-toolbar" class="slide-edit-toolbar">
+    <div class="edit-toolbar-left">
+      <span class="edit-mode-badge">✏️ របៀបកែប្រែខ្លឹមសារ (ចុចលើអត្ថបទដើម្បីកែប្រែ វាយបញ្ចូល ឬលុប)</span>
+      
+      <div class="edit-tools-group">
+        <button type="button" class="btn-tool" id="tool-bold" title="អក្សរដិត (Ctrl+B)"><b>B</b></button>
+        <button type="button" class="btn-tool" id="tool-italic" title="អក្សរទ្រេត (Ctrl+I)"><i>I</i></button>
+        <button type="button" class="btn-tool" id="tool-underline" title="គូសបន្ទាត់ក្រោម"><u>U</u></button>
+      </div>
+
+      <div class="edit-tools-group">
+        <button type="button" class="btn-tool" id="tool-color-cyan" title="ពណ៌ផ្ទៃមេឃ" style="color:var(--cyan);">● Cyan</button>
+        <button type="button" class="btn-tool" id="tool-color-gold" title="ពណ៌មាស" style="color:var(--gold);">● Gold</button>
+        <button type="button" class="btn-tool" id="tool-color-rose" title="ពណ៌ក្រហម/ផ្កាឈូក" style="color:var(--rose);">● Rose</button>
+      </div>
+
+      <div class="edit-tools-group">
+        <button type="button" class="btn-tool highlight" id="tool-add-card" title="បន្ថែមប្រអប់ចំណុចថ្មីក្នុងស្លាយនេះ">➕ បន្ថែមប្រអប់</button>
+        <button type="button" class="btn-tool" id="tool-add-bullet" title="បន្ថែមចំណុចបញ្ជី">➕ បន្ថែមចំណុច (•)</button>
+        <button type="button" class="btn-tool danger" id="tool-delete-selected" title="លុបប្រអប់ ឬអត្ថបទដែលបានជ្រើស">🗑️ លុបចំណុចនេះ</button>
+        <button type="button" class="btn-tool" id="tool-render-math" title="បង្ហាញរូបមន្តគណិត KaTeX ឡើងវិញ">📐 Render រូបមន្ត</button>
+      </div>
+    </div>
+
+    <div class="edit-toolbar-right">
+      <button type="button" class="btn-save-edit" id="btn-save-edit" title="រក្សាទុកការកែប្រែទៅក្នុង Browser">💾 រក្សាទុក (Save)</button>
+      <button type="button" class="btn-reset-edit" id="btn-reset-edit" title="ត្រឡប់ទៅខ្លឹមសារដើមវិញទាំងអស់">🔄 កំណត់ដើមវិញ</button>
+      <button type="button" class="btn-close-edit" id="btn-close-edit" title="ចាកចេញពីការកែប្រែ">✕ បិទការកែប្រែ</button>
+    </div>
+  </div>
+
+  <!-- Slide Viewport -->
+  <main class="slide-viewport">
+    
+    <!-- Floating Arrow Buttons -->
+    <button class="slide-arrow-btn prev" id="arrow-prev" aria-label="ស្លាយមុន">❮</button>
+    <button class="slide-arrow-btn next" id="arrow-next" aria-label="ស្លាយបន្ទាប់">❯</button>
+
+    <!-- SLIDE 1: Cover / Title Slide -->
+    <section class="slide active" data-index="1">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">⚛️ កម្មវិធីសិក្សារូបវិទ្យាថ្នាក់ទី ១២ • ក្រសួងអប់រំ យុវជន និងកីឡា</div>
+          <h1 class="slide-main-title" style="font-size: 2.2rem; margin-top: 6px;">ជំពូក ១ ៖ ទែម៉ូឌីណាមិច</h1>
+          <h2 style="color: var(--cyan); font-size: 1.5rem; margin-top: 4px; font-weight: 600;">មេរៀនទី ១ ៖ ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន</h2>
+        </div>
+        <span class="slide-badge-pill gold">ស្លាយបង្រៀនស្តង់ដាជាតិ</span>
+      </div>
+
+      <div class="slide-body" style="justify-content: center; align-items: center; text-align: center;">
+        <div style="display:flex; gap:36px; align-items:center; max-width:1100px;">
+          <!-- 3D Engine Graphic representation -->
+          <div style="flex:1; background:rgba(0,242,254,0.05); border:1px solid var(--border-card); border-radius:18px; padding:28px;">
+            <div style="font-size: 5rem; margin-bottom: 12px; filter: drop-shadow(0 0 20px rgba(0,242,254,0.4));">⚙️🔥</div>
+            <div style="font-family:var(--font-moul); font-size:1.25rem; color:var(--cyan); margin-bottom:8px;">ម៉ាស៊ីនកម្ដៅ និងទែម៉ូឌីណាមិច</div>
+            <p style="font-size:0.95rem; color:var(--text-muted); line-height:1.7;">
+              ការបម្លែងរវាងកម្ដៅ កម្មន្ត និងថាមពលក្នុង តាមរយៈចលនារបស់ម៉ូលេគុលឧស្ម័ន
+            </p>
+          </div>
+
+          <!-- Lesson Topics Breakdown -->
+          <div style="flex:1.2; text-align:left; display:flex; flex-direction:column; gap:14px;">
+            <div class="slide-card" style="border-left: 4px solid var(--cyan);">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size:1.3rem;">1️⃣</span>
+                <div>
+                  <h4 style="color:var(--cyan); font-weight:700;">ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន</h4>
+                  <p style="font-size:0.88rem; color:var(--text-muted);">ចលនាម៉ូលេគុល សម្ពាធ ថាមពលស៊ីនេទិច និងល្បឿនប្រសិទ្ធ</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="slide-card" style="border-left: 4px solid var(--purple);">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size:1.3rem;">2️⃣</span>
+                <div>
+                  <h4 style="color:#c084fc; font-weight:700;">ច្បាប់ទី១ នៃទែម៉ូឌីណាមិច</h4>
+                  <p style="font-size:0.88rem; color:var(--text-muted);">ការរក្សាថាមពល កម្មន្តឧស្ម័ន និងការបម្លែងកម្តៅ</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="slide-card" style="border-left: 4px solid var(--gold);">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size:1.3rem;">3️⃣</span>
+                <div>
+                  <h4 style="color:var(--gold); font-weight:700;">ម៉ាស៊ីន (Heat Engines)</h4>
+                  <p style="font-size:0.88rem; color:var(--text-muted);">វដ្តកាណូ ទិន្នផលម៉ាស៊ីនកម្ដៅ និងទូរទឹកកក</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> • គ្រូបង្រៀនរូបវិទ្យាជំនាញ</span>
+        <span>ទូរស័ព្ទ / Telegram៖ <strong style="color:var(--cyan);">012 962 818</strong> | ទំព័រទី ១</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: Roadmap & Objectives -->
+    <section class="slide" data-index="2">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">📋 សេចក្តីផ្តើម និងផែនទីបង្ហាញផ្លូវ</div>
+          <h2 class="slide-main-title">ខ្លឹមសារសិក្សាសំខាន់ៗនៃមេរៀនទី ១</h2>
+        </div>
+        <span class="slide-badge-pill">ផែនទីមេរៀន</span>
+      </div>
+
+      <div class="slide-body">
+        <p style="color:var(--text-muted); font-size:1rem;">
+          ក្នុងមេរៀនទី ១ នេះ យើងនឹងស្វែងយល់យ៉ាងស៊ីជម្រៅលើ ៣ ផ្នែកធំៗ រួមទាំងការទាញរូបមន្ត និងដោះស្រាយលំហាត់គំរូ/ប្រតិបត្តិទាំងអស់៖
+        </p>
+
+        <div class="grid-3-col" style="margin-top: 10px;">
+          <div class="slide-card">
+            <div class="slide-card-header">
+              <span>I & II</span>
+              <span>ទ្រឹស្តី & សម្ពាធឧស្ម័ន</span>
+            </div>
+            <ul class="step-list" style="font-size:0.92rem;">
+              <li class="step-item"><span class="step-num">1</span> សម្មតិកម្មគ្រឹះទាំង ៥ នៃទ្រឹស្តីស៊ីនេទិច</li>
+              <li class="step-item"><span class="step-num">2</span> ម៉ូដែលគូប និងការទង្គិចនៃម៉ូលេគុល</li>
+              <li class="step-item"><span class="step-num">3</span> រូបមន្តសម្ពាធ \(P = \frac{1}{3}\rho v_{rms}^2\)</li>
+              <li class="step-item"><span class="step-num">4</span> លំហាត់គំរូ & លំហាត់ប្រតិបត្តិទី ១-២</li>
+            </ul>
+          </div>
+
+          <div class="slide-card">
+            <div class="slide-card-header purple">
+              <span>III</span>
+              <span>សមីការឧស្ម័ន & ថាមពល</span>
+            </div>
+            <ul class="step-list" style="font-size:0.92rem;">
+              <li class="step-item"><span class="step-num gold">1</span> សមីការឧស្ម័នបរិសុទ្ធ \(PV = nRT = N k_B T\)</li>
+              <li class="step-item"><span class="step-num gold">2</span> ថេរ \(R, N_A, k_B\) និងសីតុណ្ហភាព \(T\)</li>
+              <li class="step-item"><span class="step-num gold">3</span> ថាមពលស៊ីនេទិចមធ្យម \(K_{av} = \frac{3}{2}k_B T\)</li>
+              <li class="step-item"><span class="step-num gold">4</span> ថាមពលស៊ីនេទិចសរុប \(K = \frac{3}{2}nRT\)</li>
+            </ul>
+          </div>
+
+          <div class="slide-card">
+            <div class="slide-card-header emerald">
+              <span>IV & V</span>
+              <span>ល្បឿនប្រសិទ្ធ & គន្លឹះ</span>
+            </div>
+            <ul class="step-list" style="font-size:0.92rem;">
+              <li class="step-item"><span class="step-num">1</span> ល្បឿនប្រសិទ្ធ \(v_{rms} = \sqrt{\frac{3RT}{M}}\)</li>
+              <li class="step-item"><span class="step-num">2</span> ទម្រង់ទាំង ៤ នៃ \(v_{rms}\)</li>
+              <li class="step-item"><span class="step-num">3</span> មេរៀនសង្ខេប & ច្បាប់ឧស្ម័ននានា</li>
+              <li class="step-item"><span class="step-num">4</span> គន្លឹះរហ័សគណនាឫសការេ \(\sqrt{A}\)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ២</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: Section I - Definition of Kinetic Theory -->
+    <section class="slide" data-index="3">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">ផ្នែកទី I • ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន</div>
+          <h2 class="slide-main-title">I. ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន (Kinetic Theory of Gases)</h2>
+        </div>
+        <span class="slide-badge-pill">និយមន័យគ្រឹះ</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card" style="border-left: 4px solid var(--cyan); background: rgba(0, 242, 254, 0.04);">
+          <h3 style="color:var(--cyan); font-size:1.15rem; margin-bottom:8px;">💡 និយមន័យ</h3>
+          <p style="line-height:1.9;">
+            ក្នុង<strong>ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន</strong> គេសិក្សាពី<strong>ចលនារបស់ម៉ូលេគុលឧស្ម័ន</strong>ដែលផ្ទុកក្នុងធុងមួយបិទជិតមានមាឌ \(V\)។ ទ្រឹស្តីនេះភ្ជាប់ទំនាក់ទំនងរវាងពិភពមីក្រូទស្សន៍ (ល្បឿន ម៉ាស បរិមាណចលនារបស់ម៉ូលេគុល) ទៅកាន់ពិភពម៉ាក្រូទស្សន៍ (សម្ពាធ មាឌ និងសីតុណ្ហភាព)។
+          </p>
+        </div>
+
+        <div class="grid-2-col" style="margin-top:8px;">
+          <div class="slide-card">
+            <div class="slide-card-header">
+              <span>🔬 ពិភពមីក្រូទស្សន៍ (Microscopic)</span>
+            </div>
+            <ul class="step-list">
+              <li class="step-item"><span class="step-num">1</span> ម៉ាសម៉ូលេគុលមួយ \(m_0\) (គិតជា \(\text{kg}\))</li>
+              <li class="step-item"><span class="step-num">2</span> ល្បឿនម៉ូលេគុលនីមួយៗ \(\vec{v}_1, \vec{v}_2, \dots\) (\(\text{m/s}\))</li>
+              <li class="step-item"><span class="step-num">3</span> ថាមពលស៊ីនេទិចម៉ូលេគុលមួយ \(K_i = \frac{1}{2}m_0 v_i^2\)</li>
+              <li class="step-item"><span class="step-num">4</span> ការទង្គិចខ្ទាតរវាងម៉ូលេគុល និងជញ្ជាំងធុង</li>
+            </ul>
+          </div>
+
+          <div class="slide-card">
+            <div class="slide-card-header gold">
+              <span>🌡️ ពិភពម៉ាក្រូទស្សន៍ (Macroscopic)</span>
+            </div>
+            <ul class="step-list">
+              <li class="step-item"><span class="step-num gold">1</span> សម្ពាធឧស្ម័ន \(P\) (គិតជា \(\text{Pa}\) ឬ \(\text{atm}\))</li>
+              <li class="step-item"><span class="step-num gold">2</span> មាឌធុងផ្ទុកឧស្ម័ន \(V\) (គិតជា \(\text{m}^3\) ឬ \(\text{L}\))</li>
+              <li class="step-item"><span class="step-num gold">3</span> សីតុណ្ហភាពដាច់ខាត \(T\) (គិតជា \(\text{K}\))</li>
+              <li class="step-item"><span class="step-num gold">4</span> ចំនួនម៉ូល \(n\) និងចំនួនម៉ូលេគុលសរុប \(N\)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ៣</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: The 5 Fundamental Postulates -->
+    <section class="slide" data-index="4">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">ផ្នែកទី I • សម្មតិកម្មគ្រឹះទាំង ៥</div>
+          <h2 class="slide-main-title">សម្មតិកម្មទាំង ៥ នៃទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន</h2>
+        </div>
+        <span class="slide-badge-pill gold">ចំណុចប្រឡងបាក់ឌុប</span>
+      </div>
+
+      <div class="slide-body">
+        <p style="color:var(--text-muted);">ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័នផ្អែកលើសម្មតិកម្មគ្រឹះចំនួន ៥ ដូចខាងក្រោម៖</p>
+
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div class="slide-card" style="padding:14px 20px; border-left:4px solid var(--cyan);">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <span style="font-size:1.5rem;">🔹</span>
+              <div>
+                <strong>១. វិមាត្រតូចណាស់ (ចំណុចរូបធាតុ)៖</strong>
+                <span style="color:var(--text-muted);"> ម៉ូលេគុលឧស្ម័នទាំងអស់មានវិមាត្រតូចណាស់បើធៀបនឹងលំហអន្តរម៉ូលេគុល ដូចនេះគេចាត់ទុកវាជា <em>ចំណុចរូបធាតុ (Point Mass)</em>។</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="slide-card" style="padding:14px 20px; border-left:4px solid var(--blue);">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <span style="font-size:1.5rem;">🔹</span>
+              <div>
+                <strong>២. គ្មានកម្លាំងអន្តរកម្មលើគ្នា៖</strong>
+                <span style="color:var(--text-muted);"> ម៉ូលេគុលឧស្ម័ននីមួយៗមិនមានអំពើលើគ្នាទេ លើកលែងតែពេលវាទង្គិចគ្នា។</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="slide-card" style="padding:14px 20px; border-left:4px solid var(--purple);">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <span style="font-size:1.5rem;">🔹</span>
+              <div>
+                <strong>៣. ចលនាឥតឈប់ឈរ និងត្រង់ស្មើ៖</strong>
+                <span style="color:var(--text-muted);"> ម៉ូលេគុលឧស្ម័នមានចលនាឥតឈប់ឈរ គ្មានសណ្តាប់ធ្នាប់ (Brownian motion) និងធ្វើចលនាត្រង់ស្មើក្នុងចន្លោះពេលពីទង្គិចមួយទៅទង្គិចមួយទៀត។</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="slide-card" style="padding:14px 20px; border-left:4px solid var(--emerald);">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <span style="font-size:1.5rem;">🔹</span>
+              <div>
+                <strong>៤. ទង្គិចខ្ទាតទាំងស្រុង (Elastic Collisions)៖</strong>
+                <span style="color:var(--text-muted);"> ទង្គិចរវាងម៉ូលេគុលនិងម៉ូលេគុលផ្សេងទៀត ឬរវាងម៉ូលេគុលនិងជញ្ជាំងធុងផ្ទុកវាជា <em>ទង្គិចខ្ទាត (Elastic collision)</em> ដោយមិនមានការបាត់បង់ថាមពលមេកានិចឡើយ។</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="slide-card" style="padding:14px 20px; border-left:4px solid var(--gold);">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <span style="font-size:1.5rem;">🔹</span>
+              <div>
+                <strong>៥. ថាមពលស៊ីនេទិចអាស្រ័យនឹងសីតុណ្ហភាព៖</strong>
+                <span style="color:var(--text-muted);"> តម្លៃមធ្យមនៃថាមពលស៊ីនេទិចរបស់ម៉ូលេគុលនីមួយៗអាស្រ័យតែនឹង <em>សីតុណ្ហភាពដាច់ខាត \(T\)</em> តែប៉ុណ្ណោះ។</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ៤</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: Section II - Pressure Model Cube of Side L -->
+    <section class="slide" data-index="5">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">ផ្នែកទី II • សម្ពាធក្នុងទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន</div>
+          <h2 class="slide-main-title">II. សម្ពាធក្នុងទ្រឹស្តីស៊ីនេទិច (ម៉ូដែលគូបប្រវែង L)</h2>
+        </div>
+        <span class="slide-badge-pill">ការបង្កើតម៉ូដែល</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="grid-2-col">
+          <div class="slide-card">
+            <h4 style="color:var(--cyan); margin-bottom:12px;">📦 ការកំណត់ម៉ូដែលគូប</h4>
+            <ul class="step-list" style="font-size:0.95rem;">
+              <li class="step-item"><span class="step-num">1</span> ឧបមាមានគូបមួយមានប្រវែងជ្រុង \(L\) មាឌ \(V = L^3 = L \times A\)</li>
+              <li class="step-item"><span class="step-num">2</span> ធុងគូបផ្ទុកឧស្ម័នចំនួន \(N\) ម៉ូលេគុល</li>
+              <li class="step-item"><span class="step-num">3</span> ម៉ូលេគុលនីមួយៗមានម៉ាសស្មើគ្នាគឺ \(m_0\)</li>
+              <li class="step-item"><span class="step-num">4</span> ផ្លាស់ទីដោយសេរីមានល្បឿនរៀងគ្នា \(\vec{v}_1, \vec{v}_2, \dots, \vec{v}_N\)</li>
+            </ul>
+
+            <div style="margin-top:16px; background:rgba(0,0,0,0.35); padding:14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+              <div style="color:var(--gold); font-weight:700; margin-bottom:4px;">ការបំបែកវ៉ិចទ័រល្បឿនក្នុងលំហ៖</div>
+              $$\vec{v}_1 = \vec{v}_{1x} + \vec{v}_{1y} + \vec{v}_{1z}$$
+              $$v_1^2 = v_{1x}^2 + v_{1y}^2 + v_{1z}^2$$
+            </div>
+          </div>
+
+          <div class="slide-card" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+            <!-- SVG Cube Diagram -->
+            <svg width="260" height="220" viewBox="0 0 260 220" style="background:rgba(0,0,0,0.3); border-radius:12px; border:1px solid var(--border-card);">
+              <!-- Back face -->
+              <rect x="70" y="30" width="130" height="130" fill="none" stroke="rgba(255,255,255,0.2)" stroke-dasharray="4" stroke-width="1.5"/>
+              <!-- Front face -->
+              <rect x="30" y="70" width="130" height="130" fill="rgba(0,242,254,0.05)" stroke="var(--cyan)" stroke-width="2"/>
+              <!-- Connecting lines -->
+              <line x1="30" y1="70" x2="70" y2="30" stroke="var(--cyan)" stroke-width="1.5"/>
+              <line x1="160" y1="70" x2="200" y2="30" stroke="var(--cyan)" stroke-width="1.5"/>
+              <line x1="160" y1="200" x2="200" y2="160" stroke="var(--cyan)" stroke-width="1.5"/>
+              <line x1="30" y1="200" x2="70" y2="160" stroke="rgba(255,255,255,0.2)" stroke-dasharray="4" stroke-width="1.5"/>
+              <!-- Wall X Highlight (Right Wall) -->
+              <polygon points="160,70 200,30 200,160 160,200" fill="rgba(251,191,36,0.25)" stroke="var(--gold)" stroke-width="2"/>
+              <text x="185" y="115" fill="var(--gold)" font-weight="bold" font-size="14">ជញ្ជាំង X</text>
+              <!-- Moving particle -->
+              <circle cx="85" cy="130" r="6" fill="#f43f5e"/>
+              <text x="75" y="120" fill="#f43f5e" font-size="12" font-weight="bold">m₀</text>
+              <line x1="85" y1="130" x2="155" y2="130" stroke="#f43f5e" stroke-width="2" marker-end="url(#arrow)"/>
+              <text x="105" y="146" fill="#f43f5e" font-size="12">v₁ₓ</text>
+              <!-- L labels -->
+              <text x="90" y="215" fill="var(--cyan)" font-size="12">L</text>
+              <text x="12" y="140" fill="var(--cyan)" font-size="12">L</text>
+            </svg>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-top:10px;">
+              រូបភាពបង្ហាញពីម៉ូលេគុល \(m_0\) ផ្លាស់ទីបុកជញ្ជាំង \(X\) ក្នុងគូបប្រវែងជ្រុង \(L\)
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ៥</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: Derivation - Momentum & Impulse -->
+    <section class="slide" data-index="6">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">ផ្នែកទី II • ការទាញរូបមន្តកម្លាំង</div>
+          <h2 class="slide-main-title">ការវិភាគតាមអ័ក្ស (Ox) និងបម្រែបម្រួលបរិមាណចលនា</h2>
+        </div>
+        <span class="slide-badge-pill">ជំហានទី ១</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="grid-2-col">
+          <div class="slide-card">
+            <h4 style="color:var(--cyan); margin-bottom:10px;">🎯 បរិមាណចលនាមុន និងក្រោយទង្គិច</h4>
+            <p style="margin-bottom:8px;">តាមអ័ក្ស \((Ox)\) កែងនឹងផ្ទៃជញ្ជាំង \(X\)៖</p>
+            
+            <div style="background:rgba(0,0,0,0.3); padding:10px 14px; border-radius:8px; margin-bottom:8px;">
+              • មុនពេលទង្គិច៖ \(\vec{p}_{1x} = m_0 \vec{v}_{i1x}\)
+            </div>
+            
+            <div style="background:rgba(0,0,0,0.3); padding:10px 14px; border-radius:8px; margin-bottom:8px;">
+              • ក្រោយពេលទង្គិច៖ \(\vec{p}_{f1x} = m_0 \vec{v}_{f1x}\)
+            </div>
+
+            <p style="font-size:0.92rem; color:var(--text-muted); line-height:1.7;">
+              តាមទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន ទង្គិចរវាងម៉ូលេគុលនិងផ្ទៃជញ្ជាំងជា<strong>ទង្គិចខ្ទាតទាំងស្រុង</strong> នោះល្បឿនផ្លាតត្រឡប់ក្រោយស្មើទំហំល្បឿនដើម តែមានទិសដៅផ្ទុយ៖
+            </p>
+            $$\vec{v}_{f1x} = -\vec{v}_{i1x} \implies \vec{p}_{f1x} = -m_0 \vec{v}_{i1x}$$
+          </div>
+
+          <div class="slide-card">
+            <h4 style="color:var(--gold); margin-bottom:10px;">⚡ ទ្រឹស្តីអំពុលស្យុងនៃកម្លាំងក្រៅ</h4>
+            <p style="font-size:0.92rem; line-height:1.7;">
+              អំពុលស្យុងនៃកម្លាំងដែលជញ្ជាំងមានអំពើលើម៉ូលេគុលស្មើនឹងបម្រែបម្រួលបរិមាណចលនានៃម៉ូលេគុល៖
+            </p>
+
+            $$\vec{F}'_{1X\text{ collision}} \times \Delta t_{\text{collision}} = \Delta \vec{p}_{1x}$$
+            $$\Delta \vec{p}_{1x} = \vec{p}_{f1x} - \vec{p}_{i1x} = -m_0 \vec{v}_{i1x} - m_0 \vec{v}_{i1x} = -2m_0 \vec{v}_{i1x}$$
+
+            <div class="math-highlight-box gold" style="font-size:1.1rem;">
+              $$\vec{F}'_{1X\text{ collision}} \times \Delta t_{\text{collision}} = -2m_0 \vec{v}_{i1x}$$
+              $$\implies \vec{F}'_{1X\text{ collision}} = \frac{-2m_0 \vec{v}_{i1x}}{\Delta t_{\text{collision}}}$$
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ៦</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: Derivation - Period & Average Force of 1 Molecule -->
+    <section class="slide" data-index="7">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">ផ្នែកទី II • ខួបចលនា និងកម្លាំងមធ្យម</div>
+          <h2 class="slide-main-title">កម្លាំងមធ្យមដែលជញ្ជាំង និងម៉ូលេគុលមានអំពើលើគ្នា</h2>
+        </div>
+        <span class="slide-badge-pill">ជំហានទី ២</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="grid-2-col">
+          <div class="slide-card">
+            <h4 style="color:var(--cyan); margin-bottom:10px;">⏱️ រយៈពេល ១ ខួបនៃចលនា (\(\Delta t\))</h4>
+            <p style="line-height:1.8; font-size:0.95rem;">
+              ដោយម៉ូលេគុលធ្វើចលនាឥតឈប់ឈរ ដូចនេះកម្លាំងមធ្យមដែលម៉ូលេគុលមួយទៅទង្គិចនឹងផ្ទៃជញ្ជាំងត្រូវគិតក្នុង <strong>១ ខួបចលនា</strong> ដែលម៉ូលេគុលផ្លាស់ទីពីជញ្ជាំងម្ខាងទៅម្ខាងទៀត (ចម្ងាយ \(L\)) ហើយត្រឡប់មកទង្គិចម្តងទៀត (ចម្ងាយ \(L\)) សរុបចម្ងាយ \(2L\)៖
+            </p>
+
+            <div class="math-highlight-box" style="font-size:1.25rem;">
+              $$\Delta t = \frac{2L}{v_{i1x}}$$
+            </div>
+
+            <p style="font-size:0.9rem; color:var(--text-muted);">
+              \(\Delta t\) គឺជារយៈពេលរវាងការទង្គិចពីរបន្តបន្ទាប់គ្នាលើជញ្ជាំងដដែល។
+            </p>
+          </div>
+
+          <div class="slide-card">
+            <h4 style="color:var(--gold); margin-bottom:10px;">⚖️ កម្លាំងប្រតិកម្មតាមច្បាប់ទី ៣ ញូតុន</h4>
+            <p style="font-size:0.92rem; line-height:1.7;">
+              កម្លាំងមធ្យមដែលផ្ទៃជញ្ជាំងប្រតិកម្មនឹងទង្គិចរបស់ម៉ូលេគុលមួយគឺ៖
+            </p>
+            $$(F'_{1X})_{av} = \frac{-2m_0 v_{i1x}}{\Delta t} = \frac{-2m_0 v_{i1x}}{\frac{2L}{v_{i1x}}} = -\frac{m_0 v_{i1x}^2}{L}$$
+            
+            <p style="font-size:0.92rem; line-height:1.7; margin-top:8px;">
+              តាម<strong>ច្បាប់ទី៣ញូតុន</strong> (កម្លាំងអំពើ = - កម្លាំងប្រតិកម្ម) គេបានកម្លាំងដែលម៉ូលេគុលមានអំពើលើជញ្ជាំងគឺ៖
+            </p>
+            <div class="math-highlight-box emerald" style="font-size:1.25rem;">
+              $$(F_{1X})_{av} = -(F'_{1X})_{av} = \frac{m_0 v_{i1x}^2}{L}$$
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-dim);">
+              * សញ្ញា (-) បញ្ជាក់ថាកម្លាំងទប់របស់ជញ្ជាំងមានទិសដៅផ្ទុយពីល្បឿនដើម (\(\vec{v}_i\))។
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ៧</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: Derivation - Total Force of N Molecules -->
+    <section class="slide" data-index="8">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">ផ្នែកទី II • កម្លាំងសរុបនៃ N ម៉ូលេគុល</div>
+          <h2 class="slide-main-title">កម្លាំងមធ្យមសរុបដែលម៉ូលេគុលទាំងអស់មានអំពើលើជញ្ជាំង X</h2>
+        </div>
+        <span class="slide-badge-pill">ជំហានទី ៣</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card">
+          <p style="font-size:1rem; line-height:1.8;">
+            កម្លាំងមធ្យមសរុបដែលម៉ូលេគុលទាំង \(N\) មានអំពើលើជញ្ជាំង \(X\) គឺជាផលបូកនៃកម្លាំងម៉ូលេគុលនីមួយៗ៖
+          </p>
+          $$(F_X)_{av} = (F_{1X})_{av} + (F_{2X})_{av} + \dots + (F_{NX})_{av}$$
+          $$(F_X)_{av} = \frac{m_0 v_{i1x}^2}{L} + \frac{m_0 v_{i2x}^2}{L} + \dots + \frac{m_0 v_{iNx}^2}{L} = \frac{m_0}{L} \left( v_{i1x}^2 + v_{i2x}^2 + \dots + v_{iNx}^2 \right)$$
+        </div>
+
+        <div class="grid-2-col" style="margin-top:10px;">
+          <div class="slide-card">
+            <h4 style="color:var(--cyan); margin-bottom:8px;">📊 ល្បឿនការេមធ្យមតាមអ័ក្សដេក (\(\langle v_x^2 \rangle_{av}\))</h4>
+            <p style="font-size:0.92rem; line-height:1.7;">
+              តម្លៃមធ្យមនៃការេនៃល្បឿនម៉ូលេគុលទាំងអស់តាមទិសដេក \(Ox\) គឺ៖
+            </p>
+            $$\langle v_x^2 \rangle_{av} = \frac{v_{i1x}^2 + v_{i2x}^2 + \dots + v_{iNx}^2}{N}$$
+            $$\implies v_{i1x}^2 + v_{i2x}^2 + \dots + v_{iNx}^2 = N \langle v_x^2 \rangle_{av}$$
+          </div>
+
+          <div class="slide-card">
+            <h4 style="color:var(--gold); margin-bottom:8px;">✨ រូបមន្តកម្លាំងសរុបតាមអ័ក្ស X</h4>
+            <p style="font-size:0.92rem; line-height:1.7;">
+              ជំនួសផលបូកដោយ \(N \langle v_x^2 \rangle_{av}\) គេទទួលបាន៖
+            </p>
+            <div class="math-highlight-box gold" style="font-size:1.3rem;">
+              $$(F_X)_{av} = \frac{m_0 N}{L} \langle v_x^2 \rangle_{av}$$
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ៨</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: Derivation - 3D Velocity & Pressure Formula -->
+    <section class="slide" data-index="9">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">ផ្នែកទី II • ល្បឿនក្នុងលំហ 3D និងសម្ពាធ P</div>
+          <h2 class="slide-main-title">ការទាញរករូបមន្តសម្ពាធលើផ្ទៃខាងនីមួយៗនៃគូប</h2>
+        </div>
+        <span class="slide-badge-pill gold">រូបមន្តស្នូល</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="grid-2-col">
+          <div class="slide-card">
+            <h4 style="color:var(--cyan); margin-bottom:8px;">🌐 ល្បឿនក្នុងលំហបីវិមាត្រ (3D)</h4>
+            <p style="font-size:0.92rem; line-height:1.7;">
+              ក្នុងលំហបីវិមាត្រ យើងអាចសរសេរ៖
+            </p>
+            $$v^2 = v_x^2 + v_y^2 + v_z^2$$
+            <p style="font-size:0.92rem; line-height:1.7;">ចែកអង្គទាំងពីរនឹង \(N\) គេបាន៖</p>
+            $$\langle v^2 \rangle_{av} = \langle v_x^2 \rangle_{av} + \langle v_y^2 \rangle_{av} + \langle v_z^2 \rangle_{av}$$
+            <p style="font-size:0.9rem; color:var(--text-muted);">
+              ដោយម៉ូលេគុលឧស្ម័នធ្វើចលនាស្មើគ្រប់ទិស៖
+            </p>
+            $$\langle v_x^2 \rangle_{av} = \langle v_y^2 \rangle_{av} = \langle v_z^2 \rangle_{av}$$
+            $$\implies \langle v^2 \rangle_{av} = 3 \langle v_x^2 \rangle_{av} \iff \langle v_x^2 \rangle_{av} = \frac{1}{3}\langle v^2 \rangle_{av}$$
+          </div>
+
+          <div class="slide-card">
+            <h4 style="color:var(--emerald); margin-bottom:8px;">📈 សម្ពាធលើផ្ទៃជញ្ជាំង (P = F / A)</h4>
+            <p style="font-size:0.92rem; line-height:1.7;">
+              កម្លាំងសរុបដែលទៅទង្គិចនឹងផ្ទៃជញ្ជាំងគឺ៖
+            </p>
+            $$F = \frac{m_0 N}{3L}\langle v^2 \rangle_{av}$$
+            <p style="font-size:0.92rem; line-height:1.7;">
+              តាមនិយមន័យសម្ពាធ \(P = \frac{F}{A}\) ហើយមាឌគូប \(V = L \times A\)៖
+            </p>
+            $$P = \frac{m_0 N}{3 L A}\langle v^2 \rangle_{av} = \frac{m_0 N}{3V}\langle v^2 \rangle_{av}$$
+
+            <div class="math-highlight-box emerald" style="font-size:1.35rem;">
+              $$P = \frac{1}{3}\left(\frac{N}{V}\right)m_0 \langle v^2 \rangle_{av} \quad (\text{Pa})$$
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ៩</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: Pressure Forms with Density and Kinetic Energy -->
+    <section class="slide" data-index="10">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">ផ្នែកទី II • ទម្រង់ផ្សេងៗនៃសម្ពាធ P</div>
+          <h2 class="slide-main-title">ទម្រង់សម្ពាធតាមដង់ស៊ីតេ (ម៉ាសមាឌ) និងថាមពលស៊ីនេទិច</h2>
+        </div>
+        <span class="slide-badge-pill">រូបមន្តអនុវត្ត</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="grid-2-col">
+          <!-- Form with Density -->
+          <div class="slide-card">
+            <div class="slide-card-header">
+              <span>១. ទម្រង់តាមដង់ស៊ីតេ (ម៉ាសមាឌ \(\rho\))</span>
+            </div>
+            <p style="font-size:0.92rem; line-height:1.8;">
+              ដោយម៉ាសសរុបនៃឧស្ម័ន \(m = N m_0\) នោះម៉ាសមាឌគឺ៖
+            </p>
+            $$\rho = \frac{m}{V} = \frac{N m_0}{V}$$
+            <p style="font-size:0.92rem; line-height:1.8;">
+              នាំឱ្យរូបមន្តសម្ពាធអាចសរសេរជា៖
+            </p>
+            <div class="math-highlight-box" style="font-size:1.25rem;">
+              $$P = \frac{1}{3}\left(\frac{m}{V}\right)\langle v^2 \rangle_{av} = \frac{1}{3}\rho \langle v^2 \rangle_{av}$$
+              $$P = \frac{1}{3}\rho v_{rms}^2$$
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted);">
+              * តាង \(v_{rms} = \sqrt{\langle v^2 \rangle_{av}}\) ជាល្បឿនប្រសិទ្ធ (m/s)
+            </p>
+          </div>
+
+          <!-- Form with Kinetic Energy -->
+          <div class="slide-card">
+            <div class="slide-card-header gold">
+              <span>២. ទម្រង់តាមថាមពលស៊ីនេទិចមធ្យម (\(K_{av}\))</span>
+            </div>
+            <p style="font-size:0.92rem; line-height:1.8;">
+              ថាមពលស៊ីនេទិចមធ្យមនៃម៉ូលេគុលនីមួយៗគឺ៖
+            </p>
+            $$K_{av} = \frac{1}{2}m_0 \langle v^2 \rangle_{av} \implies m_0 \langle v^2 \rangle_{av} = 2K_{av}$$
+            <p style="font-size:0.92rem; line-height:1.8;">
+              ជំនួសចូលក្នុងរូបមន្តសម្ពាធ៖
+            </p>
+            <div class="math-highlight-box gold" style="font-size:1.25rem;">
+              $$P = \frac{1}{3}\left(\frac{N}{V}\right)(2K_{av}) = \frac{2}{3}\left(\frac{N}{V}\right)K_{av}$$
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-muted);">
+              សម្ពាធសមាមាត្រនឹងដង់ស៊ីតេភាគល្អិត \(\frac{N}{V}\) និងថាមពលស៊ីនេទិចមធ្យម \(K_{av}\)។
+            </p>
+          </div>
+        </div>
+
+        <!-- Summary Banner -->
+        <div class="math-highlight-box emerald" style="font-size:1.2rem; margin-top:6px;">
+          $$P = \frac{1}{3}\left(\frac{m}{V}\right)v_{rms}^2 = \frac{1}{3}\rho v_{rms}^2 = \frac{2}{3}\left(\frac{N}{V}\right)K_{av}$$
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ១០</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 11: Notation & Units Table -->
+    <section class="slide" data-index="11">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">ផ្នែកទី II • អញ្ញាត និងខ្នាតគិតក្នុងប្រព័ន្ធ SI</div>
+          <h2 class="slide-main-title">តារាងកំណត់អញ្ញាត និងខ្នាតអន្តរជាតិ (SI Units)</h2>
+        </div>
+        <span class="slide-badge-pill">ខ្នាត និងរូបមន្តជំនួយ</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="grid-2-col">
+          <div>
+            <table class="slide-table">
+              <thead>
+                <tr>
+                  <th>និមិត្តសញ្ញា</th>
+                  <th>ឈ្មោះអញ្ញាត</th>
+                  <th>ខ្នាតអន្តរជាតិ (SI)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>\(P\)</td><td>សម្ពាធនៃឧស្ម័ន</td><td>ប៉ាស្កាល់ (\(\text{Pa}\) ឬ \(\text{N/m}^2\))</td></tr>
+                <tr><td>\(F\)</td><td>កម្លាំងទង្គិចសរុប</td><td>ញូតុន (\(\text{N}\))</td></tr>
+                <tr><td>\(V\)</td><td>មាឌធុងផ្ទុកឧស្ម័ន</td><td>ម៉ែត្រគូប (\(\text{m}^3\))</td></tr>
+                <tr><td>\(A\)</td><td>ផ្ទៃរងកម្លាំង</td><td>ម៉ែត្រការេ (\(\text{m}^2\))</td></tr>
+                <tr><td>\(N\)</td><td>ចំនួនម៉ូលេគុលសរុប</td><td>ម៉ូលេគុល (គ្មានខ្នាត)</td></tr>
+                <tr><td>\(n\)</td><td>ចំនួនម៉ូលនៃឧស្ម័ន</td><td>ម៉ូល (\(\text{mol}\))</td></tr>
+                <tr><td>\(m_0\)</td><td>ម៉ាសម៉ូលេគុលមួយ</td><td>គីឡូក្រាម (\(\text{kg}\))</td></tr>
+                <tr><td>\(\rho\)</td><td>ម៉ាសមាឌ (ដង់ស៊ីតេ)</td><td>\(\text{kg/m}^3\)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div class="slide-card" style="border-left:4px solid var(--cyan);">
+              <h4 style="color:var(--cyan); margin-bottom:6px;">📌 រូបមន្តគណនាចំនួនម៉ូលេគុល (N)</h4>
+              $$N = n \cdot N_A$$
+              <p style="font-size:0.85rem; color:var(--text-muted);">\(N_A = 6.02 \times 10^{23}\text{ mol}^{-1}\) (ចំនួនអាវូហ្គាដ្រូ)</p>
+            </div>
+
+            <div class="slide-card" style="border-left:4px solid var(--gold);">
+              <h4 style="color:var(--gold); margin-bottom:6px;">📌 ម៉ាសម៉ូលេគុលមួយ (\(m_0\))</h4>
+              $$m_0 = \frac{m}{N} = \frac{M}{N_A}$$
+              <p style="font-size:0.85rem; color:var(--text-muted);">\(M\): ម៉ាសម៉ូល (\(\text{kg/mol}\)), \(m\): ម៉ាសសរុប (\(\text{kg}\))</p>
+            </div>
+
+            <div class="slide-card" style="border-left:4px solid var(--emerald);">
+              <h4 style="color:var(--emerald); margin-bottom:6px;">📌 ម៉ាសសរុបនៃឧស្ម័ន (m)</h4>
+              $$m = n \cdot M = N \cdot m_0$$
+              $$\rho = \frac{m}{V} = \frac{N m_0}{V}$$
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ១១</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 12: Example 1 - Problem Statement -->
+    <section class="slide" data-index="12">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">លំហាត់គំរូទី ១ • អំពុលស្យុង និងសម្ពាធ</div>
+          <h2 class="slide-main-title">លំហាត់គំរូទី ១ (Example Problem 1)</h2>
+        </div>
+        <span class="slide-badge-pill gold">លំហាត់គំរូទំព័រ ៣-៤</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card" style="border-left:4px solid var(--gold); padding:24px;">
+          <h3 style="color:var(--gold); margin-bottom:12px; font-size:1.2rem;">📝 ប្រធានលំហាត់៖</h3>
+          <p style="font-size:1.1rem; line-height:1.9;">
+            ម៉ូលេគុលឧស្ម័នអាសូតមួយមានម៉ាស \(m_0 = 4.65 \times 10^{-26}\text{ kg}\) ផ្លាស់ទីដោយល្បឿន \(v = 500\text{ m/s}\) ក្នុងទិសកែងនឹងផ្ទៃជញ្ជាំងធុង ហើយទៅបុកជញ្ជាំងធុង រួចផ្លាតត្រឡប់មកវិញដោយល្បឿនដដែល។
+          </p>
+          <div style="margin-top:16px; display:flex; flex-direction:column; gap:10px; font-size:1.05rem;">
+            <div><strong>ក.</strong> គណនាអំពុលស្យុងដែលម៉ូលេគុលមួយនេះផ្តល់ឱ្យជញ្ជាំងធុងក្នុងករណីទង្គិចមួយលើក។</div>
+            <div><strong>ខ.</strong> ប្រសិនបើក្នុងរយៈពេល \(1\text{ s}\) មានម៉ូលេគុលចំនួន \(10^{23}\) បុកជញ្ជាំងធុងដែលមានផ្ទៃ \(A = 0.02\text{ m}^2\) ក្នុងទិសដៅកែង គណនាកម្លាំងមធ្យម និងសម្ពាធដែលបង្កើតឡើងលើជញ្ជាំងនោះ។</div>
+          </div>
+        </div>
+
+        <div class="grid-2-col" style="margin-top:10px;">
+          <div class="slide-card">
+            <h4 style="color:var(--cyan); margin-bottom:6px;">🔍 បម្រាប់ប្រធាន៖</h4>
+            <ul style="font-size:0.95rem; line-height:1.8; list-style:none;">
+              <li>• ម៉ាសម៉ូលេគុល៖ \(m_0 = 4.65 \times 10^{-26}\text{ kg}\)</li>
+              <li>• ល្បឿនដើម៖ \(v_i = 500\text{ m/s}\) (កែងនឹងជញ្ជាំង)</li>
+              <li>• រយៈពេល៖ \(\Delta t = 1\text{ s}\)</li>
+              <li>• ចំនួនទង្គិច៖ \(N = 10^{23}\) ម៉ូលេគុល</li>
+              <li>• ក្រឡាផ្ទៃជញ្ជាំង៖ \(A = 0.02\text{ m}^2\)</li>
+            </ul>
+          </div>
+
+          <div class="slide-card">
+            <h4 style="color:var(--emerald); margin-bottom:6px;">🎯 រូបមន្តដែលត្រូវប្រើ៖</h4>
+            <ul style="font-size:0.95rem; line-height:1.8; list-style:none;">
+              <li>• អំពុលស្យុង៖ \(\vec{J} = \Delta \vec{p} = \vec{p}_f - \vec{p}_i = -2m_0 \vec{v}_i\)</li>
+              <li>• តម្លៃអំពុលស្យុង៖ \(|J| = 2m_0 v_i\)</li>
+              <li>• កម្លាំងមធ្យម៖ \(F = \frac{N \cdot |J|}{\Delta t}\)</li>
+              <li>• សម្ពាធ៖ \(P = \frac{F}{A}\)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ១២</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 13: Example 1 - Complete Solution -->
+    <section class="slide" data-index="13">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">ដំណោះស្រាយលម្អិត • លំហាត់គំរូទី ១</div>
+          <h2 class="slide-main-title">ដំណោះស្រាយលំហាត់គំរូទី ១</h2>
+        </div>
+        <span class="slide-badge-pill emerald">ដំណោះស្រាយ</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="grid-2-col">
+          <!-- Part A -->
+          <div class="slide-card">
+            <h4 style="color:var(--cyan); margin-bottom:8px;">ក. គណនាអំពុលស្យុងដែលផ្តល់ឱ្យជញ្ជាំង</h4>
+            <p style="font-size:0.92rem; line-height:1.7;">
+              តាមទ្រឹស្តីអំពុលស្យុង៖
+            </p>
+            $$\vec{J} = \Delta \vec{p} = \vec{p}_f - \vec{p}_i = m_0 \vec{v}_f - m_0 \vec{v}_i$$
+            <p style="font-size:0.92rem;">ក្នុងទង្គិចខ្ទាត \(\vec{v}_f = -\vec{v}_i \implies \vec{J} = -2m_0 \vec{v}_i\)</p>
+            <p style="font-size:0.85rem; color:var(--text-muted);">
+              សញ្ញា (-) មានន័យថាអំពុលស្យុងកម្លាំងក្រៅមានទិសដៅផ្ទុយពី \(\vec{v}_i\)。
+            </p>
+            <p style="margin-top:6px;">ជាតម្លៃ៖ \(|J| = 2m_0 v_i\)</p>
+            $$|J| = 2 \times (4.65 \times 10^{-26}\text{ kg}) \times 500\text{ m/s}$$
+            <div class="math-highlight-box" style="font-size:1.15rem;">
+              $$|J| = 4.65 \times 10^{-23}\text{ kg}\cdot\text{m/s}$$
+            </div>
+          </div>
+
+          <!-- Part B -->
+          <div class="slide-card">
+            <h4 style="color:var(--gold); margin-bottom:8px;">ខ. គណនាកម្លាំងមធ្យម និងសម្ពាធ</h4>
+            <p style="font-size:0.92rem;">តាមច្បាប់ទី ២ ញូតុន៖</p>
+            $$F = \frac{N \times |\Delta p|}{\Delta t} = \frac{N |J|}{\Delta t}$$
+            $$F = \frac{10^{23} \times 4.65 \times 10^{-23}}{1} = 4.65\text{ N}$$
+            <div class="math-highlight-box gold" style="font-size:1.15rem; margin:6px 0;">
+              $$F = 4.65\text{ N}$$
+            </div>
+
+            <p style="font-size:0.92rem; margin-top:8px;">គណនាសម្ពាធដែលបង្កើតឡើងលើជញ្ជាំង៖</p>
+            $$P = \frac{F}{A} = \frac{4.65\text{ N}}{0.02\text{ m}^2} = 232.5\text{ Pa}$$
+            <div class="math-highlight-box emerald" style="font-size:1.15rem; margin:6px 0;">
+              $$P = 232.5\text{ Pa}$$
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ១៣</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 14: Practice Problem 1 + Full Solution -->
+    <section class="slide" data-index="14">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">លំហាត់ប្រតិបត្តិទី ១ • ទំព័រ ៤</div>
+          <h2 class="slide-main-title">លំហាត់ប្រតិបត្តិទី ១៖ ទង្គិចបង្កើតមុំ \(\theta = 60^\circ\)</h2>
+        </div>
+        <span class="slide-badge-pill rose">លំហាត់ប្រតិបត្តិ</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card" style="border-left:4px solid var(--rose);">
+          <h4 style="color:var(--rose); margin-bottom:6px;">📝 ប្រធានលំហាត់៖</h4>
+          <p style="font-size:0.98rem; line-height:1.75;">
+            ធុងមួយបិទជិតផ្ទុកឧស្ម័ន ដែលម៉ូលេគុលឧស្ម័ននីមួយៗមានម៉ាស \(m_0 = 3.3 \times 10^{-27}\text{ kg}\) ផ្លាស់ទីដោយល្បឿន \(v = 600\text{ m/s}\) ទៅបុកជញ្ជាំងធុងមានក្រឡាផ្ទៃ \(A = 0.1\text{ m}^2\) មានទិសបង្កើតបានមុំ \(\theta = 60^\circ\) ធៀបទៅនឹងខ្សែបន្ទាត់កែងនៃជញ្ជាំង។ សន្មតថាការទង្គិចរវាងម៉ូលេគុលនិងជញ្ជាំងជាការទង្គិចដាច់ខាត (ខ្ទាត)។
+          </p>
+          <div style="margin-top:6px; font-size:0.95rem;">
+            <div><strong>ក.</strong> រកអំពុលស្យុងនៃម៉ូលេគុលនីមួយៗដែលផ្តល់ឱ្យជញ្ជាំង។</div>
+            <div><strong>ខ.</strong> បើសិនជាមានការទង្គិចចំនួន \(5 \times 10^{24}\) លើកក្នុងមួយវិនាទីលើផ្ទៃ \(A\) ចូរគណនាសម្ពាធលើជញ្ជាំងធុងនោះ។</div>
+          </div>
+        </div>
+
+        <!-- Solution Box -->
+        <div class="solution-box">
+          <div class="solution-header">
+            <span>💡 ដំណោះស្រាយលម្អិត ១០០%</span>
+          </div>
+          <div class="solution-content">
+            <div class="grid-2-col">
+              <div>
+                <strong>ក. រកអំពុលស្យុងនៃម៉ូលេគុលនីមួយៗ (\(|J|\))៖</strong>
+                <p style="font-size:0.9rem; color:var(--text-muted);">
+                  សមាសភាគល្បឿនកែងនឹងជញ្ជាំងគឺ \(v_\perp = v \cos\theta\)៖
+                </p>
+                $$v_\perp = 600 \times \cos 60^\circ = 600 \times 0.5 = 300\text{ m/s}$$
+                $$|J| = 2m_0 v_\perp = 2 \times (3.3 \times 10^{-27}) \times 300$$
+                <div class="math-highlight-box" style="font-size:1.1rem; padding:8px;">
+                  $$|J| = 1.98 \times 10^{-24}\text{ kg}\cdot\text{m/s}$$
+                </div>
+              </div>
+
+              <div>
+                <strong>ខ. គណនាសម្ពាធលើជញ្ជាំងធុង (\(P\))៖</strong>
+                <p style="font-size:0.9rem; color:var(--text-muted);">
+                  កម្លាំងមធ្យមដែលបង្កើតឡើងក្នុង \(\Delta t = 1\text{ s}\)៖
+                </p>
+                $$F = \frac{N_{coll} \times |J|}{\Delta t} = \frac{5 \times 10^{24} \times 1.98 \times 10^{-24}}{1} = 9.9\text{ N}$$
+                $$P = \frac{F}{A} = \frac{9.9\text{ N}}{0.1\text{ m}^2} = 99\text{ Pa}$$
+                <div class="math-highlight-box emerald" style="font-size:1.1rem; padding:8px;">
+                  $$P = 99\text{ Pa}$$
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ១៤</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 15: Practice Problem 2 + Full Solution -->
+    <section class="slide" data-index="15">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">លំហាត់ប្រតិបត្តិទី ២ • ទំព័រ ៤</div>
+          <h2 class="slide-main-title">លំហាត់ប្រតិបត្តិទី ២៖ សម្ពាធឧស្ម័នអាកុងក្នុងធុង</h2>
+        </div>
+        <span class="slide-badge-pill rose">លំហាត់ប្រតិបត្តិ</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card" style="border-left:4px solid var(--rose);">
+          <h4 style="color:var(--rose); margin-bottom:6px;">📝 ប្រធានលំហាត់៖</h4>
+          <p style="font-size:1rem; line-height:1.8;">
+            ធុងមួយបិទជិតមានមាឌ \(V = 2\text{ L}\) ផ្ទុកឧស្ម័នអាកុងចំនួន \(N = 6 \times 10^{22}\) ម៉ូលេគុល។ ម៉ូលេគុលនីមួយៗមានម៉ាស \(m_0 = 6.64 \times 10^{-26}\text{ kg}\) និងមានល្បឿនការេមធ្យម \(\langle v^2 \rangle = 16 \times 10^4\text{ m}^2/\text{s}^2\)។
+            <br>
+            <strong>ចូរគណនាសម្ពាធសរុបនៃឧស្ម័នក្នុងធុង។</strong>
+          </p>
+        </div>
+
+        <div class="solution-box">
+          <div class="solution-header">
+            <span>💡 ដំណោះស្រាយលម្អិត ១០០%</span>
+          </div>
+          <div class="solution-content">
+            <div class="grid-2-col">
+              <div>
+                <strong>១. បម្លែងខ្នាត និងកំណត់បម្រាប់៖</strong>
+                <ul style="font-size:0.92rem; line-height:1.8; list-style:none; margin-top:6px;">
+                  <li>• មាឌ៖ \(V = 2\text{ L} = 2 \times 10^{-3}\text{ m}^3\)</li>
+                  <li>• ចំនួនម៉ូលេគុល៖ \(N = 6 \times 10^{22}\)</li>
+                  <li>• ម៉ាសម៉ូលេគុលមួយ៖ \(m_0 = 6.64 \times 10^{-26}\text{ kg}\)</li>
+                  <li>• ល្បឿនការេមធ្យម៖ \(\langle v^2 \rangle = 16 \times 10^4\text{ m}^2/\text{s}^2\)</li>
+                </ul>
+              </div>
+
+              <div>
+                <strong>២. អនុវត្តរូបមន្តសម្ពាធទ្រឹស្តីស៊ីនេទិច៖</strong>
+                $$P = \frac{1}{3}\left(\frac{N}{V}\right)m_0 \langle v^2 \rangle$$
+                $$P = \frac{1}{3} \times \left(\frac{6 \times 10^{22}}{2 \times 10^{-3}}\right) \times (6.64 \times 10^{-26}) \times (16 \times 10^4)$$
+                $$P = \frac{1}{3} \times (3 \times 10^{25}) \times (6.64 \times 10^{-26}) \times 160000$$
+                $$P = (1 \times 10^{25}) \times (6.64 \times 10^{-26}) \times 160000 = 0.664 \times 160000$$
+                <div class="math-highlight-box emerald" style="font-size:1.25rem; padding:8px;">
+                  $$P = 106,240\text{ Pa} \approx 1.062 \times 10^5\text{ Pa}$$
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ១៥</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 16: Section III - Ideal Gas Equation -->
+    <section class="slide" data-index="16">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">ផ្នែកទី III • សមីការឧស្ម័នបរិសុទ្ធ</div>
+          <h2 class="slide-main-title">III. សមីការឧស្ម័នបរិសុទ្ធ (Equation of State)</h2>
+        </div>
+        <span class="slide-badge-pill gold">ច្បាប់គ្រឹះឧស្ម័ន</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card" style="border-left:4px solid var(--cyan);">
+          <h4 style="color:var(--cyan); margin-bottom:6px;">🧪 និយមន័យឧស្ម័នបរិសុទ្ធ (Ideal Gas)</h4>
+          <p style="font-size:0.98rem; line-height:1.8;">
+            <strong>ឧស្ម័នបរិសុទ្ធ</strong> គឺជាឧស្ម័នដែលត្រូវបានបង្កើតឡើងក្នុងទ្រឹស្តីដើម្បីងាយស្រួលក្នុងការសិក្សា និងងាយពន្យល់ពីលក្ខណៈនៃឧស្ម័ន។ ឧស្ម័នមួយត្រូវបានចាត់ទុកជាឧស្ម័នបរិសុទ្ធលុះត្រាតែវា<strong>គោរពទៅតាមលក្ខខណ្ឌគ្រឹះនៃទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន</strong>។
+          </p>
+        </div>
+
+        <div class="grid-2-col" style="margin-top:8px;">
+          <div class="slide-card">
+            <h4 style="color:var(--gold); margin-bottom:8px;">🔬 លទ្ធផលពីពិសោធន៍</h4>
+            <p style="font-size:0.92rem; line-height:1.7;">
+              តាមពិសោធន៍បង្ហាញថាសម្ពាធនៃឧស្ម័នបរិសុទ្ធ៖
+            </p>
+            <ul style="font-size:0.92rem; line-height:1.8; list-style:none;">
+              <li>• សមាមាត្រនឹងសីតុណ្ហភាពដាច់ខាត (\(P \propto T\))</li>
+              <li>• សមាមាត្រនឹងចំនួនម៉ូលេគុល (\(P \propto N\))</li>
+              <li>• ច្រាសសមាមាត្រនឹងមាឌឧស្ម័ន (\(P \propto \frac{1}{V}\))</li>
+            </ul>
+            $$P = k_B \frac{N T}{V} \iff PV = N k_B T$$
+          </div>
+
+          <div class="slide-card">
+            <h4 style="color:var(--emerald); margin-bottom:8px;">✨ សមីការសម្គាល់ភាពនៃឧស្ម័នបរិសុទ្ធ</h4>
+            <p style="font-size:0.92rem; line-height:1.7;">
+              ដោយ \(N = n N_A\) និង \(R = N_A k_B\) គេបានសមីការសកល៖
+            </p>
+            <div class="math-highlight-box emerald" style="font-size:1.45rem;">
+              $$PV = nRT = N k_B T$$
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-muted); text-align:center;">
+              សមីការនេះហៅថា <strong>សមីការក្លាប៉េរ៉ុង (Clapeyron Equation)</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ១៦</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 17: Physical Constants & Real Gas Note -->
+    <section class="slide" data-index="17">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">ផ្នែកទី III • ថេររូបវិទ្យា & ការអនុវត្តជាក់ស្តែង</div>
+          <h2 class="slide-main-title">តម្លៃថេរសកល និងចំណាំអំពីឧស្ម័នពិត</h2>
+        </div>
+        <span class="slide-badge-pill">តម្លៃថេរ</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="grid-2-col">
+          <div class="slide-card">
+            <h4 style="color:var(--cyan); margin-bottom:10px;">📐 តម្លៃថេររូបវិទ្យាសំខាន់ៗ</h4>
+            <div style="display:flex; flex-direction:column; gap:10px; font-size:0.95rem;">
+              <div style="background:rgba(0,0,0,0.3); padding:10px 14px; border-radius:8px;">
+                <strong>ថេរសកលនៃឧស្ម័ន (R)៖</strong>
+                <div style="color:var(--cyan); font-weight:700; font-family:var(--font-code);">R = 8.31 J/(mol·K)</div>
+              </div>
+
+              <div style="background:rgba(0,0,0,0.3); padding:10px 14px; border-radius:8px;">
+                <strong>ចំនួនអាវូហ្គាដ្រូ (Nₐ)៖</strong>
+                <div style="color:var(--cyan); font-weight:700; font-family:var(--font-code);">Nₐ = 6.02 × 10²³ mol⁻¹</div>
+              </div>
+
+              <div style="background:rgba(0,0,0,0.3); padding:10px 14px; border-radius:8px;">
+                <strong>ថេរបុលស្មាន (kᵦ = R / Nₐ)៖</strong>
+                <div style="color:var(--cyan); font-weight:700; font-family:var(--font-code);">kᵦ = 1.38 × 10⁻²³ J/K</div>
+              </div>
+
+              <div style="background:rgba(0,0,0,0.3); padding:10px 14px; border-radius:8px;">
+                <strong>សីតុណ្ហភាពដាច់ខាត (T)៖</strong>
+                <div style="color:var(--gold); font-weight:700; font-family:var(--font-code);">T = t°C + 273 (K)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="slide-card" style="border-left:4px solid var(--gold);">
+            <h4 style="color:var(--gold); margin-bottom:10px;">☝️ ចំណាំសំខាន់អំពីឧស្ម័នក្នុងជីវិតពិត</h4>
+            <p style="font-size:0.98rem; line-height:1.85;">
+              នៅក្នងជីវិតពិត <strong>គ្មានឧស្ម័នណាមួយជាឧស្ម័នបរិសុទ្ធ 100% នោះទេ</strong> ប៉ុន្តែឧស្ម័នពិត (ដូចជា ខ្យល់ អុកស៊ីសែន អាសូត អុីដ្រូសែន) នៅក្រោមលក្ខខណ្ឌ<strong>សម្ពាធទាប និងសីតុណ្ហភាពខ្ពស់</strong> អាចមានលក្ខណៈប្រហាក់ប្រហែលនឹងឧស្ម័នបរិសុទ្ធ។
+            </p>
+            <div style="margin-top:14px; background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.3); padding:12px 16px; border-radius:10px;">
+              <strong style="color:var(--gold);">សេចក្តីសន្និដ្ឋាន៖</strong>
+              <p style="font-size:0.92rem; color:var(--text-main); margin-top:4px;">
+                ច្បាប់ទាំងឡាយរបស់ឧស្ម័នបរិសុទ្ធអាចយកទៅអនុវត្តបានយ៉ាងត្រឹមត្រូវចំពោះឧស្ម័នពិតក្នុងការគណនាភាគច្រើន។
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ១៧</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 18: Example 2 - Oxygen Gas Law -->
+    <section class="slide" data-index="18">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">លំហាត់គំរូទី ២ • សមីការឧស្ម័នបរិសុទ្ធ</div>
+          <h2 class="slide-main-title">លំហាត់គំរូទី ២ (គណនាមាឌធុកឧស្ម័នអុកស៊ីសែន)</h2>
+        </div>
+        <span class="slide-badge-pill gold">លំហាត់គំរូទំព័រ ៥</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card" style="border-left:4px solid var(--gold);">
+          <h4 style="color:var(--gold); margin-bottom:8px;">📝 ប្រធានលំហាត់៖</h4>
+          <p style="font-size:1.05rem; line-height:1.8;">
+            គណនាមាឌធុងដែលផ្ទុកឧស្ម័នអុកស៊ីសែន \(m = 9.6\text{ g}\) នៅសម្ពាធ \(P = 10^5\text{ Pa}\) និងសីតុណ្ហភាព \(T = 300\text{ K}\)។ គេឱ្យមេគុណសកលនៃឧស្ម័ន \(R = 8.31\text{ J/(mol}\cdot\text{K)}\) និងម៉ាសម៉ូលនៃអុកស៊ីសែនគឺ \(M = 32\text{ g/mol}\)។
+          </p>
+        </div>
+
+        <div class="solution-box">
+          <div class="solution-header">
+            <span>💡 ដំណោះស្រាយលម្អិត</span>
+          </div>
+          <div class="solution-content">
+            <div class="grid-2-col">
+              <div>
+                <strong>១. ទាញរូបមន្តមាឌ V៖</strong>
+                <p style="font-size:0.92rem; line-height:1.7;">តាមសមីការឧស្ម័នបរិសុទ្ធ៖</p>
+                $$PV = nRT \implies V = \frac{nRT}{P}$$
+                <p style="font-size:0.92rem; line-height:1.7;">ដោយ \(n = \frac{m}{M}\) នាំឱ្យ៖</p>
+                <div class="math-highlight-box" style="font-size:1.25rem;">
+                  $$V = \frac{mRT}{MP}$$
+                </div>
+              </div>
+
+              <div>
+                <strong>២. ជំនួសតម្លៃលេខ៖</strong>
+                <ul style="font-size:0.88rem; line-height:1.7; list-style:none;">
+                  <li>• \(m = 9.6\text{ g}\), \(M = 32\text{ g/mol}\)</li>
+                  <li>• \(R = 8.31\text{ J/(mol}\cdot\text{K)}\), \(T = 300\text{ K}\)</li>
+                  <li>• \(P = 10^5\text{ Pa}\)</li>
+                </ul>
+                $$V = \frac{9.6 \times 8.31 \times 300}{32 \times 10^5} = \frac{23932.8}{3,200,000}$$
+                <div class="math-highlight-box emerald" style="font-size:1.25rem;">
+                  $$V = 747.9 \times 10^{-5}\text{ m}^3 = 7.479\text{ L}$$
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ១៨</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 19: Practice Problem 3 + Full Solution -->
+    <section class="slide" data-index="19">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">លំហាត់ប្រតិបត្តិទី ៣ • ទំព័រ ៥</div>
+          <h2 class="slide-main-title">លំហាត់ប្រតិបត្តិទី ៣៖ គណនាចំនួនម៉ូលឧស្ម័ន</h2>
+        </div>
+        <span class="slide-badge-pill rose">លំហាត់ប្រតិបត្តិ</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card" style="border-left:4px solid var(--rose);">
+          <h4 style="color:var(--rose); margin-bottom:8px;">📝 ប្រធានលំហាត់៖</h4>
+          <p style="font-size:1.05rem; line-height:1.8;">
+            ឧស្ម័នបរិសុទ្ធមួយមានមាឌ \(V = 100\text{ cm}^3\) ស្ថិតនៅក្រោមសម្ពាធ \(P = 2 \times 10^5\text{ Pa}\) នៅសីតុណ្ហភាព \(27^\circ\text{C}\)។ គណនាចំនួនម៉ូលនៃឧស្ម័ន។ គេឱ្យមេគុណសកលនៃឧស្ម័ន \(R = 8.31\text{ J/(mol}\cdot\text{K)}\)។
+          </p>
+        </div>
+
+        <div class="solution-box">
+          <div class="solution-header">
+            <span>💡 ដំណោះស្រាយលម្អិត ១០០%</span>
+          </div>
+          <div class="solution-content">
+            <div class="grid-2-col">
+              <div>
+                <strong>១. បម្លែងខ្នាតអន្តរជាតិ (SI)៖</strong>
+                <ul style="font-size:0.92rem; line-height:1.8; list-style:none; margin-top:6px;">
+                  <li>• មាឌ៖ \(V = 100\text{ cm}^3 = 100 \times 10^{-6}\text{ m}^3 = 10^{-4}\text{ m}^3\)</li>
+                  <li>• សម្ពាធ៖ \(P = 2 \times 10^5\text{ Pa}\)</li>
+                  <li>• សីតុណ្ហភាព៖ \(T = 27 + 273 = 300\text{ K}\)</li>
+                  <li>• ថេរឧស្ម័ន៖ \(R = 8.31\text{ J/(mol}\cdot\text{K)}\)</li>
+                </ul>
+              </div>
+
+              <div>
+                <strong>២. គណនាចំនួនម៉ូល (n)៖</strong>
+                <p style="font-size:0.92rem;">តាមសមីការ \(PV = nRT \implies n = \frac{PV}{RT}\)៖</p>
+                $$n = \frac{(2 \times 10^5\text{ Pa}) \times (10^{-4}\text{ m}^3)}{8.31 \times 300}$$
+                $$n = \frac{20}{2493} \approx 0.00802\text{ mol}$$
+                <div class="math-highlight-box emerald" style="font-size:1.25rem;">
+                  $$n \approx 8.02 \times 10^{-3}\text{ mol} = 8.02\text{ mmol}$$
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ១៩</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 20: Practice Problem 4 + Full Solution -->
+    <section class="slide" data-index="20">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">លំហាត់ប្រតិបត្តិទី ៤ • ទំព័រ ៥</div>
+          <h2 class="slide-main-title">លំហាត់ប្រតិបត្តិទី ៤៖ ចំនួនម៉ូលេគុល និងមាឌឧស្ម័ន</h2>
+        </div>
+        <span class="slide-badge-pill rose">លំហាត់ប្រតិបត្តិ</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card" style="border-left:4px solid var(--rose);">
+          <h4 style="color:var(--rose); margin-bottom:6px;">📝 ប្រធានលំហាត់៖</h4>
+          <p style="font-size:1rem; line-height:1.8;">
+            ឧស្ម័នបរិសុទ្ធមួយមានចំនួនម៉ូល \(n = 0.008\text{ mol}\) មានសម្ពាធ \(P = 5 \times 10^5\text{ Pa}\) នៅសីតុណ្ហភាព \(60^\circ\text{C}\)។ គេឱ្យ \(R = 8.31\text{ J/(mol}\cdot\text{K)}\) និងចំនួនអាវូហ្គាដ្រូ \(N_A = 6.02 \times 10^{23}\text{ mol}^{-1}\)។
+          </p>
+          <div style="margin-top:6px; font-size:0.95rem;">
+            <strong>ក.</strong> គណនាចំនួនម៉ូលេគុលឧស្ម័ន។ &nbsp;&nbsp;|&nbsp;&nbsp; <strong>ខ.</strong> គណនាមាឌនៃឧស្ម័ន។
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <div class="solution-header">
+            <span>💡 ដំណោះស្រាយលម្អិត ១០០%</span>
+          </div>
+          <div class="solution-content">
+            <div class="grid-2-col">
+              <div>
+                <strong>ក. គណនាចំនួនម៉ូលេគុលឧស្ម័ន (N)៖</strong>
+                $$N = n \cdot N_A = 0.008 \times (6.02 \times 10^{23})$$
+                <div class="math-highlight-box" style="font-size:1.15rem; padding:8px;">
+                  $$N = 4.816 \times 10^{21}\text{ ម៉ូលេគុល}$$
+                </div>
+              </div>
+
+              <div>
+                <strong>ខ. គណនាមាឌនៃឧស្ម័ន (V)៖</strong>
+                <p style="font-size:0.88rem; color:var(--text-muted);">\(T = 60 + 273 = 333\text{ K}\)</p>
+                $$V = \frac{nRT}{P} = \frac{0.008 \times 8.31 \times 333}{5 \times 10^5} = \frac{22.1378}{500,000}$$
+                <div class="math-highlight-box emerald" style="font-size:1.15rem; padding:8px;">
+                  $$V = 4.428 \times 10^{-5}\text{ m}^3 = 44.28\text{ cm}^3$$
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ២០</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 21: Section IV - Kinetic Energy of Gas Molecules -->
+    <section class="slide" data-index="21">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">ផ្នែកទី IV • ថាមពលស៊ីនេទិច</div>
+          <h2 class="slide-main-title">២. ថាមពលស៊ីនេទិចនៃម៉ូលេគុលឧស្ម័ន (\(K_{av}\))</h2>
+        </div>
+        <span class="slide-badge-pill">ទ្រឹស្តី & រូបមន្ត</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card">
+          <p style="line-height:1.8;">
+            បើម៉ូលេគុលឧស្ម័ននីមួយៗមានម៉ាសស្មើគ្នា \(m_0\) ផ្លាស់ទីដោយល្បឿនរៀងគ្នា \(\vec{v}_1, \vec{v}_2, \dots, \vec{v}_N\) នោះថាមពលស៊ីនេទិចរៀងគ្នារបស់វាគឺ៖
+          </p>
+          $$K_1 = \frac{1}{2}m_0 v_1^2, \quad K_2 = \frac{1}{2}m_0 v_2^2, \quad \dots, \quad K_N = \frac{1}{2}m_0 v_N^2$$
+          <p style="line-height:1.8;">
+            ថាមពលស៊ីនេទិចមធ្យមនៃម៉ូលេគុលឧស្ម័នគឺ៖
+          </p>
+          $$K_{av} = \frac{K_1 + K_2 + \dots + K_N}{N} = \frac{1}{2}m_0 \left( \frac{v_1^2 + v_2^2 + \dots + v_N^2}{N} \right) = \frac{1}{2}m_0 \langle v^2 \rangle_{av}$$
+        </div>
+
+        <div class="grid-2-col" style="margin-top:10px;">
+          <div class="slide-card">
+            <h4 style="color:var(--cyan); margin-bottom:8px;">🔗 ទំនាក់ទំនងជាមួយសម្ពាធ P</h4>
+            <p style="font-size:0.92rem; line-height:1.7;">
+              តាមរូបមន្តសម្ពាធ \(P = \frac{2}{3}\left(\frac{N}{V}\right)K_{av}\) នាំឱ្យ៖
+            </p>
+            <div class="math-highlight-box" style="font-size:1.25rem;">
+              $$K_{av} = \frac{3}{2}\frac{PV}{N}$$
+            </div>
+          </div>
+
+          <div class="slide-card">
+            <h4 style="color:var(--gold); margin-bottom:8px;">🌡️ ទំនាក់ទំនងជាមួយសីតុណ្ហភាព T</h4>
+            <p style="font-size:0.92rem; line-height:1.7;">
+              តាមសមីការ \(PV = N k_B T\) ជំនួសចូលគេបានរូបមន្តដ៏ល្បី៖
+            </p>
+            <div class="math-highlight-box gold" style="font-size:1.35rem;">
+              $$K_{av} = \frac{3}{2}k_B T \quad (\text{J})$$
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted); text-align:center;">
+              ថាមពលស៊ីនេទិចមធ្យមអាស្រ័យតែនឹងសីតុណ្ហភាពដាច់ខាត \(T\) ប៉ុណ្ណោះ!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ២១</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 22: Total Kinetic Energy K -->
+    <section class="slide" data-index="22">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">ផ្នែកទី IV • ថាមពលស៊ីនេទិចសរុប</div>
+          <h2 class="slide-main-title">ថាមពលស៊ីនេទិចសរុបនៃឧស្ម័ន (Total Kinetic Energy K)</h2>
+        </div>
+        <span class="slide-badge-pill gold">រូបមន្តសរុប</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card" style="border-left:4px solid var(--gold);">
+          <h4 style="color:var(--gold); margin-bottom:8px;">💡 និយមន័យថាមពលស៊ីនេទិចសរុប៖</h4>
+          <p style="font-size:1.05rem; line-height:1.85;">
+            បើឧស្ម័នមាន \(N\) ម៉ូលេគុល នោះ<strong>ថាមពលស៊ីនេទិចសរុបនៃម៉ូលេគុលឧស្ម័នទាំងអស់</strong> គឺជាផលគុណរវាងចំនួនម៉ូលេគុល \(N\) និងតម្លៃមធ្យមនៃថាមពលស៊ីនេទិចរបស់ម៉ូលេគុលនីមួយៗ \(K_{av}\)៖
+          </p>
+          $$K = N \cdot K_{av}$$
+        </div>
+
+        <div class="math-highlight-box emerald" style="font-size:1.4rem; padding:18px 24px; margin:14px 0;">
+          $$K = N K_{av} = \frac{3}{2}N k_B T = \frac{3}{2}nRT = \frac{3}{2}PV = \frac{1}{2}m \langle v^2 \rangle_{av} \quad (\text{J})$$
+        </div>
+
+        <div class="grid-3-col">
+          <div class="slide-card" style="text-align:center;">
+            <div style="color:var(--cyan); font-weight:700; margin-bottom:6px;">តាមចំនួនម៉ូល n</div>
+            <div style="font-size:1.25rem; color:var(--text-main);">$$K = \frac{3}{2}nRT$$</div>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-top:4px;">ប្រើញឹកញាប់បំផុតពេលស្គាល់ \(n\) និង \(T\)</p>
+          </div>
+
+          <div class="slide-card" style="text-align:center;">
+            <div style="color:var(--gold); font-weight:700; margin-bottom:6px;">តាមសម្ពាធ & មាឌ</div>
+            <div style="font-size:1.25rem; color:var(--text-main);">$$K = \frac{3}{2}PV$$</div>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-top:4px;">ប្រើពេលស្គាល់ \(P\) និង \(V\)</p>
+          </div>
+
+          <div class="slide-card" style="text-align:center;">
+            <div style="color:#c084fc; font-weight:700; margin-bottom:6px;">តាមចំនួនម៉ូលេគុល N</div>
+            <div style="font-size:1.25rem; color:var(--text-main);">$$K = \frac{3}{2}N k_B T$$</div>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-top:4px;">ប្រើពេលស្គាល់ \(N\) និង \(T\)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ២២</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 23: Example 3 - Helium Kinetic Energy -->
+    <section class="slide" data-index="23">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">លំហាត់គំរូទី ៣ • ថាមពលស៊ីនេទិច</div>
+          <h2 class="slide-main-title">លំហាត់គំរូទី ៣ (ថាមពលស៊ីនេទិចនៃឧស្ម័នអេល្យូម)</h2>
+        </div>
+        <span class="slide-badge-pill gold">លំហាត់គំរូទំព័រ ៦</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card" style="border-left:4px solid var(--gold);">
+          <h4 style="color:var(--gold); margin-bottom:8px;">📝 ប្រធានលំហាត់៖</h4>
+          <p style="font-size:1.05rem; line-height:1.8;">
+            ធុងមួយផ្ទុកឧស្ម័នអេល្យូម \(n = 2.00\text{ mol}\) នៅសីតុណ្ហភាព \(27^\circ\text{C}\)។ សន្មតថាអេល្យូមជាឧស្ម័នបរិសុទ្ធ។ គេឱ្យថេរបុលស្មាន \(k_B = 1.38 \times 10^{-23}\text{ J/K}\) និងមេគុណសកលនៃឧស្ម័ន \(R = 8.31\text{ J/(mol}\cdot\text{K)}\)។
+          </p>
+          <div style="margin-top:8px; font-size:0.98rem;">
+            <strong>ក.</strong> គណនាតម្លៃមធ្យមនៃថាមពលស៊ីនេទិចរបស់ម៉ូលេគុលនីមួយៗ (\(K_{av}\))។
+            <br>
+            <strong>ខ.</strong> គណនាថាមពលស៊ីនេទិចសរុបរបស់ម៉ូលេគុលទាំងអស់ (\(K\))។
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <div class="solution-header">
+            <span>💡 ដំណោះស្រាយលម្អិត</span>
+          </div>
+          <div class="solution-content">
+            <div class="grid-2-col">
+              <div>
+                <strong>ក. ថាមពលស៊ីនេទិចមធ្យមនៃម៉ូលេគុលមួយ (\(K_{av}\))៖</strong>
+                <p style="font-size:0.88rem; color:var(--text-muted); margin-top:2px;">
+                  \(T = 27 + 273 = 300\text{ K}\)
+                </p>
+                $$K_{av} = \frac{3}{2}k_B T = \frac{3}{2} \times (1.38 \times 10^{-23}) \times 300$$
+                <div class="math-highlight-box" style="font-size:1.15rem; padding:8px;">
+                  $$K_{av} = 621 \times 10^{-23}\text{ J} = 6.21 \times 10^{-21}\text{ J}$$
+                </div>
+              </div>
+
+              <div>
+                <strong>ខ. ថាមពលស៊ីនេទិចសរុបរបស់ម៉ូលេគុលទាំងអស់ (\(K\))៖</strong>
+                <p style="font-size:0.88rem; color:var(--text-muted); margin-top:2px;">
+                  \(n = 2.00\text{ mol}, R = 8.31\text{ J/(mol}\cdot\text{K)}, T = 300\text{ K}\)
+                </p>
+                $$K = \frac{3}{2}nRT = \frac{3}{2} \times 2.00 \times 8.31 \times 300$$
+                <div class="math-highlight-box emerald" style="font-size:1.15rem; padding:8px;">
+                  $$K = 7479\text{ J}$$
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ២៣</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 24: Practice Problem 5 + Full Solution -->
+    <section class="slide" data-index="24">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">លំហាត់ប្រតិបត្តិទី ៥ • ទំព័រ ៦</div>
+          <h2 class="slide-main-title">លំហាត់ប្រតិបត្តិទី ៥៖ ថាមពលស៊ីនេទិចក្នុងធុង</h2>
+        </div>
+        <span class="slide-badge-pill rose">លំហាត់ប្រតិបត្តិ</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card" style="border-left:4px solid var(--rose);">
+          <h4 style="color:var(--rose); margin-bottom:8px;">📝 ប្រធានលំហាត់៖</h4>
+          <p style="font-size:1.02rem; line-height:1.8;">
+            ធុងមួយមានមាឌ \(V = 200\text{ cm}^3\) ផ្ទុកឧស្ម័នបរិសុទ្ធចំនួន \(N = 5 \times 10^{25}\) ម៉ូលេគុល មានសម្ពាធស្មើនឹងសម្ពាធបរិយាកាស (\(P = 1.013 \times 10^5\text{ Pa}\))។
+          </p>
+          <div style="margin-top:6px; font-size:0.95rem;">
+            <strong>ក.</strong> គណនាតម្លៃមធ្យមនៃថាមពលស៊ីនេទិចរបស់ម៉ូលេគុលនីមួយៗ។
+            <br>
+            <strong>ខ.</strong> គណនាថាមពលស៊ីនេទិចសរុបរបស់ម៉ូលេគុលទាំងអស់។
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <div class="solution-header">
+            <span>💡 ដំណោះស្រាយលម្អិត ១០០%</span>
+          </div>
+          <div class="solution-content">
+            <div class="grid-2-col">
+              <div>
+                <strong>ក. គណនា \(K_{av}\) តាមសម្ពាធ និងមាឌ៖</strong>
+                <p style="font-size:0.85rem; color:var(--text-muted);">\(V = 200\text{ cm}^3 = 2 \times 10^{-4}\text{ m}^3\)</p>
+                $$K_{av} = \frac{3}{2}\frac{PV}{N} = \frac{3 \times (1.013 \times 10^5) \times (2 \times 10^{-4})}{2 \times (5 \times 10^{25})}$$
+                $$K_{av} = \frac{60.78}{10^{26}} = 6.078 \times 10^{-25}\text{ J}$$
+                <div class="math-highlight-box" style="font-size:1.15rem; padding:8px;">
+                  $$K_{av} = 6.078 \times 10^{-25}\text{ J}$$
+                </div>
+              </div>
+
+              <div>
+                <strong>ខ. គណនាថាមពលស៊ីនេទិចសរុប (K)៖</strong>
+                $$K = \frac{3}{2}PV = \frac{3}{2} \times (1.013 \times 10^5) \times (2 \times 10^{-4})$$
+                $$K = 1.5 \times 20.26 = 30.39\text{ J}$$
+                <div class="math-highlight-box emerald" style="font-size:1.15rem; padding:8px;">
+                  $$K = 30.39\text{ J}$$
+                </div>
+                <p style="font-size:0.82rem; color:var(--text-dim);">
+                  (ផ្ទៀងផ្ទាត់៖ \(K = N \cdot K_{av} = 5 \times 10^{25} \times 6.078 \times 10^{-25} = 30.39\text{ J}\))
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ២៤</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 25: Practice Problem 6 + Full Solution -->
+    <section class="slide" data-index="25">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">លំហាត់ប្រតិបត្តិទី ៦ • ទំព័រ ៦</div>
+          <h2 class="slide-main-title">លំហាត់ប្រតិបត្តិទី ៦៖ ថាមពលស៊ីនេទិចនៃខ្យល់ស្ងួត</h2>
+        </div>
+        <span class="slide-badge-pill rose">លំហាត់ប្រតិបត្តិ</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card" style="border-left:4px solid var(--rose);">
+          <h4 style="color:var(--rose); margin-bottom:8px;">📝 ប្រធានលំហាត់៖</h4>
+          <p style="font-size:1.02rem; line-height:1.8;">
+            ក្នុងបន្ទប់បិទជិតមួយមានខ្យល់ស្ងួតដែលមានម៉ាសម៉ូល \(M = 28.9\text{ g/mol}\)។ សន្មតថាម៉ូលេគុលខ្យល់ទាំងអស់ផ្លាស់ទីដោយសេរីក្នុងបន្ទប់ និងមានល្បឿនស្មើៗគ្នា \(v = 600\text{ m/s}\)។ គេឱ្យចំនួនអាវូហ្គាដ្រូ \(N_A = 6.02 \times 10^{23}\text{ mol}^{-1}\)។
+            <br>
+            <strong>ចូរគណនាតម្លៃមធ្យមនៃថាមពលស៊ីនេទិចរបស់ម៉ូលេគុលនីមួយៗ។</strong>
+          </p>
+        </div>
+
+        <div class="solution-box">
+          <div class="solution-header">
+            <span>💡 ដំណោះស្រាយលម្អិត ១០០%</span>
+          </div>
+          <div class="solution-content">
+            <div class="grid-2-col">
+              <div>
+                <strong>១. គណនាម៉ាសម៉ូលេគុលមួយ (\(m_0\))៖</strong>
+                <p style="font-size:0.88rem; color:var(--text-muted);">
+                  \(M = 28.9\text{ g/mol} = 28.9 \times 10^{-3}\text{ kg/mol}\)
+                </p>
+                $$m_0 = \frac{M}{N_A} = \frac{28.9 \times 10^{-3}}{6.02 \times 10^{23}}$$
+                <div class="math-highlight-box" style="font-size:1.1rem; padding:8px;">
+                  $$m_0 \approx 4.80 \times 10^{-26}\text{ kg}$$
+                </div>
+              </div>
+
+              <div>
+                <strong>២. គណនាថាមពលស៊ីនេទិចមធ្យម (\(K_{av}\))៖</strong>
+                <p style="font-size:0.88rem; color:var(--text-muted);">ដោយម៉ូលេគុលមានល្បឿនស្មើៗគ្នា \(v = 600\text{ m/s}\)៖</p>
+                $$K_{av} = \frac{1}{2}m_0 v^2 = \frac{1}{2} \times (4.80 \times 10^{-26}) \times (600)^2$$
+                $$K_{av} = (2.40 \times 10^{-26}) \times 360,000$$
+                <div class="math-highlight-box emerald" style="font-size:1.15rem; padding:8px;">
+                  $$K_{av} = 8.64 \times 10^{-21}\text{ J}$$
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ២៥</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 26: Section V - Root-Mean-Square Speed (v_rms) -->
+    <section class="slide" data-index="26">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">ផ្នែកទី V • ល្បឿនប្រសិទ្ធនៃម៉ូលេគុលឧស្ម័ន</div>
+          <h2 class="slide-main-title">៣. ល្បឿនប្រសិទ្ធនៃម៉ូលេគុលឧស្ម័ន (\(v_{rms}\))</h2>
+        </div>
+        <span class="slide-badge-pill gold">រូបមន្តគន្លឹះប្រឡង</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card">
+          <p style="line-height:1.8;">
+            យើងមានទំនាក់ទំនងរវាងថាមពលស៊ីនេទិចមធ្យម និងសីតុណ្ហភាព៖
+          </p>
+          $$K_{av} = \frac{1}{2}m_0 \langle v^2 \rangle_{av} = \frac{3}{2}k_B T \implies \langle v^2 \rangle_{av} = \frac{3k_B T}{m_0}$$
+          <p style="line-height:1.8;">
+            បំពាក់ឫសការេលើអង្គទាំងពីរ គេបាន<strong>ល្បឿនប្រសិទ្ធនៃម៉ូលេគុលឧស្ម័ន (Root-Mean-Square Speed)</strong>៖
+          </p>
+          $$v_{rms} = \sqrt{\langle v^2 \rangle_{av}} = \sqrt{\frac{3k_B T}{m_0}} \quad (\text{m/s})$$
+        </div>
+
+        <!-- 4 Forms of v_rms -->
+        <div class="math-highlight-box emerald" style="font-size:1.35rem; padding:18px;">
+          $$v_{rms} = \sqrt{\frac{3k_B T}{m_0}} = \sqrt{\frac{3RT}{M}} = \sqrt{\frac{3PV}{m}} = \sqrt{\frac{3P}{\rho}} \quad (\text{m/s})$$
+        </div>
+
+        <div class="grid-2-col">
+          <div class="slide-card">
+            <h4 style="color:var(--cyan); margin-bottom:6px;">🔹 តាមសីតុណ្ហភាព T និងម៉ាសម៉ូល M</h4>
+            $$v_{rms} = \sqrt{\frac{3RT}{M}}$$
+            <p style="font-size:0.85rem; color:var(--text-muted);">
+              ប្រយ័ត្ន៖ \(M\) ត្រូវគិតជា \(\text{kg/mol}\) ជានិច្ច!
+            </p>
+          </div>
+
+          <div class="slide-card">
+            <h4 style="color:var(--gold); margin-bottom:6px;">🔹 តាមសម្ពាធ P និងដង់ស៊ីតេ \(\rho\)</h4>
+            $$v_{rms} = \sqrt{\frac{3P}{\rho}}$$
+            <p style="font-size:0.85rem; color:var(--text-muted);">
+              \(P\) គិតជា \(\text{Pa}\), \(\rho\) គិតជា \(\text{kg/m}^3\)
+            </p>
+          </div>
+        </div>
+
+        <div class="slide-card" style="background:rgba(251,191,36,0.06); border-color:rgba(251,191,36,0.3); padding:10px 16px;">
+          <strong style="color:var(--gold);">☝️ ចំណាំ៖</strong>
+          <span> ករណីល្បឿនម៉ូលេគុលឧស្ម័ននីមួយៗស្មើៗគ្នា \(v_1 = v_2 = \dots = v_N = v_{av} \implies v_{rms} = v_{av}\)។</span>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ២៦</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 27: Example 4 - Hydrogen v_rms -->
+    <section class="slide" data-index="27">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">លំហាត់គំរូទី ៤ • ល្បឿនប្រសិទ្ធ</div>
+          <h2 class="slide-main-title">លំហាត់គំរូទី ៤ (ល្បឿនប្រសិទ្ធនៃម៉ូលេគុលអុីដ្រូសែន)</h2>
+        </div>
+        <span class="slide-badge-pill gold">លំហាត់គំរូទំព័រ ៧</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card" style="border-left:4px solid var(--gold);">
+          <h4 style="color:var(--gold); margin-bottom:8px;">📝 ប្រធានលំហាត់៖</h4>
+          <p style="font-size:1.05rem; line-height:1.85;">
+            ចូរគណនាល្បឿនប្រសិទ្ធរបស់ម៉ូលេគុលឧស្ម័នអុីដ្រូសែននៅសីតុណ្ហភាព \(100^\circ\text{C}\)។ គេឱ្យ ម៉ាសម៉ូលនៃឧស្ម័នអុីដ្រូសែនគឺ \(M = 2\text{ g/mol}\) និងមេគុណសកលនៃឧស្ម័ន \(R = 8.31\text{ J/(mol}\cdot\text{K)}\)។
+          </p>
+        </div>
+
+        <div class="solution-box">
+          <div class="solution-header">
+            <span>💡 ដំណោះស្រាយលម្អិត</span>
+          </div>
+          <div class="solution-content">
+            <div class="grid-2-col">
+              <div>
+                <strong>១. កំណត់បម្រាប់ និងបម្លែងខ្នាត៖</strong>
+                <ul style="font-size:0.92rem; line-height:1.8; list-style:none; margin-top:6px;">
+                  <li>• សីតុណ្ហភាព៖ \(T = 100 + 273 = 373\text{ K}\)</li>
+                  <li>• ម៉ាសម៉ូល៖ \(M = 2\text{ g/mol} = 2 \times 10^{-3}\text{ kg/mol}\)</li>
+                  <li>• ថេរឧស្ម័ន៖ \(R = 8.31\text{ J/(mol}\cdot\text{K)}\)</li>
+                </ul>
+                <div class="math-highlight-box" style="font-size:1.25rem;">
+                  $$v_{rms} = \sqrt{\frac{3RT}{M}}$$
+                </div>
+              </div>
+
+              <div>
+                <strong>២. ជំនួសតម្លៃលេខគណនា៖</strong>
+                $$v_{rms} = \sqrt{\frac{3 \times 8.31 \times 373}{2 \times 10^{-3}}}$$
+                $$v_{rms} = \sqrt{\frac{9298.89}{0.002}} = \sqrt{4,649,445}$$
+                <div class="math-highlight-box emerald" style="font-size:1.35rem;">
+                  $$v_{rms} \approx 2156.25\text{ m/s}$$
+                </div>
+                <p style="font-size:0.85rem; color:var(--text-muted); text-align:center;">
+                  ម៉ូលេគុលអុីដ្រូសែនមានល្បឿនលឿនជាង ២ គីឡូម៉ែត្រក្នុងមួយវិនាទី!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ២៧</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 28: Practice Problem 7 + Full Solution -->
+    <section class="slide" data-index="28">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">លំហាត់ប្រតិបត្តិទី ៧ • ទំព័រ ៧</div>
+          <h2 class="slide-main-title">លំហាត់ប្រតិបត្តិទី ៧៖ ល្បឿនប្រសិទ្ធ និងបម្រែបម្រួលដង់ស៊ីតេ</h2>
+        </div>
+        <span class="slide-badge-pill rose">លំហាត់ប្រតិបត្តិ</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card" style="border-left:4px solid var(--rose);">
+          <h4 style="color:var(--rose); margin-bottom:6px;">📝 ប្រធានលំហាត់៖</h4>
+          <p style="font-size:1rem; line-height:1.75;">
+            ឧស្ម័នអុីដ្រូសែនស្ថិតនៅក្រោមសម្ពាធ \(P = 1.01 \times 10^5\text{ Pa}\) មានដង់ស៊ីតេ \(\rho = 0.09\text{ kg/m}^3\)។
+          </p>
+          <div style="margin-top:6px; font-size:0.95rem;">
+            <strong>ក.</strong> គណនាល្បឿនប្រសិទ្ធនៃម៉ូលេគុលឧស្ម័នអុីដ្រូសែន។
+            <br>
+            <strong>ខ.</strong> ប្រសិនបើសីតុណ្ហភាពនៃឧស្ម័នមិនប្រែប្រួល តែដង់ស៊ីតេឧស្ម័នអុីដ្រូសែនថយចុះពាក់កណ្តាល។ គណនាសម្ពាធឧស្ម័នអុីដ្រូសែននៅពេលនោះ។
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <div class="solution-header">
+            <span>💡 ដំណោះស្រាយលម្អិត ១០០%</span>
+          </div>
+          <div class="solution-content">
+            <div class="grid-2-col">
+              <div>
+                <strong>ក. គណនា \(v_{rms}\) តាមរូបមន្តដង់ស៊ីតេ៖</strong>
+                $$v_{rms} = \sqrt{\frac{3P}{\rho}} = \sqrt{\frac{3 \times (1.01 \times 10^5)}{0.09}}$$
+                $$v_{rms} = \sqrt{\frac{303,000}{0.09}} = \sqrt{3,366,666.67}$$
+                <div class="math-highlight-box" style="font-size:1.15rem; padding:8px;">
+                  $$v_{rms} \approx 1834.85\text{ m/s}$$
+                </div>
+              </div>
+
+              <div>
+                <strong>ខ. គណនាសម្ពាធថ្មី \(P'\) កាលណា \(T = \text{ថេរ}\)៖</strong>
+                <p style="font-size:0.85rem; color:var(--text-muted);">
+                  ដោយ \(T\) ថេរ \(\implies v_{rms} = \text{ថេរ}\) នាំឱ្យ \(\frac{P}{\rho} = \frac{P'}{\rho'}\)៖
+                </p>
+                $$P' = P \times \frac{\rho'}{\rho} = P \times \frac{1}{2}$$
+                $$P' = \frac{1.01 \times 10^5}{2} = 5.05 \times 10^4\text{ Pa}$$
+                <div class="math-highlight-box emerald" style="font-size:1.15rem; padding:8px;">
+                  $$P' = 5.05 \times 10^4\text{ Pa}$$
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ២៨</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 29: Practice Problem 8 + Full Solution -->
+    <section class="slide" data-index="29">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">លំហាត់ប្រតិបត្តិទី ៨ • ទំព័រ ៧</div>
+          <h2 class="slide-main-title">លំហាត់ប្រតិបត្តិទី ៨៖ ល្បឿនប្រសិទ្ធតាមម៉ាសម៉ូលេគុល</h2>
+        </div>
+        <span class="slide-badge-pill rose">លំហាត់ប្រតិបត្តិ</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card" style="border-left:4px solid var(--rose);">
+          <h4 style="color:var(--rose); margin-bottom:8px;">📝 ប្រធានលំហាត់៖</h4>
+          <p style="font-size:1.05rem; line-height:1.85;">
+            គណនាល្បឿនប្រសិទ្ធរបស់ម៉ូលេគុលឧស្ម័នមួយនៅសីតុណ្ហភាព \(20^\circ\text{C}\) បើគេដឹងថាម៉ូលេគុលនីមួយៗមានម៉ាស \(m_0 = 53 \times 10^{-27}\text{ kg}\)។ គេឱ្យថេរបុលស្មាន \(k_B = 1.38 \times 10^{-23}\text{ J/K}\)។
+          </p>
+        </div>
+
+        <div class="solution-box">
+          <div class="solution-header">
+            <span>💡 ដំណោះស្រាយលម្អិត ១០០%</span>
+          </div>
+          <div class="solution-content">
+            <div class="grid-2-col">
+              <div>
+                <strong>១. បម្រាប់ និងរូបមន្ត៖</strong>
+                <ul style="font-size:0.92rem; line-height:1.8; list-style:none; margin-top:6px;">
+                  <li>• សីតុណ្ហភាព៖ \(T = 20 + 273 = 293\text{ K}\)</li>
+                  <li>• ម៉ាសម៉ូលេគុល៖ \(m_0 = 53 \times 10^{-27}\text{ kg}\)</li>
+                  <li>• ថេរបុលស្មាន៖ \(k_B = 1.38 \times 10^{-23}\text{ J/K}\)</li>
+                </ul>
+                <div class="math-highlight-box" style="font-size:1.25rem;">
+                  $$v_{rms} = \sqrt{\frac{3k_B T}{m_0}}$$
+                </div>
+              </div>
+
+              <div>
+                <strong>២. ជំនួសតម្លៃលេខគណនា៖</strong>
+                $$v_{rms} = \sqrt{\frac{3 \times (1.38 \times 10^{-23}) \times 293}{53 \times 10^{-27}}}$$
+                $$v_{rms} = \sqrt{\frac{1213.02 \times 10^{-23}}{53 \times 10^{-27}}} = \sqrt{22.887 \times 10^4}$$
+                $$v_{rms} = \sqrt{228,871.7}$$
+                <div class="math-highlight-box emerald" style="font-size:1.3rem;">
+                  $$v_{rms} \approx 478.4\text{ m/s}$$
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ២៩</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 30: Summary Cheat Sheet - Page 8 -->
+    <section class="slide" data-index="30">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">ទំព័រសង្ខេបមេរៀន • ទំព័រ ៨</div>
+          <h2 class="slide-main-title">មេរៀនសង្ខេប៖ រូបមន្តគ្រឹះនៃទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន</h2>
+        </div>
+        <span class="slide-badge-pill gold">សង្ខេបបាក់ឌុប</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="grid-3-col">
+          <!-- Column 1 -->
+          <div class="slide-card">
+            <h4 style="color:var(--cyan); border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:6px; margin-bottom:8px;">
+              ១. សម្ពាធ & អំពុលស្យុង
+            </h4>
+            <div style="font-size:0.88rem; line-height:1.7;">
+              <div>• សម្ពាធទូទៅ៖ \(P = \frac{F}{A}\) (Pa)</div>
+              <div>• អំពុលស្យុង៖ \(\vec{J} = \vec{F}'\Delta t = \Delta \vec{p}\)</div>
+              <div>• បរិមាណចលនា៖ \(\vec{p} = m\vec{v}\)</div>
+              <div class="math-highlight-box" style="font-size:0.95rem; padding:6px; margin:6px 0;">
+                $$P = \frac{1}{3}\rho v_{rms}^2 = \frac{2}{3}\frac{N}{V}K_{av}$$
+              </div>
+              <div>• \(\rho = \frac{m}{V} = \frac{N m_0}{V}\) (\(\text{kg/m}^3\))</div>
+            </div>
+          </div>
+
+          <!-- Column 2 -->
+          <div class="slide-card">
+            <h4 style="color:var(--gold); border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:6px; margin-bottom:8px;">
+              ២. សមីការឧស្ម័ន & ថាមពល
+            </h4>
+            <div style="font-size:0.88rem; line-height:1.7;">
+              <div class="math-highlight-box gold" style="font-size:1rem; padding:6px; margin:6px 0;">
+                $$PV = nRT = N k_B T$$
+              </div>
+              <div>• \(T = t_{^\circ\text{C}} + 273\text{ (K)}\)</div>
+              <div>• \(R = 8.31\text{ J/(mol}\cdot\text{K)}\)</div>
+              <div>• \(k_B = 1.38 \times 10^{-23}\text{ J/K}\)</div>
+              <div>• \(N_A = 6.02 \times 10^{23}\text{ mol}^{-1}\)</div>
+              <div>• \(n = \frac{m}{M} = \frac{N}{N_A}\)</div>
+              <div class="math-highlight-box emerald" style="font-size:0.95rem; padding:6px; margin:6px 0;">
+                $$K_{av} = \frac{3}{2}k_B T = \frac{3}{2}\frac{PV}{N}$$
+                $$K = \frac{3}{2}nRT = \frac{3}{2}PV$$
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 3 -->
+          <div class="slide-card">
+            <h4 style="color:#c084fc; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:6px; margin-bottom:8px;">
+              ៣. ល្បឿនប្រសិទ្ធ \(v_{rms}\)
+            </h4>
+            <div style="font-size:0.88rem; line-height:1.7;">
+              <div class="math-highlight-box" style="border-left-color:#c084fc; color:#c084fc; font-size:1rem; padding:8px; margin:6px 0;">
+                $$v_{rms} = \sqrt{\frac{3k_B T}{m_0}} = \sqrt{\frac{3RT}{M}}$$
+                $$v_{rms} = \sqrt{\frac{3PV}{m}} = \sqrt{\frac{3P}{\rho}}$$
+              </div>
+              <div>• \(\langle v^2 \rangle_{av} = \frac{v_1^2 + v_2^2 + \dots + v_N^2}{N}\)</div>
+              <div>• បើ \(v_1 = v_2 = \dots = v_N \implies v_{rms} = v_{av}\)</div>
+              <div>• ម៉ាសម៉ូលេគុល \(m_0 = \frac{M}{N_A}\)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ៣០</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 31: Gas Laws & Unit Conversion - Page 9 -->
+    <section class="slide" data-index="31">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">ច្បាប់ឧស្ម័ន & ខ្នាតបំប្លែង • ទំព័រ ៩</div>
+          <h2 class="slide-main-title">ច្បាប់ផ្សេងៗនៃឧស្ម័ន និងការបំប្លែងខ្នាត</h2>
+        </div>
+        <span class="slide-badge-pill">តារាងខ្នាត</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="grid-2-col">
+          <!-- Gas Laws -->
+          <div class="slide-card">
+            <h4 style="color:var(--cyan); margin-bottom:8px;">📜 ច្បាប់ផ្សេងៗនៃឧស្ម័ន</h4>
+            <div style="display:flex; flex-direction:column; gap:8px; font-size:0.9rem;">
+              <div style="background:rgba(0,0,0,0.3); padding:8px 12px; border-radius:6px;">
+                <strong>① សមីការបម្រែបម្រួលភាព៖</strong> \(\frac{P_1 V_1}{T_1} = \frac{P_2 V_2}{T_2}\)
+              </div>
+              <div style="background:rgba(0,0,0,0.3); padding:8px 12px; border-radius:6px;">
+                <strong>② ច្បាប់កេលុយសាក់ (\(V = \text{ថេរ}\))៖</strong> \(\frac{P_1}{T_1} = \frac{P_2}{T_2}\)
+              </div>
+              <div style="background:rgba(0,0,0,0.3); padding:8px 12px; border-radius:6px;">
+                <strong>③ ច្បាប់សាល (\(P = \text{ថេរ}\))៖</strong> \(\frac{V_1}{T_1} = \frac{V_2}{T_2}\)
+              </div>
+              <div style="background:rgba(0,0,0,0.3); padding:8px 12px; border-radius:6px;">
+                <strong>④ ច្បាប់ប៊យ-ម៉ារីយ៉ុត (\(T = \text{ថេរ}\))៖</strong> \(P_1 V_1 = P_2 V_2\)
+              </div>
+            </div>
+          </div>
+
+          <!-- Conversions -->
+          <div class="slide-card">
+            <h4 style="color:var(--gold); margin-bottom:8px;">🔄 ការបំប្លែងខ្នាតគន្លឹះ</h4>
+            <div style="display:flex; flex-direction:column; gap:6px; font-size:0.86rem;">
+              <div><strong>• សម្ពាធ៖</strong> \(1\text{ atm} = 1.013 \times 10^5\text{ Pa} = 760\text{ mmHg} = 1\text{ bar} = 10^5\text{ Pa} = 1\text{ psi}\)</div>
+              <div><strong>• មាឌ៖</strong> \(1\text{ L} = 1\text{ dm}^3 = 10^{-3}\text{ m}^3\), \(1\text{ m}^3 = 1000\text{ L}\)</div>
+              <div><strong>• សីតុណ្ហភាព៖</strong> \(T_K = t_{^\circ\text{C}} + 273\), \(t_{^\circ\text{C}} = \frac{5}{9}(t_{^\circ\text{F}} - 32)\)</div>
+              <div><strong>• ថាមពល៖</strong> \(1\text{ cal} \approx 4.186\text{ J} \approx 4.2\text{ J}\), \(1\text{ eV} = 1.602 \times 10^{-19}\text{ J}\), \(1\text{ kWh} = 3.6 \times 10^6\text{ J}\)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prefixes Table -->
+        <div class="slide-card" style="padding:10px 16px;">
+          <strong style="color:var(--emerald); font-size:0.9rem;">បុព្វបទខ្នាត (Prefixes)៖</strong>
+          <div style="display:flex; flex-wrap:wrap; gap:12px; font-size:0.82rem; margin-top:4px; font-family:var(--font-code);">
+            <span>T (Tera) = 10¹²</span>
+            <span>G (Giga) = 10⁹</span>
+            <span>M (Mega) = 10⁶</span>
+            <span>k (Kilo) = 10³</span>
+            <span>h (Hecto) = 10²</span>
+            <span>da (Deka) = 10¹</span>
+            <span>d (Deci) = 10⁻¹</span>
+            <span>c (Centi) = 10⁻²</span>
+            <span>m (Milli) = 10⁻³</span>
+            <span>μ (Micro) = 10⁻⁶</span>
+            <span>n (Nano) = 10⁻⁹</span>
+            <span>p (Pico) = 10⁻¹²</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ៣១</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 32: Square Root Estimation Technique - Page 9 -->
+    <section class="slide" data-index="32">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">គន្លឹះគណនារហ័ស • ទំព័រ ៩</div>
+          <h2 class="slide-main-title">របៀបប៉ាន់ស្មានតម្លៃឫសការេដោយមិនបាច់ប្រើម៉ាស៊ីនគិតលេខ</h2>
+        </div>
+        <span class="slide-badge-pill gold">គន្លឹះយករង A</span>
+      </div>
+
+      <div class="slide-body">
+        <div class="slide-card" style="border-left:4px solid var(--gold);">
+          <h4 style="color:var(--gold); margin-bottom:8px;">💡 រូបមន្តប៉ាន់ស្មានឫសការេលឿន៖</h4>
+          <p style="font-size:1rem; line-height:1.8;">
+            បើគេមាន \(\sqrt{A}\) ដែល \(A\) ជាតម្លៃខិតទៅរកចំនួនគត់ដែលអាចបញ្ចេញពីឫសបាន (\(B\))៖
+          </p>
+          <div class="math-highlight-box gold" style="font-size:1.4rem; padding:12px;">
+            $$\sqrt{A} = \sqrt{B \pm C} \approx \sqrt{B} \pm \frac{C}{2\sqrt{B}}$$
+          </div>
+          <p style="font-size:0.88rem; color:var(--text-muted);">
+            ដែល \(B\) ជាចំនួនការេពេញលេញជិត \(A\) បំផុត ហើយ \(C = |A - B|\)។
+          </p>
+        </div>
+
+        <div class="grid-2-col" style="margin-top:10px;">
+          <!-- Example 1 -->
+          <div class="slide-card">
+            <h4 style="color:var(--cyan); margin-bottom:8px;">ឧទាហរណ៍ ១៖ គណនា \(\sqrt{10}\)</h4>
+            <p style="font-size:0.95rem; line-height:1.8;">
+              ជ្រើសរើស \(B = 9\) (ព្រោះ \(\sqrt{9} = 3\)) និង \(C = 1\)៖
+            </p>
+            $$\sqrt{10} = \sqrt{9 + 1} \approx \sqrt{9} + \frac{1}{2\sqrt{9}}$$
+            $$\sqrt{10} \approx 3 + \frac{1}{2 \times 3} = 3 + \frac{1}{6} \approx 3 + 0.166 = 3.16$$
+            <div class="math-highlight-box" style="font-size:1.15rem; padding:8px;">
+              $$\sqrt{10} \approx 3.16$$
+            </div>
+          </div>
+
+          <!-- Example 2 -->
+          <div class="slide-card">
+            <h4 style="color:var(--emerald); margin-bottom:8px;">ឧទាហរណ៍ ២៖ គណនា \(\sqrt{35.12}\)</h4>
+            <p style="font-size:0.95rem; line-height:1.8;">
+              ជ្រើសរើស \(B = 36\) (ព្រោះ \(\sqrt{36} = 6\)) និង \(C = 0.88\)៖
+            </p>
+            $$\sqrt{35.12} = \sqrt{36 - 0.88} \approx \sqrt{36} - \frac{0.88}{2\sqrt{36}}$$
+            $$\sqrt{35.12} \approx 6 - \frac{0.88}{2 \times 6} = 6 - \frac{0.88}{12} \approx 6 - 0.073 = 5.92$$
+            <div class="math-highlight-box emerald" style="font-size:1.15rem; padding:8px;">
+              $$\sqrt{35.12} \approx 5.92$$
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ៣២</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 33: Summary & Conclusion -->
+    <section class="slide" data-index="33">
+      <div class="slide-top-bar">
+        <div>
+          <div class="slide-category">បញ្ចប់មេរៀនទី ១ • ស្លាយទី ៣៣</div>
+          <h2 class="slide-main-title">សង្ខេបបញ្ចប់មេរៀនទី ១ & ត្រៀមមេរៀនទី ២</h2>
+        </div>
+        <span class="slide-badge-pill gold">អបអរសាទរ</span>
+      </div>
+
+      <div class="slide-body" style="justify-content:center; align-items:center; text-align:center;">
+        <div style="max-width:850px;">
+          <div style="font-size:3.5rem; margin-bottom:12px;">🎉⚛️</div>
+          <h3 style="font-family:var(--font-moul); color:var(--cyan); font-size:1.5rem; margin-bottom:12px;">
+            បានបញ្ចប់ការសិក្សាមេរៀនទី ១៖ ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន
+          </h3>
+          <p style="font-size:1.05rem; color:var(--text-muted); line-height:1.85; margin-bottom:24px;">
+            សិស្សទាំងអស់បានយល់ដឹងច្បាស់ពីសម្មតិកម្មគ្រឹះទាំង ៥ នៃទ្រឹស្តីស៊ីនេទិច របៀបទាញរូបមន្តសម្ពាធ សមីការឧស្ម័នបរិសុទ្ធ ថាមពលស៊ីនេទិច ល្បឿនប្រសិទ្ធ និងបានដោះស្រាយលំហាត់គំរូ/ប្រតិបត្តិទាំងអស់រួចរាល់។
+          </p>
+
+          <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+            <div class="slide-card" style="padding:14px 24px; text-align:left; border-left:4px solid var(--cyan);">
+              <strong style="color:var(--cyan);">មេរៀនបន្ទាប់៖</strong>
+              <div style="font-size:0.95rem;">មេរៀនទី ២៖ ច្បាប់ទី១ នៃទែម៉ូឌីណាមិច</div>
+            </div>
+
+            <div class="slide-card" style="padding:14px 24px; text-align:left; border-left:4px solid var(--gold);">
+              <strong style="color:var(--gold);">ទំនាក់ទំនងបង្រៀន & ចុះឈ្មោះ៖</strong>
+              <div style="font-size:0.95rem;">លោកគ្រូ គឹម សុមង្គល • 012 962 818</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-bar">
+        <span>រៀបរៀង និងបង្រៀនដោយ៖ <span class="author-tag">លោកគ្រូ គឹម សុមង្គល</span> ០១២ ៩៦២ ៨១៨</span>
+        <span>ទំព័រទី ៣៣ (ស្លាយបញ្ចប់)</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Floating Quick Edit Button & Notification Toast -->
+  <button id="floating-edit-btn" class="floating-edit-btn" title="បើក/បិទ មុខងារកែប្រែស្លាយ (Ctrl+E)">✏️ កែប្រែស្លាយ</button>
+  <div id="slide-toast" class="slide-toast"></div>
+
+  <!-- Slide Overview Drawer (Right Side) -->
+  <aside id="overview-drawer" class="overview-drawer">
+    <div class="overview-header">
+      <h3 style="font-size:1.1rem; color:var(--cyan); font-weight:700;">📑 បញ្ជីស្លាយទាំងអស់ (៣៣ ស្លាយ)</h3>
+      <button class="btn-icon" id="btn-close-overview">&times;</button>
+    </div>
+    <div class="overview-list" id="overview-list">
+      <!-- Injected by JS -->
+    </div>
+  </aside>
+
+  <!-- Script logic for presentation engine -->
+  <script>
+    let currentSlide = 1;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const slideCounter = document.getElementById('slide-counter');
+    const progressBar = document.getElementById('progress-bar-fill');
+    const overviewDrawer = document.getElementById('overview-drawer');
+    const overviewList = document.getElementById('overview-list');
+
+    // Build overview thumbnail list
+    slides.forEach((slide, idx) => {
+      const num = idx + 1;
+      const title = slide.querySelector('.slide-main-title') ? slide.querySelector('.slide-main-title').innerText : `ស្លាយទី ${num}`;
+      const item = document.createElement('div');
+      item.className = `overview-item ${num === 1 ? 'active' : ''}`;
+      item.innerHTML = `<span class="overview-num">${num < 10 ? '0' + num : num}</span> <span>${title}</span>`;
+      item.onclick = () => {
+        goToSlide(num);
+        overviewDrawer.classList.remove('open');
+      };
+      overviewList.appendChild(item);
+    });
+
+    function goToSlide(n) {
+      if (n < 1) n = 1;
+      if (n > totalSlides) n = totalSlides;
+
+      slides.forEach((s, idx) => {
+        s.classList.remove('active', 'prev');
+        if (idx + 1 === n) {
+          s.classList.add('active');
+        } else if (idx + 1 < n) {
+          s.classList.add('prev');
+        }
+      });
+
+      currentSlide = n;
+      slideCounter.innerText = `${currentSlide < 10 ? '0' + currentSlide : currentSlide} / ${totalSlides}`;
+      progressBar.style.width = `${((currentSlide - 1) / (totalSlides - 1)) * 100}%`;
+
+      // Update overview active item
+      document.querySelectorAll('.overview-item').forEach((item, idx) => {
+        item.classList.toggle('active', idx + 1 === currentSlide);
+      });
+
+      // Re-render KaTeX if needed
+      renderAllMath();
+    }
+
+    function nextSlide() {
+      goToSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+      goToSlide(currentSlide - 1);
+    }
+
+    // Button event listeners
+    document.getElementById('btn-next').onclick = nextSlide;
+    document.getElementById('arrow-next').onclick = nextSlide;
+    document.getElementById('btn-prev').onclick = prevSlide;
+    document.getElementById('arrow-prev').onclick = prevSlide;
+
+    // Overview Drawer
+    document.getElementById('btn-overview').onclick = () => {
+      overviewDrawer.classList.toggle('open');
+    };
+    document.getElementById('btn-close-overview').onclick = () => {
+      overviewDrawer.classList.remove('open');
+    };
+
+    // Fullscreen toggle
+    document.getElementById('btn-fullscreen').onclick = () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => alert(err.message));
+      } else {
+        document.exitFullscreen();
+      }
+    };
+
+    // Keyboard navigation (do NOT flip slides if typing in editable element)
+    window.addEventListener('keydown', (e) => {
+      if (document.activeElement && (document.activeElement.isContentEditable || document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
+        if (e.key === 'Escape') {
+          toggleEditMode(false);
+        }
+        return;
+      }
+      if (e.ctrlKey && (e.key === 'e' || e.key === 'E')) {
+        e.preventDefault();
+        toggleEditMode();
+        return;
+      }
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      } else if (e.key === 'f' || e.key === 'F') {
+        document.getElementById('btn-fullscreen').click();
+      } else if (e.key === 'Escape') {
+        overviewDrawer.classList.remove('open');
+      }
+    });
+
+    // ============================================
+    // SLIDE CONTENT EDITOR ENGINE (មុខងារកែប្រែខ្លឹមសារ)
+    // ============================================
+    let isEditMode = false;
+    let focusedEditable = null;
+
+    const btnEditMode = document.getElementById('btn-edit-mode');
+    const floatingEditBtn = document.getElementById('floating-edit-btn');
+    const btnSaveEdit = document.getElementById('btn-save-edit');
+    const btnResetEdit = document.getElementById('btn-reset-edit');
+    const btnCloseEdit = document.getElementById('btn-close-edit');
+    const slideToast = document.getElementById('slide-toast');
+
+    function showSlideToast(msg, duration = 3200) {
+      if (!slideToast) return;
+      slideToast.innerText = msg;
+      slideToast.classList.add('show');
+      setTimeout(() => {
+        slideToast.classList.remove('show');
+      }, duration);
+    }
+
+    function toggleEditMode(forceState) {
+      isEditMode = forceState !== undefined ? forceState : !isEditMode;
+      document.body.classList.toggle('editing-active', isEditMode);
+
+      if (btnEditMode) {
+        btnEditMode.classList.toggle('active', isEditMode);
+        btnEditMode.innerHTML = isEditMode ? '✓ រួចរាល់' : '✏️ កែប្រែ (Edit)';
+      }
+      if (floatingEditBtn) {
+        floatingEditBtn.innerHTML = isEditMode ? '💾 រក្សាទុក (Save)' : '✏️ កែប្រែស្លាយ';
+      }
+
+      // Query all text and content elements inside slides
+      const editableSelectors = '.slide-main-title, .slide h1, .slide h2, .slide h3, .slide h4, .slide p, .slide-card, .formula-box, .math-highlight-box, .solution-box, .slide li, .slide td, .slide th';
+      const editables = document.querySelectorAll(editableSelectors);
+
+      editables.forEach(el => {
+        el.contentEditable = isEditMode ? 'true' : 'false';
+        if (isEditMode) {
+          el.onfocus = () => { focusedEditable = el; };
+        } else {
+          el.onfocus = null;
+        }
+      });
+
+      // Add delete buttons to cards if editing
+      document.querySelectorAll('.slide-card, .solution-box').forEach(card => {
+        let act = card.querySelector('.card-edit-actions');
+        if (isEditMode) {
+          if (!act) {
+            act = document.createElement('div');
+            act.className = 'card-edit-actions';
+            act.innerHTML = '<button type="button" class="btn-card-del" title="លុបប្រអប់នេះ">✕</button>';
+            act.querySelector('.btn-card-del').onclick = (ev) => {
+              ev.stopPropagation();
+              if (confirm('តើលោកគ្រូចង់លុបប្រអប់ចំណុចនេះមែនទេ?')) {
+                card.remove();
+                showSlideToast('🗑️ បានលុបប្រអប់រួចរាល់!');
+              }
+            };
+            card.appendChild(act);
+          }
+        } else {
+          if (act) act.remove();
+        }
+      });
+
+      if (isEditMode) {
+        showSlideToast('✏️ បានបើកមុខងារកែប្រែ! លោកគ្រូអាចចុចលើអត្ថបទដើម្បីកែប្រែ វាយបញ្ចូល ឬលុប។');
+      } else {
+        renderAllMath();
+        showSlideToast('👁️ បានចាកចេញពីរបៀបកែប្រែ (ត្រឡប់មករបៀបបង្រៀនវិញ)។');
+      }
+    }
+
+    // Save custom slides content
+    function saveCustomSlides() {
+      const customData = {};
+      slides.forEach(slide => {
+        const idx = slide.dataset.index;
+        const body = slide.querySelector('.slide-body');
+        const titleEl = slide.querySelector('.slide-main-title');
+        const subEl = slide.querySelector('.slide-top-bar h2');
+        
+        // Clone and clean card-edit-actions before saving
+        const cloneBody = body ? body.cloneNode(true) : null;
+        if (cloneBody) {
+          cloneBody.querySelectorAll('.card-edit-actions').forEach(a => a.remove());
+          cloneBody.querySelectorAll('[contenteditable]').forEach(ce => ce.removeAttribute('contenteditable'));
+        }
+
+        customData[idx] = {
+          title: titleEl ? titleEl.innerHTML : '',
+          subtitle: subEl ? subEl.innerHTML : '',
+          body: cloneBody ? cloneBody.innerHTML : ''
+        };
+      });
+
+      localStorage.setItem('phy12_ch1_custom_slides_v1', JSON.stringify(customData));
+      showSlideToast('💾 បានរក្សាទុកការកែប្រែក្នុងស្លាយដោយជោគជ័យ!');
+      toggleEditMode(false);
+    }
+
+    // Load custom slides content from localStorage on startup
+    function loadSavedSlides() {
+      const raw = localStorage.getItem('phy12_ch1_custom_slides_v1');
+      if (!raw) return;
+      try {
+        const customData = JSON.parse(raw);
+        slides.forEach(slide => {
+          const idx = slide.dataset.index;
+          if (customData[idx]) {
+            const data = customData[idx];
+            const titleEl = slide.querySelector('.slide-main-title');
+            const subEl = slide.querySelector('.slide-top-bar h2');
+            const body = slide.querySelector('.slide-body');
+
+            if (titleEl && data.title) titleEl.innerHTML = data.title;
+            if (subEl && data.subtitle) subEl.innerHTML = data.subtitle;
+            if (body && data.body) body.innerHTML = data.body;
+          }
+        });
+        showSlideToast('✨ បានផ្ទុកស្លាយដែលលោកគ្រូបានកែសម្រួលរួចរាល់!');
+      } catch (err) {
+        console.error('Error loading custom slides:', err);
+      }
+    }
+
+    // Reset slides to original
+    function resetCustomSlides() {
+      if (confirm('តើលោកគ្រូពិតជាចង់កំណត់ស្លាយទៅកាន់ខ្លឹមសារដើមវិញទាំងអស់មែនទេ? រាល់ការកែប្រែនឹងត្រូវលុបចេញ។')) {
+        localStorage.removeItem('phy12_ch1_custom_slides_v1');
+        showSlideToast('🔄 កំពុងកំណត់ទៅខ្លឹមសារដើម...');
+        setTimeout(() => { location.reload(); }, 600);
+      }
+    }
+
+    // Formatting tools
+    if (document.getElementById('tool-bold')) document.getElementById('tool-bold').onclick = () => document.execCommand('bold', false, null);
+    if (document.getElementById('tool-italic')) document.getElementById('tool-italic').onclick = () => document.execCommand('italic', false, null);
+    if (document.getElementById('tool-underline')) document.getElementById('tool-underline').onclick = () => document.execCommand('underline', false, null);
+    if (document.getElementById('tool-color-cyan')) document.getElementById('tool-color-cyan').onclick = () => document.execCommand('foreColor', false, '#00f2fe');
+    if (document.getElementById('tool-color-gold')) document.getElementById('tool-color-gold').onclick = () => document.execCommand('foreColor', false, '#fbbf24');
+    if (document.getElementById('tool-color-rose')) document.getElementById('tool-color-rose').onclick = () => document.execCommand('foreColor', false, '#f43f5e');
+
+    // Add new card block to active slide
+    if (document.getElementById('tool-add-card')) {
+      document.getElementById('tool-add-card').onclick = () => {
+        const activeSlide = document.querySelector('.slide.active');
+        if (!activeSlide) return;
+        const body = activeSlide.querySelector('.slide-body');
+        if (!body) return;
+
+        const newCard = document.createElement('div');
+        newCard.className = 'slide-card';
+        newCard.contentEditable = 'true';
+        newCard.style.borderLeft = '4px solid var(--gold)';
+        newCard.style.marginTop = '12px';
+        newCard.innerHTML = `
+          <div class="card-edit-actions">
+            <button type="button" class="btn-card-del" title="លុបប្រអប់នេះ">✕</button>
+          </div>
+          <h4 style="color:var(--gold); font-weight:700;">📌 ចំណុចបន្ថែមថ្មី</h4>
+          <p>សូមចុចទីនេះដើម្បីវាយបញ្ចូលខ្លឹមសារបន្ថែម ការពន្យល់ ឬរូបមន្តគណិតវិទ្យា...</p>
+        `;
+
+        newCard.querySelector('.btn-card-del').onclick = (ev) => {
+          ev.stopPropagation();
+          newCard.remove();
+          showSlideToast('🗑️ បានលុបប្រអប់ដែលបានបន្ថែមរួចរាល់!');
+        };
+
+        body.appendChild(newCard);
+        newCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        newCard.focus();
+        showSlideToast('➕ បានបន្ថែមប្រអប់ចំណុចថ្មី! លោកគ្រូអាចវាយអត្ថបទបានភ្លាមៗ។');
+      };
+    }
+
+    // Add bullet point
+    if (document.getElementById('tool-add-bullet')) {
+      document.getElementById('tool-add-bullet').onclick = () => {
+        const activeSlide = document.querySelector('.slide.active');
+        if (!activeSlide) return;
+        let targetList = activeSlide.querySelector('ul, ol');
+        if (!targetList) {
+          targetList = document.createElement('ul');
+          targetList.style.lineHeight = '2';
+          targetList.style.marginTop = '10px';
+          const body = activeSlide.querySelector('.slide-body');
+          if (body) body.appendChild(targetList);
+        }
+        const newLi = document.createElement('li');
+        newLi.contentEditable = 'true';
+        newLi.innerHTML = 'ចំណុចបន្ថែមថ្មី៖ សូមវាយបញ្ចូលនៅទីនេះ...';
+        targetList.appendChild(newLi);
+        newLi.focus();
+        showSlideToast('➕ បានបន្ថែមចំណុចបញ្ជីថ្មី!');
+      };
+    }
+
+    // Delete selected element
+    if (document.getElementById('tool-delete-selected')) {
+      document.getElementById('tool-delete-selected').onclick = () => {
+        if (focusedEditable) {
+          const target = focusedEditable.closest('.slide-card, .solution-box, li, p') || focusedEditable;
+          if (confirm('តើលោកគ្រូចង់លុបចំណុចនេះមែនទេ?')) {
+            target.remove();
+            focusedEditable = null;
+            showSlideToast('🗑️ បានលុបចំណុចនេះរួចរាល់!');
+          }
+        } else {
+          showSlideToast('⚠️ សូមចុចលើប្រអប់ ឬអត្ថបទណាមួយជាមុនសិន រួចចុចប៊ូតុង "លុប"');
+        }
+      };
+    }
+
+    // Render KaTeX Math
+    if (document.getElementById('tool-render-math')) {
+      document.getElementById('tool-render-math').onclick = () => {
+        renderAllMath();
+        showSlideToast('📐 បាន Render រូបមន្ត KaTeX រួចរាល់!');
+      };
+    }
+
+    // Bind edit mode buttons
+    if (btnEditMode) btnEditMode.onclick = () => toggleEditMode();
+    if (floatingEditBtn) {
+      floatingEditBtn.onclick = () => {
+        if (isEditMode) {
+          saveCustomSlides();
+        } else {
+          toggleEditMode(true);
+        }
+      };
+    }
+    if (btnSaveEdit) btnSaveEdit.onclick = saveCustomSlides;
+    if (btnResetEdit) btnResetEdit.onclick = resetCustomSlides;
+    if (btnCloseEdit) btnCloseEdit.onclick = () => toggleEditMode(false);
+
+    // Check URL query param ?edit=1 or ?mode=edit
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('edit') === '1' || urlParams.get('mode') === 'edit') {
+      setTimeout(() => { toggleEditMode(true); }, 450);
+    }
+
+    // Load any saved custom slides at startup
+    loadSavedSlides();
+
+    // Touch swipe navigation for tablets / mobile
+    let touchStartX = 0;
+    window.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+    window.addEventListener('touchend', (e) => {
+      let touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) nextSlide();
+      if (touchEndX - touchStartX > 50) prevSlide();
+    });
+
+    // KaTeX renderer
+    function renderAllMath() {
+      if (window.renderMathInElement) {
+        try {
+          renderMathInElement(document.body, {
+            delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '\\(', right: '\\)', display: false},
+              {left: '$', right: '$', display: false}
+            ],
+            throwOnError: false
+          });
+        } catch (e) {
+          console.warn('KaTeX render error:', e);
+        }
+      }
+    }
+
+    // Initialize first slide progress
+    goToSlide(1);
+  </script>
+</body>
+</html>

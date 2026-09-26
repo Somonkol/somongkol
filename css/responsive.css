@@ -1,0 +1,330 @@
+/* 
+  Kim Somangkol (លោកគ្រូ គឹម សុមង្គល) - Responsive Breakpoints
+*/
+
+@media (max-width: 1024px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 50px;
+    text-align: center;
+    padding-top: 140px;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .hero-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .profile-orb {
+    width: 300px;
+    height: 300px;
+  }
+
+  .floating-badge {
+    display: none; /* Hide floating badges on smaller screens for clean layout */
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lab-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .calc-container {
+    grid-template-columns: 1fr;
+  }
+
+  .calc-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+
+  .calc-tab {
+    white-space: nowrap;
+  }
+
+  .contact-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1200px) and (min-width: 992px) {
+  .nav-links {
+    gap: 14px;
+  }
+  .nav-link {
+    font-size: 0.9rem;
+    padding: 6px 2px;
+  }
+  .dropdown-menu {
+    min-width: 280px;
+  }
+}
+
+@media (max-width: 991px) {
+  .mobile-toggle {
+    display: block;
+    z-index: 1050;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 320px;
+    max-width: 85vw;
+    height: 100vh;
+    background: var(--bg-surface);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-left: 1px solid var(--border-glass);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 85px 20px 40px;
+    gap: 8px;
+    overflow-y: auto;
+    transition: right var(--transition-normal);
+    box-shadow: -10px 0 35px rgba(0, 0, 0, 0.6);
+    z-index: 1040;
+  }
+
+  .nav-links.mobile-open {
+    right: 0;
+  }
+
+  .nav-item {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nav-link {
+    width: 100%;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.98rem;
+  }
+
+  .nav-link::after {
+    display: none;
+  }
+
+  .nav-link:hover,
+  .nav-link.active,
+  .nav-item.dropdown-open > .nav-link {
+    background: rgba(0, 242, 254, 0.08);
+    border-color: rgba(0, 242, 254, 0.3);
+  }
+
+  /* Submenus in Mobile Drawer */
+  .dropdown-menu {
+    position: static;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    min-width: 100%;
+    background: rgba(0, 242, 254, 0.03);
+    border: none;
+    border-left: 2px solid var(--cyan-glow);
+    border-radius: 0 10px 10px 0;
+    margin: 4px 0 6px 12px;
+    padding: 6px 0 6px 6px;
+    box-shadow: none;
+    display: none;
+    gap: 2px;
+  }
+
+  .dropdown-menu::before {
+    display: none;
+  }
+
+  .nav-item.dropdown-open .dropdown-menu {
+    display: flex;
+  }
+
+  .dropdown-item {
+    padding: 8px 10px;
+  }
+
+  .dropdown-icon {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    font-size: 1rem;
+  }
+
+  .dropdown-title {
+    font-size: 0.9rem;
+  }
+
+  .dropdown-desc {
+    font-size: 0.74rem;
+  }
+
+  .dropdown-submenu-section {
+    margin: 4px 6px 4px 0;
+  }
+
+  .dropdown-nested-menu {
+    padding: 4px 4px 6px 8px;
+  }
+
+  .dropdown-nested-item {
+    padding: 6px 6px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  .about-features {
+    grid-template-columns: 1fr;
+  }
+
+  .calc-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline::before {
+    left: 20px;
+  }
+
+  .timeline-item {
+    width: 100%;
+    padding-left: 50px;
+    padding-right: 0;
+  }
+
+  .timeline-item:nth-child(even) {
+    left: 0;
+    padding-left: 50px;
+  }
+
+  .timeline-dot {
+    left: 10px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .canvas-wrapper {
+    height: 300px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions .btn-primary, 
+  .modal-actions .btn-outline {
+    width: 100%;
+  }
+
+  #modal-pdf-preview iframe {
+    height: 280px !important;
+  }
+
+  .file-card-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .file-card-actions .btn-file-view, 
+  .file-card-actions .btn-file-download {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    width: auto !important;
+    padding: 8px 6px !important;
+    font-size: 0.82rem !important;
+  }
+
+  .file-card-actions.has-delete .btn-file-delete {
+    flex: 0 0 38px !important;
+    width: 38px !important;
+    height: 40px !important;
+  }
+
+  .cabinet-heading {
+    font-size: 1.15rem;
+  }
+}
+
+/* Grade Levels & Digital Cabinets Responsive Rules */
+@media (max-width: 768px) {
+  .grade-selector-tabs {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .grade-tab-btn {
+    max-width: 100%;
+    min-width: unset;
+    width: 100%;
+    padding: 16px 14px;
+  }
+
+  .cabinet-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .folder-nav-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+  }
+
+  .folder-tab-btn {
+    padding: 10px 16px;
+    font-size: 0.88rem;
+  }
+
+  .cabinet-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row-2 {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .cabinet-header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .upload-modal-content {
+    padding: 24px 18px;
+  }
+
+  .folder-tab-upload-btn {
+    margin-left: 0;
+  }
+}
+

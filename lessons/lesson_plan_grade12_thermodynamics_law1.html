@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <title>កិច្ចតែងការបង្រៀនស្តង់ដា - ច្បាប់ទី១ទែរម៉ូឌីណាមិច</title>
+  <style>
+    /* CSS Print & Layout Standards */
+    @page {
+      size: A4 portrait;
+      margin: 1.5cm;
+    }
+    @media print {
+      body {
+        margin: 0;
+        padding: 0;
+        background: #fff !important;
+        color: #000 !important;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+    body {
+      font-family: 'Khmer OS Siemreap', 'Siemreap', Arial, sans-serif;
+      font-size: 11.5pt;
+      line-height: 1.15;
+      color: #000;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+    }
+    .document-page {
+      background: #ffffff;
+      width: 21cm;
+      min-height: 29.7cm;
+      margin: 0 auto 30px auto;
+      padding: 1.5cm;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+      box-sizing: border-box;
+      position: relative;
+    }
+    /* Typography */
+    .font-moul {
+      font-family: 'Khmer OS Moul Light', 'Khmer OS Moul', 'Moul', serif;
+    }
+    .text-center { text-align: center; }
+    .text-right { text-align: right; }
+    .text-left { text-align: left; }
+    .text-justify { text-align: justify; }
+    .font-bold { font-weight: bold; }
+    
+    /* Header & National Motto */
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: none;
+      margin-bottom: 12px;
+    }
+    .header-table td {
+      border: none;
+      padding: 2px 4px;
+      vertical-align: top;
+    }
+    .motto-title {
+      font-size: 11.5pt;
+      line-height: 1.4;
+    }
+    .school-title {
+      font-size: 11pt;
+      line-height: 1.35;
+    }
+    .lesson-plan-title {
+      font-size: 14pt;
+      margin: 10px 0 6px 0;
+      letter-spacing: 0.5px;
+    }
+    
+    /* Metadata Box */
+    .meta-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 14px;
+      font-size: 11pt;
+    }
+    .meta-table td {
+      border: 1px solid #777;
+      padding: 5px 8px;
+      line-height: 1.25;
+    }
+    
+    /* Section Headings */
+    .section-title {
+      font-size: 11.5pt;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      color: #000;
+    }
+    
+    /* Standard 5-Step Teaching Procedure Table */
+    .procedure-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      margin-bottom: 15px;
+      font-size: 10.5pt;
+    }
+    .procedure-table th, 
+    .procedure-table td {
+      border: 1px solid #000;
+      padding: 6px 8px;
+      vertical-align: top;
+      line-height: 1.25;
+    }
+    .procedure-table th {
+      background-color: #f0f0f0;
+      font-family: 'Khmer OS Moul Light', serif;
+      font-weight: normal;
+      font-size: 10.5pt;
+      text-align: center;
+    }
+    .step-header {
+      background-color: #f7f7f7;
+      font-weight: bold;
+      text-align: left;
+    }
+    
+    /* Formula Box */
+    .formula-tag {
+      display: inline-block;
+      padding: 2px 6px;
+      background: #f0f4f8;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      font-family: 'Cambria Math', 'Times New Roman', serif;
+      font-weight: bold;
+    }
+    
+    /* Signatures Section */
+    .signature-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: none;
+      margin-top: 25px;
+      page-break-inside: avoid;
+    }
+    .signature-table td {
+      border: none;
+      vertical-align: top;
+      text-align: center;
+      padding: 4px;
+      font-size: 11pt;
+    }
+    
+    /* Footer */
+    .doc-footer {
+      border-top: 1px dashed #aaa;
+      margin-top: 20px;
+      padding-top: 6px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 9.5pt;
+      color: #444;
+    }
+    
+    /* Print Button Banner */
+    .action-bar {
+      width: 21cm;
+      margin: 0 auto 15px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #1e293b;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+    .btn-print {
+      background: #00f2fe;
+      background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+      color: #080b14;
+      font-weight: bold;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'Khmer OS Siemreap', sans-serif;
+      font-size: 10.5pt;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Action Bar (Hidden when printing or copied into Word) -->
+  <div class="action-bar no-print">
+    <div>
+      <strong>📄 កិច្ចតែងការបង្រៀនស្តង់ដាក្រសួងអប់រំ យុវជន និងកីឡា</strong> | ទំហំ A4 បញ្ឈរ Margins 1.5cm
+    </div>
+    <button class="btn-print" onclick="window.print()">🖨️ បោះពុម្ព / រក្សាទុកជា PDF</button>
+  </div>
+
+  <div class="document-page">
+    
+    <!-- Header: Kingdom & School -->
+    <table class="header-table">
+      <tr>
+        <td style="width: 48%; text-align: left;">
+          <div class="font-moul school-title">ក្រសួងអប់រំ យុវជន និងកីឡា</div>
+          <div class="school-title">មន្ទីរអប់រំ យុវជន និងកីឡាខេត្តសៀមរាប</div>
+          <div class="font-moul school-title" style="color:#0f3460;">វិទ្យាល័យ ហ៊ុនសែនស្វាយធំ</div>
+        </td>
+        <td style="width: 52%; text-align: center;">
+          <div class="font-moul motto-title">ព្រះរាជាណាចក្រកម្ពុជា</div>
+          <div class="font-moul motto-title">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+          <div style="font-size:10pt; margin-top:2px;">=== 🙡 🙣 ===</div>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Main Title -->
+    <div class="text-center">
+      <h1 class="font-moul lesson-plan-title">កិច្ចតែងការបង្រៀន</h1>
+    </div>
+
+    <!-- Metadata Table -->
+    <table class="meta-table">
+      <tr>
+        <td style="width: 25%;"><strong>មុខវិជ្ជា៖</strong> រូបវិទ្យា</td>
+        <td style="width: 25%;"><strong>កម្រិតថ្នាក់៖</strong> ទី ១២</td>
+        <td style="width: 25%;"><strong>ជំពូកទី ១៖</strong> ទែរម៉ូឌីណាមិច</td>
+        <td style="width: 25%;"><strong>កាលបរិច្ឆេទ៖</strong> ថ្ងៃទី..... ខែ..... ឆ្នាំ២០២...</td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>មេរៀនទី ២៖</strong> ច្បាប់ទី១ទែរម៉ូឌីណាមិច</td>
+        <td colspan="2"><strong>រយៈពេលបង្រៀន៖</strong> ២ ម៉ោងសិក្សា (៩០ នាទី)</td>
+      </tr>
+      <tr>
+        <td colspan="4">
+          <strong>ខ្លឹមសារមេរៀន៖</strong> 
+          I. ប្រព័ន្ធទែរម៉ូឌីណាមិច | II. កម្មន្តធ្វើដោយឧស្ម័ន និងដ្យាក្រាម (P-V) | III. ច្បាប់ទី១ទែរម៉ូឌីណាមិច (Q = W + &Delta;U) | IV. លំនាំពិសេស និងបំប្លែងបិទ
+        </td>
+      </tr>
+    </table>
+
+    <!-- I. វត្ថុបំណង -->
+    <div class="section-title font-moul">I. វត្ថុបំណង (OBJECTIVES)</div>
+    <div style="margin-left: 15px; margin-bottom: 10px; line-height: 1.35;">
+      <p style="margin: 3px 0;">
+        <strong>១. វិជ្ជាសម្បទា (Knowledge)៖</strong>
+      </p>
+      <ul style="margin: 2px 0 6px 20px; padding: 0;">
+        <li>កំណត់និយមន័យប្រព័ន្ធទែរម៉ូឌីណាមិច ភាពនៃប្រព័ន្ធ និងបំប្លែងទែរម៉ូឌីណាមិច (បិទ និងចំហ) បានត្រឹមត្រូវ។</li>
+        <li>កំណត់រូបមន្តគណនាកម្មន្តធ្វើដោយឧស្ម័នក្នុងលំនាំនីមួយៗតាមដ្យាក្រាម (P-V) បានច្បាស់លាស់។</li>
+        <li>ពោលច្បាប់ទី១ទែរម៉ូឌីណាមិច សរសេររូបមន្ត <em>Q = W + &Delta;U</em> និងបញ្ជាក់ក្បួនសញ្ញានៃ <em>Q, W, &Delta;U</em> បានត្រឹមត្រូវឥតខុសឆ្គង។</li>
+        <li>បកស្រាយពីលក្ខណៈនៃលំនាំអាដ្យាបាទិក (<em>Q = 0 &rArr; W = -&Delta;U</em>) និងបំប្លែងបិទ (<em>&Delta;U = 0 &rArr; Q = W</em>) បានយ៉ាងច្បាស់។</li>
+      </ul>
+
+      <p style="margin: 3px 0;">
+        <strong>២. បំណិនសម្បទា (Skills)៖</strong>
+      </p>
+      <ul style="margin: 2px 0 6px 20px; padding: 0;">
+        <li>គូរ និងបកស្រាយដ្យាក្រាម (P-V) សម្រាប់លំនាំអ៊ីសូបា អ៊ីសូករ អ៊ីសូទែម និងអាដ្យាបាទិកបានត្រឹមត្រូវតាមមាត្រដ្ឋាន។</li>
+        <li>អនុវត្តរូបមន្ត <em>W = P&Delta;V</em>, <em>W = nRT ln(V<sub>f</sub> / V<sub>i</sub>)</em>, <em>U = 3/2 nRT</em>, <em>&Delta;U = 3/2 nR&Delta;T</em>, និង <em>Q = W + &Delta;U</em> ក្នុងការដោះស្រាយលំហាត់គំរូ និងលំហាត់ប្រតិបត្តិបានរហ័ស និងត្រឹមត្រូវ។</li>
+        <li>បំណិនធ្វើការងារជាក្រុម ពិភាក្សា និងដោះស្រាយបញ្ហាលំហាត់ជាក់ស្តែងដោយសមហេតុផល។</li>
+      </ul>
+
+      <p style="margin: 3px 0;">
+        <strong>៣. ចរិយាសម្បទា (Attitude / Values)៖</strong>
+      </p>
+      <ul style="margin: 2px 0 6px 20px; padding: 0;">
+        <li>បណ្តុះស្មារតីស្រឡាញ់ និងចូលចិត្តសិក្សាស្រាវជ្រាវមុខវិជ្ជារូបវិទ្យា និងបាតុភូតធម្មជាតិ។</li>
+        <li>មានទម្លាប់ប្រុងប្រយ័ត្ន ហ្មត់ចត់ ច្បាស់លាស់ក្នុងការគណនាលេខ និងការប្រើប្រាស់ខ្នាតអន្តរជាតិ (Joule, Pascal, m<sup>3</sup>, Kelvin)។</li>
+        <li>មានស្មារតីសន្សំសំចៃថាមពល និងយល់ដឹងពីការបំលែងថាមពលកម្ដៅទៅជាកម្មន្តមេកានិចក្នុងជីវភាពរស់នៅ។</li>
+      </ul>
+    </div>
+
+    <!-- II. សម្ភារឧបទេស -->
+    <div class="section-title font-moul">II. សម្ភារឧបទេស និងឯកសារយោង (TEACHING AIDS &amp; REFERENCES)</div>
+    <div style="margin-left: 15px; margin-bottom: 12px; line-height: 1.35;">
+      <table style="width:100%; border-collapse:collapse; border:none;">
+        <tr>
+          <td style="width:50%; vertical-align:top; border:none; padding:2px;">
+            <strong>១. ចំពោះគ្រូ (For Teacher)៖</strong>
+            <ul style="margin: 2px 0 0 18px; padding:0;">
+              <li>សៀវភៅសិក្សាគោលរូបវិទ្យាថ្នាក់ទី១២ (ក្រសួងអប់រំ យុវជន និងកីឡា)</li>
+              <li>ឯកសារជំនួយ "ជំ១_មេ២_ច្បាប់ទី១ទែរម៉ូឌីណាមិច" (លោកគ្រូ គឹម សុមង្គល)</li>
+              <li>ផ្ទាំងគំនូរ / ស្លាយដ្យាក្រាម (P-V) បង្ហាញលំនាំទាំង ៤</li>
+              <li>ម៉ូដែលស៊ីឡាំងពីស្តុងពិសោធន៍ និងឧបករណ៍ Virtual Simulator</li>
+              <li>បន្ទាត់ ហ្វឺត ក្ដារខៀន / កុំព្យូទ័រ Projector</li>
+            </ul>
+          </td>
+          <td style="width:50%; vertical-align:top; border:none; padding:2px;">
+            <strong>២. ចំពោះសិស្ស (For Students)៖</strong>
+            <ul style="margin: 2px 0 0 18px; padding:0;">
+              <li>សៀវភៅសិក្សាគោលរូបវិទ្យាថ្នាក់ទី១២ (បោះពុម្ពដោយក្រសួងអប់រំ)</li>
+              <li>សៀវភៅសរសេរ ប៊ិច បន្ទាត់ ក្រដាសព្រាង</li>
+              <li>ម៉ាស៊ីនគិតលេខវិទ្យាសាស្ត្រ (Scientific Calculator)</li>
+              <li>ក្ដារឈួន ឬក្រដាស A4 សម្រាប់ធ្វើការងារជាក្រុមតូច</li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- III. ដំណើរការបង្រៀន ៥ ជំហាន -->
+    <div class="section-title font-moul">III. ដំណើរការបង្រៀន (TEACHING PROCEDURE - 5 STEPS)</div>
+    
+    <table class="procedure-table">
+      <thead>
+        <tr>
+          <th style="width: 28%;">សកម្មភាពគ្រូ<br>(Teacher Activities)</th>
+          <th style="width: 44%;">ខ្លឹមសារមេរៀន<br>(Lesson Content)</th>
+          <th style="width: 28%;">សកម្មភាពសិស្ស<br>(Student Activities)</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <!-- ជំហានទី ១ -->
+        <tr>
+          <td colspan="3" class="step-header">
+            <strong>ជំហានទី ១៖ រដ្ឋបាលថ្នាក់ (Class Administration) [៣ - ៥ នាទី]</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            - ពិនិត្យអនាម័យ បរិស្ថានក្នុងថ្នាក់ សណ្តាប់ធ្នាប់ និងឯកសណ្ឋានសិស្ស។<br>
+            - ពិនិត្យវត្តមានសិស្ស និងកត់ត្រាក្នុងបញ្ជីស្រង់អវត្តមាន។<br>
+            - ពង្រឹងស្មារតី និងត្រៀមរៀបចំចិត្តសិស្សឱ្យចូលរៀន។
+          </td>
+          <td>
+            - អនាម័យ និងសណ្តាប់ធ្នាប់ទូទៅក្នុងថ្នាក់រៀន<br>
+            - វត្តមានសិស្សប្រចាំថ្ងៃ៖<br>
+            &nbsp;&nbsp;+ ចំនួនសិស្សសរុប៖ ........ នាក់ (ស្រី ........ នាក់)<br>
+            &nbsp;&nbsp;+ វត្តមាន៖ ........ នាក់ (ស្រី ........ នាក់)<br>
+            &nbsp;&nbsp;+ អវត្តមាន៖ ........ នាក់ (មានច្បាប់៖ ...., ឥតច្បាប់៖ ....)
+          </td>
+          <td>
+            - ប្រធានថ្នាក់ឡើងរាយការណ៍ពីអនាម័យ និងចំនួនអវត្តមានសិស្ស។<br>
+            - សិស្សទាំងអស់អង្គុយតាមកន្លែងប្រកបដោយរបៀបរៀបរយ និងលើកសៀវភៅសម្ភារសិក្សាដាក់លើតុ។
+          </td>
+        </tr>
+
+        <!-- ជំហានទី ២ -->
+        <tr>
+          <td colspan="3" class="step-header">
+            <strong>ជំហានទី ២៖ រំលឹកមេរៀនចាស់ និងភ្ជាប់មេរៀនថ្មី (Review &amp; Bridge) [៥ - ៧ នាទី]</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            - គ្រូសួរសំណួររំលឹកមេរៀនទី១ (ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន)៖<br>
+            <em>១. ចូរសរសេរសមីការភាពនៃឧស្ម័នបរិសុទ្ធ?</em><br>
+            <em>២. តើថាមពលស៊ីនេទិចមធ្យមនៃម៉ូលេគុលឧស្ម័នគណនាតាមរូបមន្តណា?</em><br>
+            - គ្រូកែសម្រួលចម្លើយ និងវាយតម្លៃ។<br>
+            - <strong>ភ្ជាប់មេរៀនថ្មី៖</strong> "ប្រសិនបើយើងដុតកម្ដៅឧស្ម័នក្នុងស៊ីឡាំងបិទជិតដោយពីស្តុងចល័ត តើកម្ដៅដែលផ្តល់ឱ្យនោះបម្លែងទៅជាអ្វីខ្លះ? តើពីស្តុងកម្រើកដោយសារអ្វី?" &rArr; គ្រូនាំសិស្សចូលមេរៀនទី២។
+          </td>
+          <td>
+            <strong>១. រំលឹកមេរៀនចាស់៖</strong><br>
+            - សមីការភាពឧស្ម័នបរិសុទ្ធ៖<br>
+            &nbsp;&nbsp;<span class="formula-tag">PV = nRT</span> ឬ <span class="formula-tag">PV = N k<sub>B</sub> T</span><br>
+            - ថាមពលស៊ីនេទិចមធ្យមនៃម៉ូលេគុល៖<br>
+            &nbsp;&nbsp;<span class="formula-tag">K<sub>avg</sub> = 3/2 k<sub>B</sub> T</span><br>
+            <strong>២. ទំនាក់ទំនងមេរៀនថ្មី៖</strong><br>
+            កម្ដៅដែលស្រូបដោយឧស្ម័ន ត្រូវបានបំលែងទៅជាកើនថាមពលក្នុងនៃម៉ូលេគុល និងរុញពីស្តុងឱ្យរំកិល (ធ្វើកម្មន្តមេកានិច)។ នេះជាខ្លឹមសារនៃ <strong>ច្បាប់ទី១ទែរម៉ូឌីណាមិច</strong>។
+          </td>
+          <td>
+            - សិស្សស្តាប់សំណួរ គិតពិចារណា និងលើកដៃឡើងឆ្លើយ៖<br>
+            <em>+ PV = nRT</em><br>
+            <em>+ K<sub>avg</sub> = 3/2 k<sub>B</sub> T</em><br>
+            - សិស្សស្តាប់ការភ្ជាប់មេរៀន ឆ្លើយតបនឹងបាតុភូតជាក់ស្តែង និងកត់ចំណងជើងមេរៀនថ្មីចូលក្នុងសៀវភៅ។
+          </td>
+        </tr>
+
+        <!-- ជំហានទី ៣ -->
+        <tr>
+          <td colspan="3" class="step-header">
+            <strong>ជំហានទី ៣៖ មេរៀនថ្មី (New Lesson Presentation) [៥០ - ៦០ នាទី]</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>១. ប្រព័ន្ធទែរម៉ូឌីណាមិច៖</strong><br>
+            - គ្រូសួរ៖ "តើអ្វីទៅជាប្រព័ន្ធទែរម៉ូឌីណាមិច និងមជ្ឈដ្ឋានក្រៅ?"<br>
+            - គ្រូពន្យល់ពីភាពនៃប្រព័ន្ធ (សម្ពាធ <em>P</em>, មាឌ <em>V</em>, សីតុណ្ហភាព <em>T</em>) និងបំប្លែងបិទ/ចំហ។<br><br>
+            
+            <strong>២. កម្មន្តធ្វើដោយឧស្ម័ន និងដ្យាក្រាម (P-V)៖</strong><br>
+            - គ្រូបង្ហាញរូបភាពពីស្តុងរំកិលបានចម្ងាយ &Delta;x ដោយកម្លាំង <em>F = P&middot;A</em>។<br>
+            - គ្រូនាំសិស្សទាញរក <em>W = P(V<sub>f</sub> - V<sub>i</sub>) = P&Delta;V</em>។<br>
+            - គ្រូពន្យល់ករណីលំនាំទាំង៤៖<br>
+            &nbsp;&bull; អ៊ីសូបា (<em>P</em> ថេរ): <em>W = P&Delta;V</em><br>
+            &nbsp;&bull; អ៊ីសូករ (<em>V</em> ថេរ): <em>&Delta;V = 0 &rArr; W = 0</em><br>
+            &nbsp;&bull; <em>P</em> ប្រែប្រួលស្មើ: <em>W = P<sub>av</sub>&Delta;V</em><br>
+            &nbsp;&bull; អ៊ីសូទែម (<em>T</em> ថេរ): <em>W = nRT ln(V<sub>f</sub>/V<sub>i</sub>)</em><br><br>
+
+            <strong>៣. ច្បាប់ទី១ទែរម៉ូឌីណាមិច៖</strong><br>
+            - គ្រូពន្យល់និយមន័យថាមពលក្នុង <em>U</em> និងបម្រែបម្រួល &Delta;U៖<br>
+            &nbsp;&nbsp;<span class="formula-tag">U = 3/2 nRT</span>, <span class="formula-tag">&Delta;U = 3/2 nR&Delta;T</span><br>
+            - គ្រូពោលច្បាប់ទី១ និងសរសេររូបមន្ត <em>Q = W + &Delta;U</em>។<br>
+            - គ្រូសង្កត់ធ្ងន់លើ <strong>ក្បួនសញ្ញា</strong> ដែលសិស្សតែងច្រឡំ៖<br>
+            &nbsp;&bull; <em>Q &gt; 0</em>: ស្រូបកម្ដៅ, <em>Q &lt; 0</em>: បញ្ចេញកម្ដៅ<br>
+            &nbsp;&bull; <em>W &gt; 0</em>: ធ្វើកម្មន្ត, <em>W &lt; 0</em>: ទទួលកម្មន្ត<br>
+            &nbsp;&bull; <em>&Delta;U &gt; 0</em>: ថាមពលក្នុងកើន, <em>&Delta;U &lt; 0</em>: ថយចុះ<br><br>
+
+            <strong>៤. លំនាំពិសេស និងគោលការណ៍សមមូល៖</strong><br>
+            - គ្រូសួរ៖ "ក្នុងលំនាំអាដ្យាបាទិក តើតម្លៃ <em>Q</em> ស្មើប៉ុន្មាន?" &rArr; <em>W = -&Delta;U</em><br>
+            - ក្នុងបំប្លែងបិទ៖ <em>&Delta;U = 0 &rArr; Q = W</em><br>
+            - គ្រូណែនាំថា <em>(Q - W) = &Delta;U</em> អាស្រ័យតែលើភាពដើម និងភាពស្រេច មិនអាស្រ័យនឹងគន្លងឡើយ។
+          </td>
+          <td>
+            <strong>មេរៀនទី ២៖ ច្បាប់ទី១ទែរម៉ូឌីណាមិច</strong><br><br>
+            <strong>I. ប្រព័ន្ធទែរម៉ូឌីណាមិច៖</strong><br>
+            ១. ប្រព័ន្ធ៖ វត្ថុ ឬសំណុំវត្ថុដែលលើកយកមកសិក្សាធៀបនឹងមជ្ឈដ្ឋានក្រៅ។<br>
+            ២. ភាពនៃប្រព័ន្ធ៖ កំណត់ដោយប៉ារ៉ាម៉ែត្រ <em>(P, V, T)</em>។<br>
+            ៣. បំប្លែងបិទ (ភាពដើម = ភាពស្រេច) និងបំប្លែងចំហ (ភាពដើម &ne; ភាពស្រេច)។<br><br>
+
+            <strong>II. កម្មន្តធ្វើដោយឧស្ម័ន និងដ្យាក្រាម (P-V)៖</strong><br>
+            - និយមន័យកម្មន្ត៖ <span class="formula-tag">W = F&middot;&Delta;x = P&middot;A&middot;&Delta;x = P&Delta;V</span><br>
+            ១. ករណីសម្ពាធថេរ (លំនាំអ៊ីសូបា)៖<br>
+            &nbsp;&nbsp;<span class="formula-tag">W = P(V<sub>f</sub> - V<sub>i</sub>) = P&Delta;V</span> (គិតជា J)<br>
+            ២. ករណីមាឌថេរ (លំនាំអ៊ីសូករ)៖<br>
+            &nbsp;&nbsp;<em>V = ថេរ (&Delta;V = 0)</em> &rArr; <span class="formula-tag">W = 0</span><br>
+            ៣. ករណីសម្ពាធប្រែប្រួលស្មើ៖<br>
+            &nbsp;&nbsp;<span class="formula-tag">W = P<sub>av</sub>&Delta;V = [(P<sub>i</sub> + P<sub>f</sub>)/2]&middot;(V<sub>f</sub> - V<sub>i</sub>)</span><br>
+            ៤. ករណីសីតុណ្ហភាពថេរ (លំនាំអ៊ីសូទែម)៖<br>
+            &nbsp;&nbsp;<span class="formula-tag">W = nRT ln(V<sub>f</sub>/V<sub>i</sub>) = nRT ln(P<sub>i</sub>/P<sub>f</sub>)</span><br><br>
+
+            <strong>III. ច្បាប់ទី១ទែរម៉ូឌីណាមិច៖</strong><br>
+            ១. ថាមពលក្នុងឧស្ម័នបរិសុទ្ធម៉ូណូអាតូម៖<br>
+            &nbsp;&nbsp;<span class="formula-tag">U = 3/2 nRT = 3/2 PV</span><br>
+            &nbsp;&nbsp;<span class="formula-tag">&Delta;U = U<sub>f</sub> - U<sub>i</sub> = 3/2 nR&Delta;T</span><br>
+            ២. ពោលច្បាប់ទី១៖ <em>«ក្នុងលំនាំទែរម៉ូឌីណាមិច កម្ដៅស្រូបដោយប្រព័ន្ធ ស្មើនឹងផលបូករវាងកម្មន្តធ្វើដោយប្រព័ន្ធ និងបម្រែបម្រួលថាមពលក្នុងនៃប្រព័ន្ធ»</em>។<br>
+            &nbsp;&nbsp;<span class="formula-tag">Q = W + &Delta;U</span> (គិតជា J)<br>
+            - ក្បួនសញ្ញា៖<br>
+            &nbsp;&bull; <em>Q &gt; 0</em> (ស្រូប), <em>Q &lt; 0</em> (បញ្ចេញ)<br>
+            &nbsp;&bull; <em>W &gt; 0</em> (ឧស្ម័នធ្វើកម្មន្ត), <em>W &lt; 0</em> (ឧស្ម័នរងកម្មន្ត)<br>
+            &nbsp;&bull; <em>&Delta;U &gt; 0</em> (ថាមពលកើន), <em>&Delta;U &lt; 0</em> (ថាមពលថយ)<br><br>
+
+            <strong>IV. លំនាំពិសេស និងគោលការណ៍សមមូល៖</strong><br>
+            - លំនាំអាដ្យាបាទិក (<em>Q = 0</em>): <span class="formula-tag">W = -&Delta;U</span><br>
+            - បំប្លែងបិទ (<em>&Delta;U = 0</em>): <span class="formula-tag">Q = W</span><br>
+            - គោលការណ៍ភាពដើម និងភាពស្រេច៖<br>
+            &nbsp;&nbsp;<em>&Delta;U = Q - W</em> អាស្រ័យតែនឹងភាពដើម និងស្រេច។
+          </td>
+          <td>
+            - សិស្សស្តាប់ការបកស្រាយ ចូលរួមឆ្លើយសំណួរ និងកត់ត្រានិយមន័យ។<br>
+            - សង្កេតដ្យាក្រាម (P-V) និងចូលរួមទាញរូបមន្ត <em>W = P&Delta;V</em>។<br>
+            - កត់ចំណាំរូបមន្តកម្មន្តទាំង ៤ ករណីចូលក្នុងសៀវភៅ។<br><br>
+            - សិស្សស្ម័គ្រចិត្តម្នាក់ឡើងពោលច្បាប់ទី១ទែរម៉ូឌីណាមិច។<br>
+            - សិស្សកត់ត្រារូបមន្ត <em>Q = W + &Delta;U</em> និងទន្ទេញចាំក្បួនសញ្ញាយ៉ាងច្បាស់លាស់។<br><br>
+            - ពិភាក្សាគ្នាពីលក្ខណៈនៃលំនាំអាដ្យាបាទិក និងបំប្លែងបិទ។
+          </td>
+        </tr>
+
+        <!-- ជំហានទី ៤ -->
+        <tr>
+          <td colspan="3" class="step-header">
+            <strong>ជំហានទី ៤៖ ពង្រឹងពុទ្ធិ / ចំណេះដឹង (Consolidation) [១០ - ១៥ នាទី]</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            - គ្រូដាក់លំហាត់គំរូអនុវត្តន៍ផ្ទាល់លើក្ដារខៀន៖<br>
+            <strong>លំហាត់៖</strong> ប្រព័ន្ធទែរម៉ូឌីណាមិចមួយស្រូបកម្ដៅ <em>Q = 500 cal</em> និងធ្វើកម្មន្ត <em>W = 400 J</em>។ ចូរគណនាបម្រែបម្រួលថាមពលក្នុង <em>&Delta;U</em> នៃប្រព័ន្ធ? (គេឱ្យ <em>1 cal = 4.19 J</em>)។<br>
+            - គ្រូហៅសិស្សម្នាក់ឡើងដោះស្រាយលើក្ដារខៀន និងឱ្យសិស្សដទៃធ្វើលើក្រដាសព្រាង។<br>
+            - គ្រូត្រួតពិនិត្យ ដាក់ពិន្ទុលើកទឹកចិត្ត និងកែតម្រូវរួម។
+          </td>
+          <td>
+            <strong>ដំណោះស្រាយលំហាត់ពង្រឹងពុទ្ធិ៖</strong><br>
+            - គណនាបម្រែបម្រួលថាមពលក្នុង <em>&Delta;U</em>៖<br>
+            តាមច្បាប់ទី១ទែរម៉ូឌីណាមិច៖<br>
+            &nbsp;&nbsp;<em>Q = W + &Delta;U &rArr; &Delta;U = Q - W</em><br>
+            ដោយប្រព័ន្ធស្រូបកម្ដៅ <em>Q &gt; 0</em>៖<br>
+            &nbsp;&nbsp;<em>Q = 500 &times; 4.19 J = 2095 J</em><br>
+            ប្រព័ន្ធធ្វើកម្មន្ត <em>W &gt; 0</em>៖<br>
+            &nbsp;&nbsp;<em>W = 400 J</em><br>
+            គេបាន៖<br>
+            &nbsp;&nbsp;<em>&Delta;U = 2095 - 400 = <strong>1695 J</strong></em><br>
+            ដូចនេះ ថាមពលក្នុងនៃប្រព័ន្ធកើនឡើង <strong>1695 J</strong>។
+          </td>
+          <td>
+            - សិស្សទាំងអស់យកក្រដាសព្រាងគណនាដោយផ្ចិតផ្ចង់។<br>
+            - សិស្សតំណាងឡើងធ្វើលើក្ដារខៀន បង្ហាញជំហានគណនា និងប្តូរខ្នាតត្រឹមត្រូវ។<br>
+            - សិស្សក្នុងថ្នាក់ផ្ទៀងផ្ទាត់ចម្លើយ និងកែកំហុសឆ្គង (បើមាន)។
+          </td>
+        </tr>
+
+        <!-- ជំហានទី ៥ -->
+        <tr>
+          <td colspan="3" class="step-header">
+            <strong>ជំហានទី ៥៖ កិច្ចការផ្ទះ និងបណ្តាំផ្ញើ (Homework &amp; Directives) [៣ - ៥ នាទី]</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            - គ្រូដាក់កិច្ចការផ្ទះចំនួន ២ សំណួរ៖<br>
+            <em>១. ឧស្ម័នមួយទទួលរងបំប្លែងអាដ្យាបាទិកដោយរងកម្មន្ត 640 J ពីក្រៅ។ គណនា &Delta;U នៃឧស្ម័ន?</em><br>
+            <em>២. ធ្វើលំហាត់ប្រតិបត្តិទី១ និងទី២ ទំព័រទី ២១ នៃឯកសារមេរៀន។</em><br>
+            - <strong>បណ្តាំផ្ញើ៖</strong> ដាស់តឿនសិស្សឱ្យមើលមេរៀនឡើងវិញ ហាត់គូរដ្យាក្រាម (P-V) និងអានត្រៀម <strong>មេរៀនទី ៣៖ ម៉ាស៊ីន</strong> សម្រាប់ម៉ោងក្រោយ។
+          </td>
+          <td>
+            <strong>១. កិច្ចការផ្ទះ (Homework)៖</strong><br>
+            - លំហាត់ទី១៖ គណនា <em>&Delta;U</em> ក្នុងលំនាំអាដ្យាបាទិក (<em>W = -640 J &rArr; &Delta;U = 640 J</em>)។<br>
+            - លំហាត់ទី២៖ ប្រតិបត្តិទី១ និងទី២ ទំព័រ ២១។<br><br>
+            <strong>២. បណ្តាំផ្ញើ (Advice)៖</strong><br>
+            - រំលឹកមេរៀន និងរូបមន្តច្បាប់ទី១ទែរម៉ូឌីណាមិច<br>
+            - អានមុននូវមេរៀនទី៣៖ ម៉ាស៊ីន (ទំព័រ ២៧)
+          </td>
+          <td>
+            - សិស្សកត់កិច្ចការផ្ទះចូលក្នុងសៀវភៅដោយយកចិត្តទុកដាក់។<br>
+            - ទទួលយកបណ្តាំផ្ញើរបស់គ្រូ និងត្រៀមរៀបចំសៀវភៅសម្រាប់ម៉ោងបន្ទាប់។
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <!-- IV. ស្វ័យវាយតម្លៃ និងការចុះហត្ថលេខា -->
+    <div class="section-title font-moul">IV. ស្វ័យវាយតម្លៃរបស់គ្រូបង្រៀន (TEACHER'S SELF-EVALUATION)</div>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 10.5pt; border: 1px solid #777;">
+      <tr>
+        <td style="width: 33.33%; border: 1px solid #777; padding: 6px 8px; vertical-align: top;">
+          <strong>១. ចំណុចសម្រេចបាន (Strengths)៖</strong><br>
+          ....................................................................................<br>
+          ....................................................................................
+        </td>
+        <td style="width: 33.33%; border: 1px solid #777; padding: 6px 8px; vertical-align: top;">
+          <strong>២. បញ្ហាប្រឈម (Challenges)៖</strong><br>
+          ....................................................................................<br>
+          ....................................................................................
+        </td>
+        <td style="width: 33.33%; border: 1px solid #777; padding: 6px 8px; vertical-align: top;">
+          <strong>៣. ដំណោះស្រាយកែលម្អ (Action Plan)៖</strong><br>
+          ....................................................................................<br>
+          ....................................................................................
+        </td>
+      </tr>
+    </table>
+
+    <!-- Signatures -->
+    <table class="signature-table">
+      <tr>
+        <td style="width: 50%;">
+          បានឃើញ និងឯកភាព<br>
+          ស្វាយធំ, ថ្ងៃទី......... ខែ......... ឆ្នាំ២០២...<br>
+          <strong>នាយកសាលា</strong><br>
+          <br><br><br><br>
+          ........................................................
+        </td>
+        <td style="width: 50%;">
+          ស្វាយធំ, ថ្ងៃទី......... ខែ......... ឆ្នាំ២០២...<br>
+          <strong>គ្រូបង្រៀន</strong><br>
+          <br><br><br><br>
+          <strong class="font-moul" style="font-size:11.5pt;">គឹម សុមង្គល</strong><br>
+          <span style="font-size:10pt; color:#444;">(ឬ វ៉ែន សុភា)</span>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Document Footer -->
+    <div class="doc-footer">
+      <div>វិទ្យាល័យ ហ៊ុនសែនស្វាយធំ | កិច្ចតែងការបង្រៀនរូបវិទ្យា ថ្នាក់ទី ១២</div>
+      <div>ជំពូកទី ១ &bull; មេរៀនទី ២៖ ច្បាប់ទី១ទែរម៉ូឌីណាមិច</div>
+      <div>គ្រូបង្រៀន៖ <strong>គឹម សុមង្គល</strong></div>
+    </div>
+
+  </div>
+
+</body>
+</html>

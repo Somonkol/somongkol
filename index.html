@@ -1,0 +1,2263 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>លោកគ្រូ គឹម សុមង្គល | អ្នកជំនាញ និងជាគ្រូបង្រៀនរូបវិទ្យា (Kim Somangkol Physics)</title>
+  <meta name="description" content="Portfolio ផ្លូវការរបស់លោកគ្រូ គឹម សុមង្គល គ្រូបង្រៀនរូបវិទ្យាដែលមានបទពិសោធន៍ច្រើនឆ្នាំ បង្រៀនបែបទំនើប ពិសោធន៍ជាក់ស្ដែង និងបំប៉នសិស្សប្រឡងបាក់ឌុប និងអាហារូបករណ៍។">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- KaTeX MathType Renderer CSS & JS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '\\(', right: '\\)', display: false}, {left: '$', right: '$', display: false}]});"></script>
+</head>
+<body data-theme="dark">
+
+  <!-- Interactive Quantum Canvas Background -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="logo">
+        <div class="logo-atom">
+          <svg viewBox="0 0 24 24">
+            <ellipse cx="12" cy="12" rx="9" ry="4" fill="none" stroke="currentColor" stroke-width="2" transform="rotate(30 12 12)"/>
+            <ellipse cx="12" cy="12" rx="9" ry="4" fill="none" stroke="currentColor" stroke-width="2" transform="rotate(150 12 12)"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+        <span>គឹម សុមង្គល <small style="font-size:0.75rem; color:var(--cyan-glow); font-family:var(--font-number);">PHYSICS</small></span>
+      </a>
+
+      <ul class="nav-links">
+        <!-- 1. ដើមទំព័រ -->
+        <li class="nav-item">
+          <a href="#hero" class="nav-link active">ដើមទំព័រ</a>
+        </li>
+
+        <!-- 2. អំពីលោកគ្រូ (Submenu) -->
+        <li class="nav-item has-dropdown">
+          <a href="#about" class="nav-link">
+            <span>អំពីលោកគ្រូ</span>
+            <svg class="dropdown-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#about" class="dropdown-item">
+              <div class="dropdown-icon">💡</div>
+              <div class="dropdown-text">
+                <span class="dropdown-title">វិធីសាស្ត្របង្រៀន</span>
+                <span class="dropdown-desc">Interactive Visual & ចក្ខុវិស័យ</span>
+              </div>
+            </a>
+            <a href="#timeline" class="dropdown-item">
+              <div class="dropdown-icon">🏅</div>
+              <div class="dropdown-text">
+                <span class="dropdown-title">ដំណើរផ្លូវ & បទពិសោធន៍</span>
+                <span class="dropdown-desc">ជាង ១០ ឆ្នាំនៃការបង្រៀន & ពានរង្វាន់</span>
+              </div>
+            </a>
+            <a href="#testimonials" class="dropdown-item">
+              <div class="dropdown-icon">⭐</div>
+              <div class="dropdown-text">
+                <span class="dropdown-title">ស្នាដៃ & ការវាយតម្លៃសិស្ស</span>
+                <span class="dropdown-desc">សិស្សនិទ្ទេស A & អាហារូបករណ៍</span>
+              </div>
+            </a>
+          </div>
+        </li>
+
+        <!-- 3. កម្រិតថ្នាក់ (Submenu) -->
+        <li class="nav-item has-dropdown">
+          <a href="#curriculum" class="nav-link">
+            <span>កម្រិតថ្នាក់</span>
+            <svg class="dropdown-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#curriculum" class="dropdown-item" data-switch-grade="10">
+              <div class="dropdown-icon">🎓</div>
+              <div class="dropdown-text">
+                <span class="dropdown-title">ថ្នាក់ទី ១០</span>
+                <span class="dropdown-desc">មូលដ្ឋានគ្រឹះរូបវិទ្យា & មេកានិចដំបូង</span>
+              </div>
+              <span class="dropdown-badge">គ្រឹះ</span>
+            </a>
+            <a href="#curriculum" class="dropdown-item" data-switch-grade="11">
+              <div class="dropdown-icon">⚛️</div>
+              <div class="dropdown-text">
+                <span class="dropdown-title">ថ្នាក់ទី ១១</span>
+                <span class="dropdown-desc">ចលនាវង់ ធាតុរាវ & ទែរម៉ូឌីណាមិច</span>
+              </div>
+              <span class="dropdown-badge">ស៊ីជម្រៅ</span>
+            </a>
+            <a href="#curriculum" class="dropdown-item" data-switch-grade="12">
+              <div class="dropdown-icon">🏆</div>
+              <div class="dropdown-text">
+                <span class="dropdown-title">ថ្នាក់ទី ១២</span>
+                <span class="dropdown-desc">ត្រៀមប្រឡងបាក់ឌុប & សិស្សពូកែ</span>
+              </div>
+              <span class="dropdown-badge hot">បាក់ឌុប & A</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#curriculum" class="dropdown-item" data-switch-folder="lessons">
+              <div class="dropdown-icon">🗄️</div>
+              <div class="dropdown-text">
+                <span class="dropdown-title">ទូឯកសារឌីជីថល</span>
+                <span class="dropdown-desc">មេរៀន • ស្លាយ • លំហាត់ • វិញ្ញាសា</span>
+              </div>
+            </a>
+            <div class="dropdown-divider"></div>
+
+            <!-- Submenu: កិច្ចតែងការ (Lesson Plans) -->
+            <div class="dropdown-submenu-section">
+              <a href="#curriculum" class="dropdown-item dropdown-item-subparent" data-switch-grade="12" data-switch-folder="lessonplans" title="ចុចដើម្បីទៅកាន់ថតកិច្ចតែងការ">
+                <div class="dropdown-icon" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.35); color: #10b981;">📋</div>
+                <div class="dropdown-text">
+                  <span class="dropdown-title">កិច្ចតែងការ (Lesson Plans)</span>
+                  <span class="dropdown-desc">កិច្ចតែងការបង្រៀនស្តង់ដា ៥ ជំហាន</span>
+                </div>
+                <span class="dropdown-badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.35);">ស្តង់ដា</span>
+              </a>
+              <div class="dropdown-nested-menu">
+                <a href="lessons/lesson_plan_grade12_thermodynamics_law1.html" target="_blank" class="dropdown-nested-item" title="បើកកិច្ចតែងការបង្រៀន ច្បាប់ទី១ទែរម៉ូឌីណាមិច ថ្នាក់ទី១២">
+                  <div class="nested-icon">📄</div>
+                  <div class="nested-info">
+                    <span class="nested-title">ច្បាប់ទី១ទែរម៉ូឌីណាមិច (ថ្នាក់ទី ១២)</span>
+                    <span class="nested-desc">ជំពូកទី ១ • មេរៀនទី ២ • ៩០ នាទី • វិទ្យាល័យ ហ៊ុនសែនស្វាយធំ</span>
+                  </div>
+                  <span class="nested-badge">បើកមើល</span>
+                </a>
+                <a href="#curriculum" class="dropdown-nested-item" data-switch-grade="12" data-switch-folder="lessonplans" title="ចូលទៅថតកិច្ចតែងការក្នុងទូឯកសារ">
+                  <div class="nested-icon">🗄️</div>
+                  <div class="nested-info">
+                    <span class="nested-title">ថតកិច្ចតែងការក្នុងទូឯកសារ</span>
+                    <span class="nested-desc">ចូលមើល និងបោះពុម្ពជា PDF</span>
+                  </div>
+                  <span class="nested-arrow">➔</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- 4. ពិសោធន៍ & គណនា (Submenu) -->
+        <li class="nav-item has-dropdown">
+          <a href="#lab" class="nav-link">
+            <span>ពិសោធន៍ & គណនា</span>
+            <svg class="dropdown-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#lab" class="dropdown-item">
+              <div class="dropdown-icon">🔬</div>
+              <div class="dropdown-text">
+                <span class="dropdown-title">បន្ទប់ពិសោធន៍និម្មិត</span>
+                <span class="dropdown-desc">Virtual Lab: ច្បាប់ឧស្ម័ន រលក ព្រីស</span>
+              </div>
+              <span class="dropdown-badge hot">Interactive</span>
+            </a>
+            <a href="#calculator" class="dropdown-item">
+              <div class="dropdown-icon">🧮</div>
+              <div class="dropdown-text">
+                <span class="dropdown-title">ឧបករណ៍គណនារូបមន្ត</span>
+                <span class="dropdown-desc">MathType Solver: ល្បឿន កម្លាំង ថាមពល</span>
+              </div>
+              <span class="dropdown-badge">Calculator</span>
+            </a>
+          </div>
+        </li>
+
+        <!-- 5. ឯកសារ (Submenu) -->
+        <li class="nav-item has-dropdown">
+          <a href="#resources" class="nav-link">
+            <span>ឯកសារ</span>
+            <svg class="dropdown-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#resources" class="dropdown-item">
+              <div class="dropdown-icon">📄</div>
+              <div class="dropdown-text">
+                <span class="dropdown-title">រូបមន្តសង្ខេបបាក់ឌុប</span>
+                <span class="dropdown-desc">PDF ២១ ទំព័រគ្រប់ជំពូកថ្នាក់ទី១២</span>
+              </div>
+              <span class="dropdown-badge">PDF</span>
+            </a>
+            <a href="#resources" class="dropdown-item">
+              <div class="dropdown-icon">📘</div>
+              <div class="dropdown-text">
+                <span class="dropdown-title">សំណុំវិញ្ញាសា ៥០ សំណុំ</span>
+                <span class="dropdown-desc">វិញ្ញាសាគំរូ និងដំណោះស្រាយលម្អិត</span>
+              </div>
+            </a>
+            <a href="#resources" class="dropdown-item">
+              <div class="dropdown-icon">🔬</div>
+              <div class="dropdown-text">
+                <span class="dropdown-title">សៀវភៅណែនាំការពិសោធន៍</span>
+                <span class="dropdown-desc">ការពិសោធន៍ជាក់ស្ដែង & ច្បាប់ឧស្ម័ន</span>
+              </div>
+            </a>
+            <a href="#resources" class="dropdown-item">
+              <div class="dropdown-icon">💡</div>
+              <div class="dropdown-text">
+                <span class="dropdown-title">គន្លឹះប្រឡងយករង A</span>
+                <span class="dropdown-desc">បច្ចេកទេសដោះស្រាយលឿន & ចំគោលដៅ</span>
+              </div>
+            </a>
+          </div>
+        </li>
+
+        <!-- 6. ទំនាក់ទំនង -->
+        <li class="nav-item">
+          <a href="#contact" class="nav-link">ទំនាក់ទំនង</a>
+        </li>
+      </ul>
+
+      <div class="nav-actions">
+        <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle Theme">
+          <!-- Icon injected by JS -->
+        </button>
+        <a href="#contact" class="btn-primary">ចុះឈ្មោះរៀន</a>
+        <button class="mobile-toggle" aria-label="Open Navigation">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>⚛️ អ្នកជំនាញបង្រៀនរូបវិទ្យាថ្នាក់ទី ១០-១២ & បំប៉នបាក់ឌុប</span>
+      </div>
+      <h1 class="hero-title">
+        លោកគ្រូ <span class="font-moul text-gradient">គឹម សុមង្គល</span>
+      </h1>
+      <p class="hero-subtitle">
+        បកស្រាយពិភពលោកតាមរយៈរូបវិទ្យា ជាមួយនឹងវិធីសាស្ត្របង្រៀនបែបទំនើប យល់ន័យស៊ីជម្រៅ ឆាប់ចាំ ស្ទាត់ជំនាញដោះស្រាយលំហាត់ និងពិសោធន៍ជាក់ស្ដែង។
+      </p>
+
+      <div class="hero-actions">
+        <a href="#lab" class="btn-primary">
+          <span>🔬 ចូលពិសោធន៍ Virtual Lab</span>
+        </a>
+        <a href="#resources" class="btn-outline">
+          <span>📚 ទាញយកមេរៀនសង្ខេប</span>
+        </a>
+      </div>
+
+      <!-- Stat Counters -->
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-number" data-target="10" data-suffix="+">0</div>
+          <div class="stat-label">ឆ្នាំបទពិសោធន៍</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="5000" data-suffix="+">0</div>
+          <div class="stat-label">សិស្សទទួលការបំប៉ន</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="99" data-suffix="%">0</div>
+          <div class="stat-label">អត្រាជាប់បាក់ឌុប</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="150" data-suffix="+">0</div>
+          <div class="stat-label">អាហារូបករណ៍រដ្ឋ</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="profile-orb">
+        <img src="assets/images/teacher_profile.png" alt="លោកគ្រូ គឹម សុមង្គល" class="profile-img">
+      </div>
+      
+      <!-- Floating Physics Badges (MathType Notation) -->
+      <div class="floating-badge badge-top-left">
+        <span class="badge-icon">⚡</span>
+        <div>
+          <div>សមីការរូបវិទ្យា \(E = m \cdot c^2\)</div>
+          <small style="color:var(--text-muted)">កង់វ៉ង់តុំ & អង់ស្តាំង</small>
+        </div>
+      </div>
+
+      <div class="floating-badge badge-bottom-right">
+        <span class="badge-icon">🎯</span>
+        <div>
+          <div>ថ្នាក់បំប៉ននិទ្ទេស A</div>
+          <small style="color:var(--amber-glow)">បាក់ឌុប & ប្រឡងគ្រូ</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-tag">អំពីលោកគ្រូ</span>
+        <h2 class="section-title font-moul">បទពិសោធន៍ និងទស្សនវិស័យបង្រៀន</h2>
+        <p class="section-subtitle">លោកគ្រូ គឹម សុមង្គល មានជំនឿយ៉ាងមុតមាំថា រូបវិទ្យាមិនមែនជាមុខវិជ្ជាទន្ទិញចាំមាត់នោះទេ ប៉ុន្តែជាសិល្បៈនៃការយល់ដឹងពីក្រត្យក្រមធម្មជាតិ។</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="glass-card">
+          <h3 style="font-size:1.5rem; margin-bottom:16px; color:var(--cyan-glow);">វិធីសាស្ត្របង្រៀនបែបទំនើប (Interactive Physics)</h3>
+          <p class="about-text">
+            ក្នុងរយៈពេលជាង ១០ ឆ្នាំនៃការបង្រៀន លោកគ្រូបានអភិវឌ្ឍវិធីសាស្ត្របង្រៀនដែលបំប្លែងទ្រឹស្ដីស្មុគស្មាញ ទៅជារូបភាព Visual Animations និងការពិសោធន៍ជាក់ស្ដែង។ សិស្សមិនត្រឹមតែអាចដោះស្រាយលំហាត់ប្រឡងបាក់ឌុបបានលឿន និងត្រឹមត្រូវប៉ុណ្ណោះទេ ប៉ុន្តែថែមទាំងអភិវឌ្ឍការគិតបែបវិទ្យាសាស្ត្រ និងតក្កវិជ្ជាខ្ពស់។
+          </p>
+        </div>
+
+        <div class="about-features">
+          <div class="feature-box">
+            <div class="feature-icon">💡</div>
+            <h4 style="margin-bottom:8px;">យល់ន័យ Visual 100%</h4>
+            <p style="font-size:0.9rem; color:var(--text-muted);">មើលឃើញចលនា និងបាតុភូតរូបវិទ្យាជាក់ស្ដែង</p>
+          </div>
+
+          <div class="feature-box">
+            <div class="feature-icon">🎯</div>
+            <h4 style="margin-bottom:8px;">គន្លឹះដោះស្រាយលឿន</h4>
+            <p style="font-size:0.9rem; color:var(--text-muted);">បច្ចេកទេសដោះស្រាយលំហាត់បាក់ឌុបចំគោលដៅ</p>
+          </div>
+
+          <div class="feature-box">
+            <div class="feature-icon">🔬</div>
+            <h4 style="margin-bottom:8px;">ពិសោធន៍ក្នុងថ្នាក់</h4>
+            <p style="font-size:0.9rem; color:var(--text-muted);">បំពាក់ឧបករណ៍ពិសោធន៍ទំនើប និងសិប្បនិម្មិត</p>
+          </div>
+
+          <div class="feature-box">
+            <div class="feature-icon">🏆</div>
+            <h4 style="margin-bottom:8px;">បំប៉នសិស្សពូកែ</h4>
+            <p style="font-size:0.9rem; color:var(--text-muted);">ការរៀបចំខ្លួនប្រឡងសិស្សពូកែ និងអាហារូបករណ៍</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Grade Levels & Digital Cabinets Section (កម្រិតថ្នាក់ & ទូឯកសារឌីជីថល) -->
+  <section id="curriculum" class="section" style="background: rgba(0,0,0,0.2);">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-tag">កម្រិតថ្នាក់សិក្សា</span>
+        <h2 class="section-title font-moul">កម្រិតថ្នាក់រូបវិទ្យា និងទូឯកសារឌីជីថល (Grade Levels)</h2>
+        <p class="section-subtitle">បែងចែកជា ៣ កម្រិតថ្នាក់សិក្សា (ថ្នាក់ទី១០, ថ្នាក់ទី១១, និងថ្នាក់ទី១២) ជាមួយនឹងទូឯកសារប្រចាំថ្នាក់នីមួយៗរួមមាន៖ មេរៀន, ស្លាយមេរៀន, លំហាត់ស្រាវជ្រាវតាមមេរៀន និងវិញ្ញាសា</p>
+      </div>
+
+      <!-- Grade Level Selector Tabs (ថ្នាក់ទី១០, ថ្នាក់ទី១១, ថ្នាក់ទី១២) -->
+      <div class="grade-selector-tabs">
+        <button class="grade-tab-btn" data-grade="10">
+          <span class="grade-tab-badge">មូលដ្ឋានគ្រឹះ</span>
+          <span class="grade-tab-icon">🎓</span>
+          <span class="grade-tab-title">ថ្នាក់ទី ១០</span>
+          <span class="grade-tab-desc">គ្រឹះរូបវិទ្យា & មេកានិចដំបូង</span>
+        </button>
+
+        <button class="grade-tab-btn" data-grade="11">
+          <span class="grade-tab-badge">ស៊ីជម្រៅ</span>
+          <span class="grade-tab-icon">⚛️</span>
+          <span class="grade-tab-title">ថ្នាក់ទី ១១</span>
+          <span class="grade-tab-desc">ចលនាវង់ ធាតុរាវ & ឧស្ម័ន</span>
+        </button>
+
+        <button class="grade-tab-btn active" data-grade="12">
+          <span class="grade-tab-badge hot">បាក់ឌុប & A</span>
+          <span class="grade-tab-icon">🏆</span>
+          <span class="grade-tab-title">ថ្នាក់ទី ១២</span>
+          <span class="grade-tab-desc">ត្រៀមបាក់ឌុប & សិស្សពូកែ</span>
+        </button>
+      </div>
+
+      <!-- ==================== CABINET FOR GRADE 10 ==================== -->
+      <div class="grade-cabinet" id="grade-cabinet-10">
+        <div class="cabinet-header">
+          <div class="cabinet-title-box">
+            <div class="cabinet-icon">🗄️</div>
+            <div>
+              <h3 class="cabinet-heading">ទូឯកសាររូបវិទ្យា ថ្នាក់ទី ១០</h3>
+              <p class="cabinet-subtext">កម្មវិធីសិក្សាមូលដ្ឋានគ្រឹះវិទ្យាសាស្ត្រ (ក្រសួងអប់រំ យុវជន និងកីឡា)</p>
+            </div>
+          </div>
+          <div class="cabinet-header-actions">
+            <div class="cabinet-status-tag">
+              <span>✨ ៥ ថតឯកសារសកម្ម</span>
+            </div>
+            <button class="btn-cabinet-upload" data-grade="10">
+              <span class="upload-icon">📤</span>
+              <span>បញ្ចូលឯកសារ (Upload)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Folder Navigation Drawer Tabs -->
+        <div class="folder-nav-tabs">
+          <button class="folder-tab-btn active" data-target="g10-lessons">
+            <span class="folder-tab-icon">📁</span>
+            <span class="folder-tab-text">មេរៀន</span>
+            <span class="folder-tab-count">៤ មេរៀន</span>
+          </button>
+          <button class="folder-tab-btn" data-target="g10-slides">
+            <span class="folder-tab-icon">📂</span>
+            <span class="folder-tab-text">ស្លាយមេរៀន</span>
+            <span class="folder-tab-count">៤ សំណុំស្លាយ</span>
+          </button>
+          <button class="folder-tab-btn" data-target="g10-exercises">
+            <span class="folder-tab-icon">📝</span>
+            <span class="folder-tab-text">លំហាត់ស្រាវជ្រាវតាមមេរៀន</span>
+            <span class="folder-tab-count">៣ កម្រង</span>
+          </button>
+          <button class="folder-tab-btn" data-target="g10-exams">
+            <span class="folder-tab-icon">📑</span>
+            <span class="folder-tab-text">វិញ្ញាសា</span>
+            <span class="folder-tab-count">៣ វិញ្ញាសា</span>
+          </button>
+          <button class="folder-tab-btn" data-target="g10-lessonplans">
+            <span class="folder-tab-icon">📋</span>
+            <span class="folder-tab-text">កិច្ចតែងការ</span>
+            <span class="folder-tab-count">០ កិច្ចតែងការ</span>
+          </button>
+          <button class="folder-tab-upload-btn" data-grade="10" title="បញ្ចូលឯកសារថ្មីទៅក្នុងថតនេះ">
+            <span class="upload-icon">➕</span>
+            <span>Upload ឯកសារ</span>
+          </button>
+        </div>
+
+        <!-- Folder 1: Lessons (ថតមេរៀន) -->
+        <div class="folder-content-panel active" id="g10-lessons">
+          <div class="cabinet-grid">
+            <div class="glass-card cabinet-file-card resource-card" 
+                 data-title="ថ្នាក់ទី ១០ • មេរៀនទី ១៖ រង្វាស់ និងឯកតារូបវន្ត" 
+                 data-desc="សិក្សាពីប្រព័ន្ធឯកតាអន្តរជាតិ SI ឧបករណ៍វាស់វែង ភាពមិនប្រាកដប្រជានៃរង្វាស់ និងការបម្លែងខ្នាត។" 
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf" 
+                 data-filename="រូបវិទ្យា១០_មេរៀនទី១_រង្វាស់និងឯកតា.pdf" 
+                 data-meta="PDF • 3.2 MB • មេរៀនពេញលេញ">
+              <div class="file-card-top">
+                <span class="file-badge">មេរៀនទី ១</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">រង្វាស់ និងឯកតារូបវន្ត (SI Units)</h4>
+              <p class="file-card-desc">សិក្សាពីប្រព័ន្ធឯកតាអន្តរជាតិ SI ឧបករណ៍វាស់វែង ភាពមិនប្រាកដប្រជានៃរង្វាស់ និងការបម្លែងខ្នាត។</p>
+              <div class="formula-box">
+                \(x \text{ (m)}, \quad t \text{ (s)}, \quad m \text{ (kg)}, \quad v = \frac{\Delta x}{\Delta t}\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">ឯកតា SI</li>
+                <li class="chip">វិមាត្ររូបវន្ត</li>
+                <li class="chip">កំហុសរង្វាស់</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📖 អានមេរៀន</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="រូបវិទ្យា១០_មេរៀនទី១.pdf" class="btn-file-download resource-quick-btn" title="ទាញយក PDF"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card" 
+                 data-title="ថ្នាក់ទី ១០ • មេរៀនទី ២៖ ចលនាត្រង់ស្មើ និងប្រែប្រួលស្មើ" 
+                 data-desc="វិភាគចលនាត្រង់ស្មើ ចលនាស្ទុះស្មើ និងយឺតស្មើ សមីការចលនា និងក្រាហ្វចម្ងាយ-ពេលវេលា។" 
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf" 
+                 data-filename="រូបវិទ្យា១០_មេរៀនទី២_ចលនាត្រង់.pdf" 
+                 data-meta="PDF • 4.1 MB • មេរៀនពេញលេញ">
+              <div class="file-card-top">
+                <span class="file-badge">មេរៀនទី ២</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">ចលនាត្រង់ស្មើ និងប្រែប្រួលស្មើ</h4>
+              <p class="file-card-desc">វិភាគចលនាត្រង់ស្មើ ចលនាស្ទុះស្មើ និងយឺតស្មើ សមីការចលនា និងក្រាហ្វចម្ងាយ-ពេលវេលា។</p>
+              <div class="formula-box">
+                \(v = v_0 + at, \quad x = x_0 + v_0 t + \frac{1}{2}at^2, \quad v^2 - v_0^2 = 2a\Delta x\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">ល្បឿនស្មើ</li>
+                <li class="chip">សំទុះ \(a\)</li>
+                <li class="chip">ទម្លាក់សេរី</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📖 អានមេរៀន</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="រូបវិទ្យា១០_មេរៀនទី២.pdf" class="btn-file-download resource-quick-btn" title="ទាញយក PDF"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card" 
+                 data-title="ថ្នាក់ទី ១០ • មេរៀនទី ៣៖ ច្បាប់ទាំងបីរបស់ញូតុន" 
+                 data-desc="សិក្សាច្បាប់និចលភាព ច្បាប់គ្រឹះឌីណាមិច និងច្បាប់អំពើ-ប្រតិកម្ម ព្រមទាំងកម្លាំងកកិតលើផ្ទៃ។" 
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf" 
+                 data-filename="រូបវិទ្យា១០_មេរៀនទី៣_ច្បាប់ញូតុន.pdf" 
+                 data-meta="PDF • 3.8 MB • មេរៀនពេញលេញ">
+              <div class="file-card-top">
+                <span class="file-badge">មេរៀនទី ៣</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">ច្បាប់ទាំងបីរបស់ញូតុន & កម្លាំង</h4>
+              <p class="file-card-desc">សិក្សាច្បាប់និចលភាព ច្បាប់គ្រឹះឌីណាមិច និងច្បាប់អំពើ-ប្រតិកម្ម ព្រមទាំងកម្លាំងកកិតលើផ្ទៃ។</p>
+              <div class="formula-box">
+                \(\Sigma \vec{F} = m\vec{a}, \quad f_k = \mu_k N, \quad \vec{F}_{AB} = -\vec{F}_{BA}\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">និចលភាព</li>
+                <li class="chip">កម្លាំង \(F=ma\)</li>
+                <li class="chip">កម្លាំងកកិត</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📖 អានមេរៀន</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="រូបវិទ្យា១០_មេរៀនទី៣.pdf" class="btn-file-download resource-quick-btn" title="ទាញយក PDF"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card" 
+                 data-title="ថ្នាក់ទី ១០ • មេរៀនទី ៤៖ កម្មន្ត និងថាមពលមេកានិច" 
+                 data-desc="និយមន័យកម្មន្តនៃកម្លាំង ថាមពលស៊ីនេទិច ថាមពលប៉ូតង់ស្យែលទំនាញ និងអនុភាព។" 
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf" 
+                 data-filename="រូបវិទ្យា១០_មេរៀនទី៤_កម្មន្តនិងថាមពល.pdf" 
+                 data-meta="PDF • 3.5 MB • មេរៀនពេញលេញ">
+              <div class="file-card-top">
+                <span class="file-badge">មេរៀនទី ៤</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">កម្មន្ត ថាមពល និងអនុភាព</h4>
+              <p class="file-card-desc">និយមន័យកម្មន្តនៃកម្លាំង ថាមពលស៊ីនេទិច ថាមពលប៉ូតង់ស្យែលទំនាញ និងអនុភាព។</p>
+              <div class="formula-box">
+                \(W = (F\cos\theta)d, \quad E_k = \frac{1}{2}mv^2, \quad P = \frac{W}{t}\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">កម្មន្ត \(W\)</li>
+                <li class="chip">ថាមពលស៊ីនេទិច</li>
+                <li class="chip">អនុភាព \(P\)</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📖 អានមេរៀន</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="រូបវិទ្យា១០_មេរៀនទី៤.pdf" class="btn-file-download resource-quick-btn" title="ទាញយក PDF"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Folder 2: Slides (ថតស្លាយមេរៀន) -->
+        <div class="folder-content-panel" id="g10-slides">
+          <div class="cabinet-grid">
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១០ • ស្លាយបង្រៀនជំពូកទី ១៖ ការវាស់វែង និងកំហុសរង្វាស់"
+                 data-desc="ស្លាយបង្រៀនបែបទំនើប បង្ហាញពីរបៀបប្រើប្រាស់ត្រីវិស័យ ខ្នាតម៉ែត្រ ម៉ែត្រគ្លីស និងកំហុសរង្វាស់ជាក់ស្ដែង។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="ស្លាយបង្រៀន_រូបវិទ្យា១០_ជំពូក១.pdf"
+                 data-meta="PPTX / PDF • ២៤ ស្លាយ • 5.2 MB">
+              <div class="file-card-top">
+                <span class="file-badge">ស្លាយជំពូក ១</span>
+                <span class="file-type-badge pptx">PPTX</span>
+              </div>
+              <h4 class="file-card-title">🖥️ ស្លាយការវាស់វែង និងកំហុសរង្វាស់</h4>
+              <p class="file-card-desc">ស្លាយបង្រៀនបែបទំនើប បង្ហាញពីរបៀបប្រើប្រាស់ត្រីវិស័យ ខ្នាតម៉ែត្រ ម៉ែត្រគ្លីស និងកំហុសរង្វាស់ជាក់ស្ដែង។</p>
+              <div class="slide-meta-info">
+                <span>📊 ២៤ ស្លាយពណ៌ធម្មជាតិ</span>
+                <span>🎨 រូបភាពគំនូសបំព្រួញ 3D</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span class="btn-icon">👁️</span> <span class="btn-text">បើកមើល</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="ស្លាយ_រូបវិទ្យា១០_ជំពូក១.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកស្លាយ"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១០ • ស្លាយបង្រៀនជំពូកទី ២៖ ក្រាហ្វ និងការវិភាគចលនាត្រង់"
+                 data-desc="ស្លាយចលនា Animation នៃក្រាហ្វ x(t), v(t) និង a(t) ជួយឱ្យសិស្សមើលឃើញចលនារថយន្ត និងទម្លាក់សេរីយ៉ាងច្បាស់។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="ស្លាយបង្រៀន_រូបវិទ្យា១០_ជំពូក២.pdf"
+                 data-meta="PPTX / PDF • ៣២ ស្លាយ • 8.1 MB">
+              <div class="file-card-top">
+                <span class="file-badge">ស្លាយជំពូក ២</span>
+                <span class="file-type-badge pptx">PPTX</span>
+              </div>
+              <h4 class="file-card-title">🖥️ ស្លាយក្រាហ្វ និងវិភាគចលនាត្រង់</h4>
+              <p class="file-card-desc">ស្លាយចលនា Animation នៃក្រាហ្វ x(t), v(t) និង a(t) ជួយឱ្យសិស្សមើលឃើញចលនារថយន្ត និងទម្លាក់សេរីយ៉ាងច្បាស់។</p>
+              <div class="slide-meta-info">
+                <span>📊 ៣២ ស្លាយមានចលនា</span>
+                <span>📈 គំនូសក្រាហ្វល្បឿន</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span class="btn-icon">👁️</span> <span class="btn-text">បើកមើល</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="ស្លាយ_រូបវិទ្យា១០_ជំពូក២.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកស្លាយ"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១០ • ស្លាយបង្រៀនជំពូកទី ៣៖ ការអនុវត្តច្បាប់ញូតុនលើប្លង់ទេរ"
+                 data-desc="គំនូរដ្យាក្រាមកម្លាំងសេរី (Free Body Diagram) បំបែកកម្លាំងទម្ងន់លើអ័ក្សកូអរដោណេ និងកម្លាំងកកិត។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="ស្លាយបង្រៀន_រូបវិទ្យា១០_ជំពូក៣.pdf"
+                 data-meta="PPTX / PDF • ៣៦ ស្លាយ • 7.4 MB">
+              <div class="file-card-top">
+                <span class="file-badge">ស្លាយជំពូក ៣</span>
+                <span class="file-type-badge pptx">PPTX</span>
+              </div>
+              <h4 class="file-card-title">🖥️ ស្លាយច្បាប់ញូតុន & ប្លង់ទេរ</h4>
+              <p class="file-card-desc">គំនូរដ្យាក្រាមកម្លាំងសេរី (Free Body Diagram) បំបែកកម្លាំងទម្ងន់លើអ័ក្សកូអរដោណេ និងកម្លាំងកកិត។</p>
+              <div class="slide-meta-info">
+                <span>📊 ៣៦ ស្លាយលម្អិត</span>
+                <span>📐 ដ្យាក្រាមកម្លាំង FBD</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span class="btn-icon">👁️</span> <span class="btn-text">បើកមើល</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="ស្លាយ_រូបវិទ្យា១០_ជំពូក៣.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកស្លាយ"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១០ • ស្លាយបង្រៀនជំពូកទី ៤៖ កម្មន្ត និងទ្រឹស្ដីបទថាមពល"
+                 data-desc="បង្ហាញពីការរក្សាថាមពលមេកានិចក្នុងជីវិតជាក់ស្ដែង ឧទាហរណ៍ Roller Coaster និងលោតផ្លោះ។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="ស្លាយបង្រៀន_រូបវិទ្យា១០_ជំពូក៤.pdf"
+                 data-meta="PPTX / PDF • ២៨ ស្លាយ • 6.0 MB">
+              <div class="file-card-top">
+                <span class="file-badge">ស្លាយជំពូក ៤</span>
+                <span class="file-type-badge pptx">PPTX</span>
+              </div>
+              <h4 class="file-card-title">🖥️ ស្លាយកម្មន្ត និងទ្រឹស្ដីបទថាមពល</h4>
+              <p class="file-card-desc">បង្ហាញពីការរក្សាថាមពលមេកានិចក្នុងជីវិតជាក់ស្ដែង ឧទាហរណ៍ Roller Coaster និងលោតផ្លោះ។</p>
+              <div class="slide-meta-info">
+                <span>📊 ២៨ ស្លាយអន្តរកម្ម</span>
+                <span>⚡ ឧទាហរណ៍ជាក់ស្ដែង</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span class="btn-icon">👁️</span> <span class="btn-text">បើកមើល</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="ស្លាយ_រូបវិទ្យា១០_ជំពូក៤.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកស្លាយ"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Folder 3: Exercises (ថតលំហាត់ស្រាវជ្រាវតាមមេរៀន) -->
+        <div class="folder-content-panel" id="g10-exercises">
+          <div class="cabinet-grid">
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១០ • កម្រងស្រាវជ្រាវទី ១៖ ចលនាទម្លាក់សេរី និងភាពធន់ខ្យល់"
+                 data-desc="លំហាត់ពិសោធន៍ស្វែងយល់ពីឥទ្ធិពលនៃទំនាញផែនដី ភាពខុសគ្នារវាងការធ្លាក់ក្នុងសុញ្ញាកាស និងខ្យល់ធម្មតា។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១០_សំណុំ១.pdf"
+                 data-meta="PDF • ១៥ ទំព័រ • មានដំណោះស្រាយគំរូ">
+              <div class="file-card-top">
+                <span class="file-badge">លំហាត់ស្រាវជ្រាវ ១</span>
+                <span class="file-type-badge solved">មានចម្លើយ</span>
+              </div>
+              <h4 class="file-card-title">🔬 ស្រាវជ្រាវចលនាទម្លាក់សេរី</h4>
+              <p class="file-card-desc">លំហាត់ពិសោធន៍ស្វែងយល់ពីឥទ្ធិពលនៃទំនាញផែនដី ភាពខុសគ្នារវាងការធ្លាក់ក្នុងសុញ្ញាកាស និងខ្យល់ធម្មតា។</p>
+              <div class="formula-box">
+                \(v = gt, \quad h = \frac{1}{2}gt^2, \quad v = \sqrt{2gh}\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">១២ លំហាត់គន្លឹះ</li>
+                <li class="chip">គំនូសក្រាហ្វ</li>
+                <li class="chip">ដំណោះស្រាយលម្អិត</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>🔍 អានលំហាត់</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១០_សំណុំ១.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកកម្រងលំហាត់"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១០ • កម្រងស្រាវជ្រាវទី ២៖ ការវិភាគកម្លាំងលើប្លង់ទេរ"
+                 data-desc="កម្រងលំហាត់ស្រាវជ្រាវស៊ីជម្រៅពីកម្លាំងកកិតរវាងកង់រថយន្ត និងផ្លូវកោង ព្រមទាំងការទាញរ៉ក។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១០_សំណុំ២.pdf"
+                 data-meta="PDF • ១៨ ទំព័រ • កម្រិតមធ្យម-ខ្ពស់">
+              <div class="file-card-top">
+                <span class="file-badge">លំហាត់ស្រាវជ្រាវ ២</span>
+                <span class="file-type-badge solved">មានចម្លើយ</span>
+              </div>
+              <h4 class="file-card-title">🔬 វិភាគកម្លាំងប្លង់ទេរ និងកកិត</h4>
+              <p class="file-card-desc">កម្រងលំហាត់ស្រាវជ្រាវស៊ីជម្រៅពីកម្លាំងកកិតរវាងកង់រថយន្ត និងផ្លូវកោង ព្រមទាំងការទាញរ៉ក។</p>
+              <div class="formula-box">
+                \(a = g(\sin\alpha - \mu\cos\alpha), \quad f_s \le \mu_s N\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">១៥ លំហាត់អនុវត្ត</li>
+                <li class="chip">ប្លង់ទេរ & រ៉ក</li>
+                <li class="chip">វិធីសាស្ត្រគន្លឹះ</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>🔍 អានលំហាត់</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១០_សំណុំ២.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកកម្រងលំហាត់"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១០ • កម្រងស្រាវជ្រាវទី ៣៖ ការបម្លែងថាមពលមេកានិចជាក់ស្ដែង"
+                 data-desc="សិក្សាពីការបម្លែងរវាងថាមពលស៊ីនេទិច និងថាមពលប៉ូតង់ស្យែល ការខាតបង់ថាមពលដោយកកិត។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១០_សំណុំ៣.pdf"
+                 data-meta="PDF • ១៤ ទំព័រ • មានគន្លឹះយល់ដឹង">
+              <div class="file-card-top">
+                <span class="file-badge">លំហាត់ស្រាវជ្រាវ ៣</span>
+                <span class="file-type-badge solved">មានចម្លើយ</span>
+              </div>
+              <h4 class="file-card-title">🔬 ការបម្លែងថាមពលមេកានិច</h4>
+              <p class="file-card-desc">សិក្សាពីការបម្លែងរវាងថាមពលស៊ីនេទិច និងថាមពលប៉ូតង់ស្យែល ការខាតបង់ថាមពលដោយកកិត។</p>
+              <div class="formula-box">
+                \(E_{m1} = E_{m2} + |W_{f}|, \quad W_{net} = \Delta E_k\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">១០ លំហាត់ស្មុគស្មាញ</li>
+                <li class="chip">អភិរក្សថាមពល</li>
+                <li class="chip">កម្តៅខាតបង់</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>🔍 អានលំហាត់</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១០_សំណុំ៣.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកកម្រងលំហាត់"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Folder 4: Exams (ថតវិញ្ញាសា) -->
+        <div class="folder-content-panel" id="g10-exams">
+          <div class="cabinet-grid">
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១០ • វិញ្ញាសាប្រឡងប្រចាំខែវិច្ឆិកា (មេកានិច)"
+                 data-desc="វិញ្ញាសាប្រឡងវាស់កម្រិតយល់ដឹង រយៈពេល ៦០ នាទី គ្របដណ្តប់ចលនាត្រង់ និងច្បាប់ញូតុន។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="វិញ្ញាសាប្រចាំខែ_រូបវិទ្យា១០.pdf"
+                 data-meta="PDF • រយៈពេល ៦០ នាទី • មានអត្រាកំណែ">
+              <div class="file-card-top">
+                <span class="file-badge exam">ប្រចាំខែ</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">📑 វិញ្ញាសាប្រឡងប្រចាំខែ (មេកានិច)</h4>
+              <p class="file-card-desc">វិញ្ញាសាប្រឡងវាស់កម្រិតយល់ដឹង រយៈពេល ៦០ នាទី គ្របដណ្តប់ចលនាត្រង់ និងច្បាប់ញូតុន។</p>
+              <div class="exam-meta-strip">
+                <span>⏱️ រយៈពេល៖ ៦០ នាទី</span>
+                <span>💯 ពិន្ទុពេញ៖ ៥០</span>
+                <span>✅ មានអត្រាកំណែ ១០០%</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📋 មើលវិញ្ញាសា</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="វិញ្ញាសាប្រចាំខែ_រូបវិទ្យា១០.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកវិញ្ញាសា"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១០ • វិញ្ញាសាប្រឡងឆមាសទី ១ (ស្តង់ដារជាតិ)"
+                 data-desc="វិញ្ញាសាផ្លូវការប្រឡងឆមាសទី ១ រូបវិទ្យាថ្នាក់ទី១០ ស្របតាមទម្រង់ក្រសួងអប់រំ យុវជន និងកីឡា។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="វិញ្ញាសាឆមាសទី១_រូបវិទ្យា១០.pdf"
+                 data-meta="PDF • រយៈពេល ៩០ នាទី • មានអត្រាកំណែ">
+              <div class="file-card-top">
+                <span class="file-badge exam">ឆមាសទី ១</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">📑 វិញ្ញាសាប្រឡងឆមាសទី ១ (ស្តង់ដារជាតិ)</h4>
+              <p class="file-card-desc">វិញ្ញាសាផ្លូវការប្រឡងឆមាសទី ១ រូបវិទ្យាថ្នាក់ទី១០ ស្របតាមទម្រង់ក្រសួងអប់រំ យុវជន និងកីឡា។</p>
+              <div class="exam-meta-strip">
+                <span>⏱️ រយៈពេល៖ ៩០ នាទី</span>
+                <span>💯 ពិន្ទុពេញ៖ ៧៥</span>
+                <span>✅ មានដំណោះស្រាយគំរូ</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📋 មើលវិញ្ញាសា</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="វិញ្ញាសាឆមាសទី១_រូបវិទ្យា១០.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកវិញ្ញាសា"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១០ • វិញ្ញាសាតេស្តសមត្ថភាពឡើងថ្នាក់ទី ១១"
+                 data-desc="វិញ្ញាសាសរុបចំណេះដឹងរូបវិទ្យាថ្នាក់ទី១០ ពេញមួយឆ្នាំ ដើម្បីត្រៀមខ្លួនឡើងរៀនថ្នាក់ទី១១ យ៉ាងរឹងមាំ។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="វិញ្ញាសាតេស្តឡើងថ្នាក់ទី១១.pdf"
+                 data-meta="PDF • រយៈពេល ៩០ នាទី • សំណុំគន្លឹះ">
+              <div class="file-card-top">
+                <span class="file-badge exam">បញ្ចប់ឆ្នាំ</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">📑 វិញ្ញាសាតេស្តសមត្ថភាពឡើងថ្នាក់ទី ១១</h4>
+              <p class="file-card-desc">វិញ្ញាសាសរុបចំណេះដឹងរូបវិទ្យាថ្នាក់ទី១០ ពេញមួយឆ្នាំ ដើម្បីត្រៀមខ្លួនឡើងរៀនថ្នាក់ទី១១ យ៉ាងរឹងមាំ។</p>
+              <div class="exam-meta-strip">
+                <span>⏱️ រយៈពេល៖ ៩០ នាទី</span>
+                <span>💯 ពិន្ទុពេញ៖ ៧៥</span>
+                <span>✅ ចំណាត់ថ្នាក់សមត្ថភាព</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📋 មើលវិញ្ញាសា</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="វិញ្ញាសាតេស្តឡើងថ្នាក់ទី១១.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកវិញ្ញាសា"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Folder 5: Lesson Plans (ថតកិច្ចតែងការបង្រៀន) -->
+        <div class="folder-content-panel" id="g10-lessonplans">
+          <div class="cabinet-grid">
+            <div class="cabinet-empty-state" id="g10-lessonplans-empty" style="display: flex;">
+              <div class="empty-icon">📋</div>
+              <h4 class="empty-title">មិនទាន់មានកិច្ចតែងការបង្រៀនថ្នាក់ទី ១០ នៅឡើយទេ</h4>
+              <p class="empty-subtext">ថតនេះទុកសម្រាប់កិច្ចតែងការបង្រៀនស្តង់ដា ៥ ជំហានថ្នាក់ទី ១០។ លោកគ្រូអាចបង្កើត ឬ Upload ឯកសារថ្មីបាន។</p>
+              <button class="btn-cabinet-upload empty-upload-btn" data-grade="10" type="button">
+                <span class="upload-icon">📤</span>
+                <span>បញ្ចូលកិច្ចតែងការថ្មី (Upload)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== CABINET FOR GRADE 11 ==================== -->
+      <div class="grade-cabinet" id="grade-cabinet-11" style="display:none;">
+        <div class="cabinet-header">
+          <div class="cabinet-title-box">
+            <div class="cabinet-icon">🗄️</div>
+            <div>
+              <h3 class="cabinet-heading">ទូឯកសាររូបវិទ្យា ថ្នាក់ទី ១១</h3>
+              <p class="cabinet-subtext">កម្មវិធីសិក្សាស៊ីជម្រៅ៖ ចលនាវង់ លំនឹង ធាតុរាវ & ទែម៉ូឌីណាមិច</p>
+            </div>
+          </div>
+          <div class="cabinet-header-actions">
+            <div class="cabinet-status-tag">
+              <span>✨ ៥ ថតឯកសារសកម្ម</span>
+            </div>
+            <button class="btn-cabinet-upload" data-grade="11">
+              <span class="upload-icon">📤</span>
+              <span>បញ្ចូលឯកសារ (Upload)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Folder Navigation Drawer Tabs -->
+        <div class="folder-nav-tabs">
+          <button class="folder-tab-btn active" data-target="g11-lessons">
+            <span class="folder-tab-icon">📁</span>
+            <span class="folder-tab-text">មេរៀន</span>
+            <span class="folder-tab-count">៤ មេរៀន</span>
+          </button>
+          <button class="folder-tab-btn" data-target="g11-slides">
+            <span class="folder-tab-icon">📂</span>
+            <span class="folder-tab-text">ស្លាយមេរៀន</span>
+            <span class="folder-tab-count">៤ សំណុំស្លាយ</span>
+          </button>
+          <button class="folder-tab-btn" data-target="g11-exercises">
+            <span class="folder-tab-icon">📝</span>
+            <span class="folder-tab-text">លំហាត់ស្រាវជ្រាវតាមមេរៀន</span>
+            <span class="folder-tab-count">៣ កម្រង</span>
+          </button>
+          <button class="folder-tab-btn" data-target="g11-exams">
+            <span class="folder-tab-icon">📑</span>
+            <span class="folder-tab-text">វិញ្ញាសា</span>
+            <span class="folder-tab-count">៣ វិញ្ញាសា</span>
+          </button>
+          <button class="folder-tab-btn" data-target="g11-lessonplans">
+            <span class="folder-tab-icon">📋</span>
+            <span class="folder-tab-text">កិច្ចតែងការ</span>
+            <span class="folder-tab-count">០ កិច្ចតែងការ</span>
+          </button>
+          <button class="folder-tab-upload-btn" data-grade="11" title="បញ្ចូលឯកសារថ្មីទៅក្នុងថតនេះ">
+            <span class="upload-icon">➕</span>
+            <span>Upload ឯកសារ</span>
+          </button>
+        </div>
+
+        <!-- Folder 1: Lessons (ថតមេរៀន) -->
+        <div class="folder-content-panel active" id="g11-lessons">
+          <div class="cabinet-grid">
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១១ • មេរៀនទី ១៖ ចលនាវង់ស្មើ និងកម្លាំងចូលផ្ចិត"
+                 data-desc="សិក្សាពីល្បឿនមុំ ល្បឿនប៉ះ សំទុះចូលផ្ចិត និងកម្លាំងចូលផ្ចិតក្នុងចលនាវង់។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="រូបវិទ្យា១១_មេរៀនទី១_ចលនាវង់.pdf"
+                 data-meta="PDF • 4.5 MB • មេរៀនពេញលេញ">
+              <div class="file-card-top">
+                <span class="file-badge">មេរៀនទី ១</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">ចលនាវង់ស្មើ និងកម្លាំងចូលផ្ចិត</h4>
+              <p class="file-card-desc">សិក្សាពីល្បឿនមុំ ល្បឿនប៉ះ សំទុះចូលផ្ចិត និងកម្លាំងចូលផ្ចិតក្នុងចលនាវង់។</p>
+              <div class="formula-box">
+                \(\omega = \frac{\Delta\theta}{\Delta t}, \quad a_c = \frac{v^2}{r} = r\omega^2, \quad F_c = m\frac{v^2}{r}\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">ល្បឿនមុំ \(\omega\)</li>
+                <li class="chip">សំទុះចូលផ្ចិត \(a_c\)</li>
+                <li class="chip">កម្លាំងចូលផ្ចិត</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📖 អានមេរៀន</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="រូបវិទ្យា១១_មេរៀនទី១.pdf" class="btn-file-download resource-quick-btn" title="ទាញយក PDF"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១១ • មេរៀនទី ២៖ ម៉ូម៉ង់នៃកម្លាំង និងលក្ខខណ្ឌលំនឹង"
+                 data-desc="លក្ខខណ្ឌលំនឹងប្តូរទី និងលំនឹងរង្វិល ម៉ូម៉ង់នៃកម្លាំង គូកម្លាំង និងលំនឹងអង្គធាតុរឹង។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="រូបវិទ្យា១១_មេរៀនទី២_ម៉ូម៉ង់លំនឹង.pdf"
+                 data-meta="PDF • 3.9 MB • មេរៀនពេញលេញ">
+              <div class="file-card-top">
+                <span class="file-badge">មេរៀនទី ២</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">ម៉ូម៉ង់នៃកម្លាំង និងលក្ខខណ្ឌលំនឹង</h4>
+              <p class="file-card-desc">លក្ខខណ្ឌលំនឹងប្តូរទី និងលំនឹងរង្វិល ម៉ូម៉ង់នៃកម្លាំង គូកម្លាំង និងលំនឹងអង្គធាតុរឹង។</p>
+              <div class="formula-box">
+                \(\tau = F \cdot d, \quad \Sigma \vec{F} = 0, \quad \Sigma \tau = 0\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">ម៉ូម៉ង់ \(\tau\)</li>
+                <li class="chip">ដៃឃ្នាស់ \(d\)</li>
+                <li class="chip">លំនឹងអង្គធាតុរឹង</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📖 អានមេរៀន</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="រូបវិទ្យា១១_មេរៀនទី២.pdf" class="btn-file-download resource-quick-btn" title="ទាញយក PDF"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១១ • មេរៀនទី ៣៖ មេកានិចនៃធាតុរាវ និងសម្ពាធ"
+                 data-desc="សម្ពាធក្នុងអង្គធាតុរាវ ច្បាប់ប៉ាស្កាល់ និងកម្លាំងអណ្តែតអាកស៊ីម៉ែត។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="រូបវិទ្យា១១_មេរៀនទី៣_ធាតុរាវ.pdf"
+                 data-meta="PDF • 4.2 MB • មេរៀនពេញលេញ">
+              <div class="file-card-top">
+                <span class="file-badge">មេរៀនទី ៣</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">មេកានិចធាតុរាវ និងសម្ពាធ</h4>
+              <p class="file-card-desc">សម្ពាធក្នុងអង្គធាតុរាវ ច្បាប់ប៉ាស្កាល់ និងកម្លាំងអណ្តែតអាកស៊ីម៉ែត។</p>
+              <div class="formula-box">
+                \(P = P_0 + \rho gh, \quad F_A = \rho_{liq} \cdot V \cdot g, \quad \frac{F_1}{A_1} = \frac{F_2}{A_2}\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">សម្ពាធ \(P\)</li>
+                <li class="chip">ច្បាប់ប៉ាស្កាល់</li>
+                <li class="chip">កម្លាំងអាកស៊ីម៉ែត</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📖 អានមេរៀន</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="រូបវិទ្យា១១_មេរៀនទី៣.pdf" class="btn-file-download resource-quick-btn" title="ទាញយក PDF"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១១ • មេរៀនទី ៤៖ ច្បាប់ឧស្ម័នបរិសុទ្ធ & ទែម៉ូឌីណាមិច"
+                 data-desc="ច្បាប់ប៊យ ច្បាប់សាល ច្បាប់កេលុយសាក់ សមីការឧស្ម័នបរិសុទ្ធ និងច្បាប់ទី១ ទែម៉ូឌីណាមិច។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="រូបវិទ្យា១១_មេរៀនទី៤_ឧស្ម័ន.pdf"
+                 data-meta="PDF • 5.0 MB • មេរៀនពេញលេញ">
+              <div class="file-card-top">
+                <span class="file-badge">មេរៀនទី ៤</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">ច្បាប់ឧស្ម័នបរិសុទ្ធ & ទែម៉ូឌីណាមិច</h4>
+              <p class="file-card-desc">ច្បាប់ប៊យ ច្បាប់សាល ច្បាប់កេលុយសាក់ សមីការឧស្ម័នបរិសុទ្ធ និងច្បាប់ទី១ ទែម៉ូឌីណាមិច។</p>
+              <div class="formula-box">
+                \(P_1 V_1 = P_2 V_2, \quad \frac{V_1}{T_1} = \frac{V_2}{T_2}, \quad PV = nRT, \quad \Delta U = Q + W\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">ច្បាប់ប៊យ-សាល</li>
+                <li class="chip">ឧស្ម័ន \(PV=nRT\)</li>
+                <li class="chip">ថាមពលក្នុង \(\Delta U\)</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📖 អានមេរៀន</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="រូបវិទ្យា១១_មេរៀនទី៤.pdf" class="btn-file-download resource-quick-btn" title="ទាញយក PDF"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Folder 2: Slides (ថតស្លាយមេរៀន) -->
+        <div class="folder-content-panel" id="g11-slides">
+          <div class="cabinet-grid">
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១១ • ស្លាយបង្រៀនជំពូកទី ១៖ ចលនាវង់ និងកម្លាំងទាក់ទាញសកល"
+                 data-desc="ស្លាយបង្ហាញចលនាផ្កាយរណបវិលជុំវិញផែនដី ចលនាកង់ និងការគណនាកម្លាំងចូលផ្ចិត។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="ស្លាយ_រូបវិទ្យា១១_ជំពូក១.pdf"
+                 data-meta="PPTX / PDF • ៣០ ស្លាយ • 6.8 MB">
+              <div class="file-card-top">
+                <span class="file-badge">ស្លាយជំពូក ១</span>
+                <span class="file-type-badge pptx">PPTX</span>
+              </div>
+              <h4 class="file-card-title">🖥️ ស្លាយចលនាវង់ & កម្លាំងចូលផ្ចិត</h4>
+              <p class="file-card-desc">ស្លាយបង្ហាញចលនាផ្កាយរណបវិលជុំវិញផែនដី ចលនាកង់ និងការគណនាកម្លាំងចូលផ្ចិត។</p>
+              <div class="slide-meta-info">
+                <span>📊 ៣០ ស្លាយគំនូរ 3D</span>
+                <span>🛰️ ចលនារណបវិទ្យាសាស្ត្រ</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span class="btn-icon">👁️</span> <span class="btn-text">បើកមើល</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="ស្លាយ_រូបវិទ្យា១១_ជំពូក១.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកស្លាយ"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១១ • ស្លាយបង្រៀនជំពូកទី ២៖ វិភាគលំនឹងរបារ ស្ទូច និងរ៉ក"
+                 data-desc="បង្ហាញពីរបៀបដោះស្រាយលំហាត់លំនឹងវិស្វកម្ម របារភ្ជាប់ជញ្ជាំង ខ្សែកាប និងស្ទូចសំណង់។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="ស្លាយ_រូបវិទ្យា១១_ជំពូក២.pdf"
+                 data-meta="PPTX / PDF • ៣៤ ស្លាយ • 8.5 MB">
+              <div class="file-card-top">
+                <span class="file-badge">ស្លាយជំពូក ២</span>
+                <span class="file-type-badge pptx">PPTX</span>
+              </div>
+              <h4 class="file-card-title">🖥️ ស្លាយវិភាគលំនឹងរបារ & ម៉ូម៉ង់</h4>
+              <p class="file-card-desc">បង្ហាញពីរបៀបដោះស្រាយលំហាត់លំនឹងវិស្វកម្ម របារភ្ជាប់ជញ្ជាំង ខ្សែកាប និងស្ទូចសំណង់។</p>
+              <div class="slide-meta-info">
+                <span>📊 ៣៤ ស្លាយលម្អិត</span>
+                <span>🏗️ វិស្វកម្មសំណង់ និងស្ទូច</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span class="btn-icon">👁️</span> <span class="btn-text">បើកមើល</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="ស្លាយ_រូបវិទ្យា១១_ជំពូក២.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកស្លាយ"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១១ • ស្លាយបង្រៀនជំពូកទី ៣៖ សម្ពាធក្នុងអង្គធាតុរាវ និងច្បាប់ប៉ាស្កាល់"
+                 data-desc="គំនូរជីវចលពិសោធន៍កម្លាំងអាកស៊ីម៉ែត និងប្រព័ន្ធធារាសាស្ត្រលើកឡានហ្គារ៉ាស។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="ស្លាយ_រូបវិទ្យា១១_ជំពូក៣.pdf"
+                 data-meta="PPTX / PDF • ៣៨ ស្លាយ • 9.1 MB">
+              <div class="file-card-top">
+                <span class="file-badge">ស្លាយជំពូក ៣</span>
+                <span class="file-type-badge pptx">PPTX</span>
+              </div>
+              <h4 class="file-card-title">🖥️ ស្លាយសម្ពាធធាតុរាវ & ប៉ាស្កាល់</h4>
+              <p class="file-card-desc">គំនូរជីវចលពិសោធន៍កម្លាំងអាកស៊ីម៉ែត និងប្រព័ន្ធធារាសាស្ត្រលើកឡានហ្គារ៉ាស។</p>
+              <div class="slide-meta-info">
+                <span>📊 ៣៨ ស្លាយអន្តរកម្ម</span>
+                <span>🚗 ប្រព័ន្ធហាយដ្រូលិក</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span class="btn-icon">👁️</span> <span class="btn-text">បើកមើល</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="ស្លាយ_រូបវិទ្យា១១_ជំពូក៣.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកស្លាយ"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១១ • ស្លាយបង្រៀនជំពូកទី ៤៖ ច្បាប់ប៊យ-សាល និងទែម៉ូឌីណាមិច"
+                 data-desc="ម៉ូដែលភាគល្អិតឧស្ម័នបំលាស់ទី ទំនាក់ទំនងសម្ពាធ-មាឌ-សីតុណ្ហភាព និងវដ្តកាណូ។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="ស្លាយ_រូបវិទ្យា១១_ជំពូក៤.pdf"
+                 data-meta="PPTX / PDF • ៤២ ស្លាយ • 11.2 MB">
+              <div class="file-card-top">
+                <span class="file-badge">ស្លាយជំពូក ៤</span>
+                <span class="file-type-badge pptx">PPTX</span>
+              </div>
+              <h4 class="file-card-title">🖥️ ស្លាយឧស្ម័នបរិសុទ្ធ & ទែម៉ូឌីណាមិច</h4>
+              <p class="file-card-desc">ម៉ូដែលភាគល្អិតឧស្ម័នបំលាស់ទី ទំនាក់ទំនងសម្ពាធ-មាឌ-សីតុណ្ហភាព និងវដ្តកាណូ។</p>
+              <div class="slide-meta-info">
+                <span>📊 ៤២ ស្លាយមានចលនា</span>
+                <span>🔥 វដ្តកាណូ & ម៉ាស៊ីនកម្តៅ</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span class="btn-icon">👁️</span> <span class="btn-text">បើកមើល</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="ស្លាយ_រូបវិទ្យា១១_ជំពូក៤.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកស្លាយ"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Folder 3: Exercises (ថតលំហាត់ស្រាវជ្រាវតាមមេរៀន) -->
+        <div class="folder-content-panel" id="g11-exercises">
+          <div class="cabinet-grid">
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១១ • កម្រងស្រាវជ្រាវទី ១៖ គន្លងរណបសិប្បនិម្មិតជុំវិញផែនដី"
+                 data-desc="គណនាល្បឿនរណបភូមិសាស្ត្រ ខួបនៃរណប និងកម្ពស់គន្លងដោយប្រើច្បាប់ញូតុន និងទំនាញសកល។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១១_សំណុំ១.pdf"
+                 data-meta="PDF • ១៦ ទំព័រ • កម្រិតសិស្សពូកែ">
+              <div class="file-card-top">
+                <span class="file-badge">លំហាត់ស្រាវជ្រាវ ១</span>
+                <span class="file-type-badge solved">មានចម្លើយ</span>
+              </div>
+              <h4 class="file-card-title">🔬 ស្រាវជ្រាវគន្លងរណប & ទំនាញ</h4>
+              <p class="file-card-desc">គណនាល្បឿនរណបភូមិសាស្ត្រ ខួបនៃរណប និងកម្ពស់គន្លងដោយប្រើច្បាប់ញូតុន និងទំនាញសកល។</p>
+              <div class="formula-box">
+                \(v = \sqrt{\frac{GM}{R+h}}, \quad T = 2\pi\sqrt{\frac{(R+h)^3}{GM}}\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">១៤ លំហាត់ស៊ីជម្រៅ</li>
+                <li class="chip">រណបភូមិសាស្ត្រ</li>
+                <li class="chip">ចម្លើយពន្យល់លម្អិត</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>🔍 អានលំហាត់</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១១_សំណុំ១.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកកម្រងលំហាត់"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១១ • កម្រងស្រាវជ្រាវទី ២៖ ការអនុវត្តច្បាប់ប៉ាស្កាល់ក្នុងប្រព័ន្ធហ្វ្រាំង"
+                 data-desc="ការគណនាសម្ពាធ និងកម្លាំងធារាសាស្ត្រក្នុងប្រព័ន្ធហ្វ្រាំងរថយន្តទំនើប និងឧបករណ៍ស្ទូច។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១១_សំណុំ២.pdf"
+                 data-meta="PDF • ២០ ទំព័រ • មានគំរូអនុវត្ត">
+              <div class="file-card-top">
+                <span class="file-badge">លំហាត់ស្រាវជ្រាវ ២</span>
+                <span class="file-type-badge solved">មានចម្លើយ</span>
+              </div>
+              <h4 class="file-card-title">🔬 ប្រព័ន្ធធារាសាស្ត្រ & ប៉ាស្កាល់</h4>
+              <p class="file-card-desc">ការគណនាសម្ពាធ និងកម្លាំងធារាសាស្ត្រក្នុងប្រព័ន្ធហ្វ្រាំងរថយន្តទំនើប និងឧបករណ៍ស្ទូច។</p>
+              <div class="formula-box">
+                \(\frac{F_1}{A_1} = \frac{F_2}{A_2}, \quad W = F_1 d_1 = F_2 d_2\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">១២ លំហាត់វិស្វកម្ម</li>
+                <li class="chip">ហ្វ្រាំងហាយដ្រូលិក</li>
+                <li class="chip">ដំណោះស្រាយជាក់ស្ដែង</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>🔍 អានលំហាត់</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១១_សំណុំ២.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកកម្រងលំហាត់"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១១ • កម្រងស្រាវជ្រាវទី ៣៖ ដ្យាក្រាម P-V និងការគណនាកម្មន្តឧស្ម័ន"
+                 data-desc="ការគណនាកម្មន្ត ថាមពលក្នុង និងកម្តៅក្នុងបម្រែបម្រួលអ៊ីសូបា អ៊ីសូករ អ៊ីសូទែម និងអាដ្យាបាទិច។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១១_សំណុំ៣.pdf"
+                 data-meta="PDF • ១៨ ទំព័រ • កម្រិតខ្ពស់">
+              <div class="file-card-top">
+                <span class="file-badge">លំហាត់ស្រាវជ្រាវ ៣</span>
+                <span class="file-type-badge solved">មានចម្លើយ</span>
+              </div>
+              <h4 class="file-card-title">🔬 ដ្យាក្រាម P-V & កម្មន្តឧស្ម័ន</h4>
+              <p class="file-card-desc">ការគណនាកម្មន្ត ថាមពលក្នុង និងកម្តៅក្នុងបម្រែបម្រួលអ៊ីសូបា អ៊ីសូករ អ៊ីសូទែម និងអាដ្យាបាទិច។</p>
+              <div class="formula-box">
+                \(W = \int P dV, \quad \Delta U = Q - W, \quad \eta = 1 - \frac{T_C}{T_H}\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">១៦ លំហាត់ក្រាហ្វ</li>
+                <li class="chip">បម្រែបម្រួលកម្ដៅ</li>
+                <li class="chip">ទិន្នផលម៉ាស៊ីន</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>🔍 អានលំហាត់</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១១_សំណុំ៣.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកកម្រងលំហាត់"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Folder 4: Exams (ថតវិញ្ញាសា) -->
+        <div class="folder-content-panel" id="g11-exams">
+          <div class="cabinet-grid">
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១១ • វិញ្ញាសាប្រឡងប្រចាំខែ (ចលនាវង់ និងលំនឹង)"
+                 data-desc="វិញ្ញាសាវាយតម្លៃប្រចាំខែ រយៈពេល ៦០ នាទី សង្កត់ធ្ងន់លើម៉ូម៉ង់នៃកម្លាំង និងកម្លាំងចូលផ្ចិត។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="វិញ្ញាសាប្រចាំខែ_រូបវិទ្យា១១.pdf"
+                 data-meta="PDF • រយៈពេល ៦០ នាទី • មានអត្រាកំណែ">
+              <div class="file-card-top">
+                <span class="file-badge exam">ប្រចាំខែ</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">📑 វិញ្ញាសាប្រឡងប្រចាំខែ (ចលនាវង់)</h4>
+              <p class="file-card-desc">វិញ្ញាសាវាយតម្លៃប្រចាំខែ រយៈពេល ៦០ នាទី សង្កត់ធ្ងន់លើម៉ូម៉ង់នៃកម្លាំង និងកម្លាំងចូលផ្ចិត។</p>
+              <div class="exam-meta-strip">
+                <span>⏱️ រយៈពេល៖ ៦០ នាទី</span>
+                <span>💯 ពិន្ទុពេញ៖ ៥០</span>
+                <span>✅ អត្រាកំណែគ្រប់ចំណុច</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📋 មើលវិញ្ញាសា</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="វិញ្ញាសាប្រចាំខែ_រូបវិទ្យា១១.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកវិញ្ញាសា"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១១ • វិញ្ញាសាប្រឡងឆមាសទី ១ (ក្រសួងអប់រំ)"
+                 data-desc="វិញ្ញាសាប្រឡងឆមាសទី ១ ស្តង់ដារ គ្របដណ្តប់លើមេកានិច និងទែម៉ូឌីណាមិច ថ្នាក់ទី១១។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="វិញ្ញាសាឆមាសទី១_រូបវិទ្យា១១.pdf"
+                 data-meta="PDF • រយៈពេល ៩០ នាទី • មានដំណោះស្រាយ">
+              <div class="file-card-top">
+                <span class="file-badge exam">ឆមាសទី ១</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">📑 វិញ្ញាសាប្រឡងឆមាសទី ១ (ស្តង់ដារ)</h4>
+              <p class="file-card-desc">វិញ្ញាសាប្រឡងឆមាសទី ១ ស្តង់ដារ គ្របដណ្តប់លើមេកានិច និងទែម៉ូឌីណាមិច ថ្នាក់ទី១១។</p>
+              <div class="exam-meta-strip">
+                <span>⏱️ រយៈពេល៖ ៩០ នាទី</span>
+                <span>💯 ពិន្ទុពេញ៖ ៧៥</span>
+                <span>✅ ដំណោះស្រាយគំរូកម្រិតខ្ពស់</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📋 មើលវិញ្ញាសា</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="វិញ្ញាសាឆមាសទី១_រូបវិទ្យា១១.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកវិញ្ញាសា"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១១ • វិញ្ញាសាប្រឡងជ្រើសរើសសិស្សពូកែខេត្ត ថ្នាក់ទី១១"
+                 data-desc="វិញ្ញាសាប្រឡងសិស្សពូកែទូទាំងខេត្ត ថ្នាក់ទី១១ វិញ្ញាសាស៊ីជម្រៅ លំហាត់ពិបាក និងគន្លឹះយករង្វាន់។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="វិញ្ញាសាសិស្សពូកែ_រូបវិទ្យា១១.pdf"
+                 data-meta="PDF • រយៈពេល ១២០ នាទី • វិញ្ញាសាសិស្សពូកែ">
+              <div class="file-card-top">
+                <span class="file-badge gold">សិស្សពូកែ</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">🏆 វិញ្ញាសាប្រឡងសិស្សពូកែខេត្ត ទី១១</h4>
+              <p class="file-card-desc">វិញ្ញាសាប្រឡងសិស្សពូកែទូទាំងខេត្ត ថ្នាក់ទី១១ វិញ្ញាសាស៊ីជម្រៅ លំហាត់ពិបាក និងគន្លឹះយករង្វាន់។</p>
+              <div class="exam-meta-strip">
+                <span>⏱️ រយៈពេល៖ ១២០ នាទី</span>
+                <span>💯 ពិន្ទុពេញ៖ ១០០</span>
+                <span>✅ គន្លឹះដោះស្រាយរហ័ស</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📋 មើលវិញ្ញាសា</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="វិញ្ញាសាសិស្សពូកែ_រូបវិទ្យា១១.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកវិញ្ញាសា"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Folder 5: Lesson Plans (ថតកិច្ចតែងការបង្រៀន) -->
+        <div class="folder-content-panel" id="g11-lessonplans">
+          <div class="cabinet-grid">
+            <div class="cabinet-empty-state" id="g11-lessonplans-empty" style="display: flex;">
+              <div class="empty-icon">📋</div>
+              <h4 class="empty-title">មិនទាន់មានកិច្ចតែងការបង្រៀនថ្នាក់ទី ១១ នៅឡើយទេ</h4>
+              <p class="empty-subtext">ថតនេះទុកសម្រាប់កិច្ចតែងការបង្រៀនស្តង់ដា ៥ ជំហានថ្នាក់ទី ១១។ លោកគ្រូអាចបង្កើត ឬ Upload ឯកសារថ្មីបាន។</p>
+              <button class="btn-cabinet-upload empty-upload-btn" data-grade="11" type="button">
+                <span class="upload-icon">📤</span>
+                <span>បញ្ចូលកិច្ចតែងការថ្មី (Upload)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== CABINET FOR GRADE 12 (ACTIVE) ==================== -->
+      <div class="grade-cabinet active" id="grade-cabinet-12">
+        <div class="cabinet-header">
+          <div class="cabinet-title-box">
+            <div class="cabinet-icon">🗄️</div>
+            <div>
+              <h3 class="cabinet-heading">ទូឯកសាររូបវិទ្យា ថ្នាក់ទី ១២ <span class="hot-pill">ផ្តោតពិសេសបាក់ឌុប</span></h3>
+              <p class="cabinet-subtext">កម្មវិធីបំប៉នបាក់ឌុប & សិស្សពូកែ៖ លំយោល រលក ចរន្តឆ្លាស់ RLC អុបទិក & នុយក្លេអ៊ែរ</p>
+            </div>
+          </div>
+          <div class="cabinet-header-actions">
+            <div class="cabinet-status-tag highlight">
+              <span>⭐ ៥ ថតឯកសារគន្លឹះ (រួមទាំងកិច្ចតែងការ)</span>
+            </div>
+            <button class="btn-cabinet-upload highlight" data-grade="12">
+              <span class="upload-icon">📤</span>
+              <span>បញ្ចូលឯកសារ (Upload)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Folder Navigation Drawer Tabs -->
+        <div class="folder-nav-tabs">
+          <button class="folder-tab-btn active" data-target="g12-lessons">
+            <span class="folder-tab-icon">📁</span>
+            <span class="folder-tab-text">មេរៀន</span>
+            <span class="folder-tab-count">១ មេរៀន</span>
+          </button>
+          <button class="folder-tab-btn" data-target="g12-slides">
+            <span class="folder-tab-icon">📂</span>
+            <span class="folder-tab-text">ស្លាយមេរៀន</span>
+            <span class="folder-tab-count">៥ សំណុំស្លាយ</span>
+          </button>
+          <button class="folder-tab-btn" data-target="g12-exercises">
+            <span class="folder-tab-icon">📝</span>
+            <span class="folder-tab-text">លំហាត់ស្រាវជ្រាវតាមមេរៀន</span>
+            <span class="folder-tab-count">៣ កម្រង</span>
+          </button>
+          <button class="folder-tab-btn" data-target="g12-exams">
+            <span class="folder-tab-icon">📑</span>
+            <span class="folder-tab-text">វិញ្ញាសា</span>
+            <span class="folder-tab-count">៤ សំណុំធំ</span>
+          </button>
+          <button class="folder-tab-btn" data-target="g12-lessonplans">
+            <span class="folder-tab-icon">📋</span>
+            <span class="folder-tab-text">កិច្ចតែងការ</span>
+            <span class="folder-tab-count">១ កិច្ចតែងការ</span>
+          </button>
+          <button class="folder-tab-upload-btn highlight" data-grade="12" title="បញ្ចូលឯកសារថ្មីទៅក្នុងថតនេះ">
+            <span class="upload-icon">➕</span>
+            <span>Upload ឯកសារ</span>
+          </button>
+        </div>
+
+        <!-- Folder 1: Lessons (ថតមេរៀន) -->
+        <div class="folder-content-panel active" id="g12-lessons">
+          <div class="cabinet-grid">
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១២ • ជំពូកទី ១៖ ទែម៉ូឌីណាមិច — មេរៀនទី ១៖ ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន (Kinetic Theory of Gases)"
+                 data-desc="ឯកសារមេរៀនផ្លូវការពេញលេញ ៩ ទំព័រ រៀបរៀង និងបង្រៀនដោយលោកគ្រូ គឹម សុមង្គល (012 962 818)។ ខ្លឹមសារគ្របដណ្តប់៖ ១. សម្មតិកម្មទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន ២. ការទាញរកសម្ពាធឧស្ម័ន និងអំពុលស្យុង ៣. សមីការឧស្ម័នបរិសុទ្ធ (PV = nRT = N kB T) ៤. ថាមពលស៊ីនេទិចមធ្យម និងសរុប ៥. ល្បឿនប្រសិទ្ធ v_rms ៦. មេរៀនសង្ខេបរូបមន្តទាំងអស់ ៧. ច្បាប់ឧស្ម័ន និងការបំប្លែងខ្នាត ព្រមទាំងលំហាត់គំរូ និងលំហាត់ប្រតិបត្តិភ្ជាប់ដំណោះស្រាយលម្អិត ១០០%។"
+                 data-file="assets/docs/grade12_ch1_kinetic_theory_of_gases.pdf"
+                 data-filename="រូបវិទ្យា១២_ជំពូក១_ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន.pdf"
+                 data-meta="PDF • ៩ ទំព័រពេញលេញ (1.1 MB) • លោកគ្រូ គឹម សុមង្គល">
+              <div class="file-card-top">
+                <span class="file-badge hot">⭐ ជំពូក ១ • មេរៀនទី ១</span>
+                <div style="display:flex; gap:6px; align-items:center;">
+                  <a href="lessons/grade12_ch1_kinetic_theory_of_gases.html" target="_blank" class="badge-edit-slide" title="អានមេរៀនអនឡាញ">📖 អានអនឡាញ</a>
+                  <span class="file-type-badge pdf">PDF</span>
+                </div>
+              </div>
+              <h4 class="file-card-title">📖 មេរៀនទី ១៖ ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន (Kinetic Theory of Gases)</h4>
+              <p class="file-card-desc">ឯកសារមេរៀនផ្លូវការពេញលេញ ៩ ទំព័រ រៀបរៀងដោយលោកគ្រូ គឹម សុមង្គល គ្របដណ្តប់ទ្រឹស្តីស៊ីនេទិច ការទាញរកសម្ពាធ សមីការឧស្ម័នបរិសុទ្ធ ថាមពលស៊ីនេទិច ល្បឿនប្រសិទ្ធ និងលំហាត់គំរូ-ប្រតិបត្តិ។</p>
+              <div class="formula-box">
+                \(P = \frac{1}{3}\frac{N}{V}m_0 \langle v^2 \rangle = \frac{1}{3}\rho v_{rms}^2 = \frac{2}{3}\frac{N}{V}K_{av}, \quad PV = nRT = N k_B T\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">ទ្រឹស្តីស៊ីនេទិច</li>
+                <li class="chip">សម្ពាធ \(P=\frac{1}{3}\rho v_{rms}^2\)</li>
+                <li class="chip">ឧស្ម័នបរិសុទ្ធ \(PV=nRT\)</li>
+                <li class="chip">ថាមពល \(K_{av}=\frac{3}{2}k_B T\)</li>
+                <li class="chip">ល្បឿន \(v_{rms}=\sqrt{\frac{3RT}{M}}\)</li>
+                <li class="chip">មានលំហាត់ & ចម្លើយ</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span class="btn-icon">👁️</span> <span class="btn-text">បើកមើល</span></button>
+                <a href="assets/docs/grade12_ch1_kinetic_theory_of_gases.pdf" download="រូបវិទ្យា១២_ជំពូក១_ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន.pdf" class="btn-file-download resource-quick-btn" title="ទាញយក PDF"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក PDF</span></a>
+                <a href="slides/grade12_ch1_kinetic_theory_of_gases.html" target="_blank" class="btn-outline resource-quick-btn" style="padding: 8px 12px; font-size: 0.85rem; text-decoration: none;" title="មើលស្លាយបង្រៀន"><span class="btn-icon">🖥️</span> <span class="btn-text">ស្លាយ (33)</span></a>
+              </div>
+            </div>
+
+            <div class="cabinet-empty-state" id="g12-lessons-empty" style="display: none;">
+              <div class="empty-icon">📁</div>
+              <h4 class="empty-title">មិនទាន់មានឯកសារមេរៀននៅឡើយទេ</h4>
+              <p class="empty-subtext">ថតនេះទុកសម្រាប់តែឯកសារដែលលោកគ្រូបាន Upload បញ្ចូលប៉ុណ្ណោះ។ សូមចុចប៊ូតុងខាងក្រោមដើម្បីបញ្ចូលឯកសារថ្មី។</p>
+              <button class="btn-cabinet-upload empty-upload-btn" data-grade="12" type="button">
+                <span class="upload-icon">📤</span>
+                <span>បញ្ចូលឯកសារ (Upload) ឥឡូវនេះ</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Folder 2: Slides (ថតស្លាយមេរៀន) -->
+        <div class="folder-content-panel" id="g12-slides">
+          <div class="cabinet-grid">
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១២ • ស្លាយបង្រៀនជំពូកទី ១៖ ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន (Kinetic Theory of Gases)"
+                 data-desc="ស្លាយបង្រៀនស្តង់ដាពេញលេញ (៣៣ ស្លាយ) រៀបរៀងដោយលោកគ្រូ គឹម សុមង្គល គ្របដណ្តប់គ្រប់ចំណុច ទ្រឹស្តីស៊ីនេទិច សម្ពាធឧស្ម័ន សមីការឧស្ម័នបរិសុទ្ធ ថាមពលស៊ីនេទិច ល្បឿនប្រសិទ្ធ លំហាត់គំរូ និងលំហាត់ប្រតិបត្តិគ្រប់សំណុំ ភ្ជាប់ដំណោះស្រាយលម្អិត ១០០%។"
+                 data-file="slides/grade12_ch1_kinetic_theory_of_gases.html"
+                 data-filename="ស្លាយ_រូបវិទ្យា១២_ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន.html"
+                 data-meta="Interactive Slide Deck • ៣៣ ស្លាយពេញលេញ • លោកគ្រូ គឹម សុមង្គល">
+              <div class="file-card-top">
+                <span class="file-badge hot">⭐ ស្លាយជំពូក ១ (ស្តង់ដា)</span>
+                <div style="display:flex; gap:6px; align-items:center;">
+                  <a href="assets/docs/grade12_ch1_kinetic_theory_of_gases.pdf" target="_blank" class="badge-edit-slide" title="បើកមើលឯកសារមេរៀន PDF (៩ ទំព័រ)">📄 មេរៀន PDF</a>
+                  <a href="slides/grade12_ch1_kinetic_theory_of_gases.html?edit=1" target="_blank" class="badge-edit-slide" title="បើកកែប្រែខ្លឹមសារស្លាយនេះ">✏️ កែប្រែ (Edit)</a>
+                  <span class="file-type-badge pptx">SLIDES</span>
+                </div>
+              </div>
+              <h4 class="file-card-title">🖥️ ស្លាយទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន (៣៣ ស្លាយ)</h4>
+              <p class="file-card-desc">ស្លាយបង្រៀនស្តង់ដាពេញលេញ ពណ៌ស្រស់ស្អាត គ្មានកាត់ចំណុចណាមួយចេញ រួមទាំងលំហាត់គំរូ និងលំហាត់ប្រតិបត្តិគ្រប់សំណុំ ភ្ជាប់ដំណោះស្រាយ ១០០%។</p>
+              <div class="slide-meta-info">
+                <span>📊 ៣៣ ស្លាយអន្តរកម្មពេញលេញ</span>
+                <span>🎓 លោកគ្រូ គឹម សុមង្គល (012 962 818)</span>
+              </div>
+              <div class="file-card-actions">
+                <a href="slides/grade12_ch1_kinetic_theory_of_gases.html" target="_blank" class="btn-file-view resource-quick-btn" title="បើកមើលស្លាយបង្រៀន">
+                  <span class="btn-icon">👁️</span>
+                  <span class="btn-text">បើកមើល</span>
+                </a>
+                <a href="assets/docs/grade12_ch1_kinetic_theory_of_gases.pdf" download="រូបវិទ្យា១២_ជំពូក១_ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកឯកសារមេរៀន PDF">
+                  <span class="btn-icon">📄</span>
+                  <span class="btn-text">ទាញយក PDF</span>
+                </a>
+                <a href="slides/grade12_ch1_kinetic_theory_of_gases.html" download="ស្លាយ_រូបវិទ្យា១២_ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន.html" class="btn-file-download resource-quick-btn" title="ទាញយកស្លាយ">
+                  <span class="btn-icon">📥</span>
+                  <span class="btn-text">ទាញយកស្លាយ</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១២ • ស្លាយបង្រៀនជំពូកទី ១៖ លំយោលមេកានិច និងរ៉េសូណង់"
+                 data-desc="ស្លាយ Animation បង្ហាញពីលំយោលរ៉ឺស័រ លោលទោល បាតុភូតរ៉េសូណង់ និងដ្យាក្រាមថាមពល។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="ស្លាយ_រូបវិទ្យា១២_ជំពូក១.pdf"
+                 data-meta="PPTX / PDF • ៤៨ ស្លាយ • 14.2 MB">
+              <div class="file-card-top">
+                <span class="file-badge">ស្លាយជំពូក ១</span>
+                <span class="file-type-badge pptx">PPTX</span>
+              </div>
+              <h4 class="file-card-title">🖥️ ស្លាយលំយោលមេកានិច & រ៉េសូណង់</h4>
+              <p class="file-card-desc">ស្លាយ Animation បង្ហាញពីលំយោលរ៉ឺស័រ លោលទោល បាតុភូតរ៉េសូណង់ និងដ្យាក្រាមថាមពល។</p>
+              <div class="slide-meta-info">
+                <span>📊 ៤៨ ស្លាយចលនា Ultra-HD</span>
+                <span>⚙️ ក្រាហ្វលំយោលជាក់ស្ដែង</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span class="btn-icon">👁️</span> <span class="btn-text">បើកមើល</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="ស្លាយ_រូបវិទ្យា១២_ជំពូក១.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកស្លាយ"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១២ • ស្លាយបង្រៀនជំពូកទី ២៖ រលកសំឡេង និងឥទ្ធិពលដុបផ្លែ"
+                 data-desc="ស្លាយអន្តរកម្មស្វែងយល់ពីរលកឈរក្នុងបំពង់ខ្យល់ ប្រេកង់ស្នូល និងសំឡេងរថយន្តសង្គ្រោះ (Doppler Effect)។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="ស្លាយ_រូបវិទ្យា១២_ជំពូក២.pdf"
+                 data-meta="PPTX / PDF • ៤២ ស្លាយ • 10.5 MB">
+              <div class="file-card-top">
+                <span class="file-badge">ស្លាយជំពូក ២</span>
+                <span class="file-type-badge pptx">PPTX</span>
+              </div>
+              <h4 class="file-card-title">🖥️ ស្លាយរលកសំឡេង & ដុបផ្លែ</h4>
+              <p class="file-card-desc">ស្លាយអន្តរកម្មស្វែងយល់ពីរលកឈរក្នុងបំពង់ខ្យល់ ប្រេកង់ស្នូល និងសំឡេងរថយន្តសង្គ្រោះ (Doppler Effect)។</p>
+              <div class="slide-meta-info">
+                <span>📊 ៤២ ស្លាយមានសម្លេង</span>
+                <span>🔊 ដុបផ្លែ & រលកឈរ</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span class="btn-icon">👁️</span> <span class="btn-text">បើកមើល</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="ស្លាយ_រូបវិទ្យា១២_ជំពូក២.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកស្លាយ"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១២ • ស្លាយបង្រៀនជំពូកទី ៣៖ ចរន្តឆ្លាស់ និងដ្យាក្រាមហ្វ្រេណែល RLC"
+                 data-desc="ការគូរ និងវិភាគដ្យាក្រាមវ៉ិចទ័រ Fresnel សម្រាប់សៀគ្វី R, L, C, RL, RC និង RLC យ៉ាងងាយយល់។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="ស្លាយ_រូបវិទ្យា១២_ជំពូក៣.pdf"
+                 data-meta="PPTX / PDF • ៥៤ ស្លាយ • 15.8 MB">
+              <div class="file-card-top">
+                <span class="file-badge">ស្លាយជំពូក ៣</span>
+                <span class="file-type-badge pptx">PPTX</span>
+              </div>
+              <h4 class="file-card-title">🖥️ ស្លាយចរន្តឆ្លាស់ & ដ្យាក្រាមហ្វ្រេណែល</h4>
+              <p class="file-card-desc">ការគូរ និងវិភាគដ្យាក្រាមវ៉ិចទ័រ Fresnel សម្រាប់សៀគ្វី R, L, C, RL, RC និង RLC យ៉ាងងាយយល់។</p>
+              <div class="slide-meta-info">
+                <span>📊 ៥៤ ស្លាយបំបែកពណ៌</span>
+                <span>⚡ ដ្យាក្រាមហ្វ្រេណែល RLC</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span class="btn-icon">👁️</span> <span class="btn-text">បើកមើល</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="ស្លាយ_រូបវិទ្យា១២_ជំពូក៣.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកស្លាយ"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១២ • ស្លាយបង្រៀនជំពូកទី ៤៖ រូបវិទ្យានុយក្លេអ៊ែរ ភីស្យុង & ផ្វុយស្យុង"
+                 data-desc="ស្លាយបង្ហាញពីម៉ាស៊ីនរ៉េអាក់ទ័រនុយក្លេអ៊ែរ ប្រតិកម្មបំបែក និងច្របាច់បញ្ចូលណ្វៃយ៉ូ និងវិទ្យុសកម្មវេជ្ជសាស្ត្រ។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="ស្លាយ_រូបវិទ្យា១២_ជំពូក៤.pdf"
+                 data-meta="PPTX / PDF • ៤៦ ស្លាយ • 12.0 MB">
+              <div class="file-card-top">
+                <span class="file-badge">ស្លាយជំពូក ៤</span>
+                <span class="file-type-badge pptx">PPTX</span>
+              </div>
+              <h4 class="file-card-title">🖥️ ស្លាយនុយក្លេអ៊ែរ ភីស្យុង & ផ្វុយស្យុង</h4>
+              <p class="file-card-desc">ស្លាយបង្ហាញពីម៉ាស៊ីនរ៉េអាក់ទ័រនុយក្លេអ៊ែរ ប្រតិកម្មបំបែក និងច្របាច់បញ្ចូលណ្វៃយ៉ូ និងវិទ្យុសកម្មវេជ្ជសាស្ត្រ។</p>
+              <div class="slide-meta-info">
+                <span>📊 ៤៦ ស្លាយវិទ្យាសាស្ត្រ</span>
+                <span>⚛️ រ៉េអាក់ទ័រ & ថាមពល</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span class="btn-icon">👁️</span> <span class="btn-text">បើកមើល</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="ស្លាយ_រូបវិទ្យា១២_ជំពូក៤.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកស្លាយ"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Folder 3: Exercises (ថតលំហាត់ស្រាវជ្រាវតាមមេរៀន) -->
+        <div class="folder-content-panel" id="g12-exercises">
+          <div class="cabinet-grid">
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១២ • កម្រងស្រាវជ្រាវទី ១៖ ការបាត់បង់ថាមពលក្នុងលំយោល និងរ៉េសូណង់"
+                 data-desc="ការវិភាគលម្អិតពីឥទ្ធិពលនៃកកិតក្នុងលំយោលស្វយ័ត និងការបាតុភូតរ៉េសូណង់បង្ខំក្នុងវិស្វកម្មស្ពាន។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១២_សំណុំ១.pdf"
+                 data-meta="PDF • ២៤ ទំព័រ • កម្រិតបំប៉ននិទ្ទេស A">
+              <div class="file-card-top">
+                <span class="file-badge hot">បាក់ឌុប A</span>
+                <span class="file-type-badge solved">មានចម្លើយ</span>
+              </div>
+              <h4 class="file-card-title">🔬 ស្រាវជ្រាវរ៉េសូណង់ & លំយោលមេកានិច</h4>
+              <p class="file-card-desc">ការវិភាគលម្អិតពីឥទ្ធិពលនៃកកិតក្នុងលំយោលស្វយ័ត និងការបាតុភូតរ៉េសូណង់បង្ខំក្នុងវិស្វកម្មស្ពាន។</p>
+              <div class="formula-box">
+                \(\omega_0 = \sqrt{\frac{k}{m}}, \quad Q = \frac{\omega_0}{\Delta \omega}, \quad E(t) = E_0 e^{-\gamma t}\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">១៨ លំហាត់គន្លឹះបាក់ឌុប</li>
+                <li class="chip">រ៉េសូណង់បង្ខំ</li>
+                <li class="chip">វិធីគណនាកាត់លឿន</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>🔍 អានលំហាត់</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១២_សំណុំ១.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកកម្រងលំហាត់"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១២ • កម្រងស្រាវជ្រាវទី ២៖ ដោះស្រាយសៀគ្វី RLC និងកត្តាអនុភាព cosφ"
+                 data-desc="កម្រងលំហាត់ដោះស្រាយសៀគ្វី RLC ឆ្លាស់ស៊េរី គណនាអនុភាពមធ្យម និងការកែប្រែកត្តាអនុភាពក្នុងរោងចក្រ។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១២_សំណុំ២.pdf"
+                 data-meta="PDF • ២៨ ទំព័រ • មានអត្រាកំណែ ១០០%">
+              <div class="file-card-top">
+                <span class="file-badge hot">បាក់ឌុប A</span>
+                <span class="file-type-badge solved">មានចម្លើយ</span>
+              </div>
+              <h4 class="file-card-title">🔬 ដោះស្រាយសៀគ្វី RLC & កត្តាអនុភាព</h4>
+              <p class="file-card-desc">កម្រងលំហាត់ដោះស្រាយសៀគ្វី RLC ឆ្លាស់ស៊េរី គណនាអនុភាពមធ្យម និងការកែប្រែកត្តាអនុភាពក្នុងរោងចក្រ។</p>
+              <div class="formula-box">
+                \(P = UI\cos\varphi, \quad \cos\varphi = \frac{R}{Z}, \quad \omega_0 = \frac{1}{\sqrt{LC}}\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">២០ លំហាត់ប្រឡងបាក់ឌុប</li>
+                <li class="chip">កត្តាអនុភាព \(\cos\varphi\)</li>
+                <li class="chip">ដ្យាក្រាមហ្វ្រេណែល</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>🔍 អានលំហាត់</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១២_សំណុំ២.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកកម្រងលំហាត់"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១២ • កម្រងស្រាវជ្រាវទី ៣៖ ការបំបែកវិទ្យុសកម្ម និងអាយុកាលកាបូន-១៤"
+                 data-desc="លំហាត់គណនាអាយុកាលផូស៊ីល និងវត្ថុបុរាណដោយកាបូន-១៤ និងថាមពលបញ្ចេញក្នុងប្រតិកម្មនុយក្លេអ៊ែរ។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១២_សំណុំ៣.pdf"
+                 data-meta="PDF • ២២ ទំព័រ • មានដំណោះស្រាយ">
+              <div class="file-card-top">
+                <span class="file-badge hot">បាក់ឌុប A</span>
+                <span class="file-type-badge solved">មានចម្លើយ</span>
+              </div>
+              <h4 class="file-card-title">🔬 បំបែកវិទ្យុសកម្ម & អាយុកាលកាបូន-១៤</h4>
+              <p class="file-card-desc">លំហាត់គណនាអាយុកាលផូស៊ីល និងវត្ថុបុរាណដោយកាបូន-១៤ និងថាមពលបញ្ចេញក្នុងប្រតិកម្មនុយក្លេអ៊ែរ។</p>
+              <div class="formula-box">
+                \(T_{1/2} = \frac{\ln 2}{\lambda}, \quad A(t) = A_0 \left(\frac{1}{2}\right)^{t/T_{1/2}}, \quad Q = \Delta m \cdot c^2\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">១៥ លំហាត់ស្នូល</li>
+                <li class="chip">កាបូន-១៤ កាលប្បវត្តិ</li>
+                <li class="chip">ថាមពលប្រតិកម្ម \(Q\)</li>
+              </ul>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>🔍 អានលំហាត់</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="លំហាត់ស្រាវជ្រាវ_រូបវិទ្យា១២_សំណុំ៣.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកកម្រងលំហាត់"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Folder 4: Exams (ថតវិញ្ញាសា) -->
+        <div class="folder-content-panel" id="g12-exams">
+          <div class="cabinet-grid">
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១២ • វិញ្ញាសាត្រៀមបាក់ឌុបគំរូ សំណុំទី ០១ (ថ្នាក់ជាតិ)"
+                 data-desc="វិញ្ញាសាត្រៀមបាក់ឌុបកម្រិតស្តង់ដារជាតិ ៩០ នាទី ពិន្ទុ ៧៥ ភ្ជាប់ដោយដំណោះស្រាយលម្អិត ១០០% គ្រប់ជំហាន។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="វិញ្ញាសាបាក់ឌុប_សំណុំទី០១.pdf"
+                 data-meta="PDF • ៩០ នាទី • មានអត្រាកំណែ ១០០%">
+              <div class="file-card-top">
+                <span class="file-badge hot">បាក់ឌុបជាតិ</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">📑 វិញ្ញាសាត្រៀមបាក់ឌុបគំរូ - សំណុំទី ០១</h4>
+              <p class="file-card-desc">វិញ្ញាសាត្រៀមបាក់ឌុបកម្រិតស្តង់ដារជាតិ ៩០ នាទី ពិន្ទុ ៧៥ ភ្ជាប់ដោយដំណោះស្រាយលម្អិត ១០០% គ្រប់ជំហាន។</p>
+              <div class="exam-meta-strip">
+                <span>⏱️ រយៈពេល៖ ៩០ នាទី</span>
+                <span>💯 ពិន្ទុពេញ៖ ៧៥</span>
+                <span>✅ អត្រាកំណែក្រសួងអប់រំ</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📋 មើលវិញ្ញាសា & អត្រាកំណែ</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="វិញ្ញាសាបាក់ឌុប_សំណុំទី០១.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកវិញ្ញាសា"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១២ • វិញ្ញាសាត្រៀមបាក់ឌុបគំរូ សំណុំទី ០២ (កម្រិតនិទ្ទេស A)"
+                 data-desc="វិញ្ញាសាបំប៉នពិសេសកម្រិតនិទ្ទេស A លំហាត់ត្រិះរិះស៊ីជម្រៅ សៀគ្វី RLC ស្មុគស្មាញ និងរលកសំឡេង។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="វិញ្ញាសាបាក់ឌុប_សំណុំទី០២_និទ្ទេសA.pdf"
+                 data-meta="PDF • ៩០ នាទី • គន្លឹះយករង A">
+              <div class="file-card-top">
+                <span class="file-badge gold">និទ្ទេស A</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">🏆 វិញ្ញាសាត្រៀមបាក់ឌុប - សំណុំទី ០២ (និទ្ទេស A)</h4>
+              <p class="file-card-desc">វិញ្ញាសាបំប៉នពិសេសកម្រិតនិទ្ទេស A លំហាត់ត្រិះរិះស៊ីជម្រៅ សៀគ្វី RLC ស្មុគស្មាញ និងរលកសំឡេង។</p>
+              <div class="exam-meta-strip">
+                <span>⏱️ រយៈពេល៖ ៩០ នាទី</span>
+                <span>💯 ពិន្ទុពេញ៖ ៧៥</span>
+                <span>⭐ បច្ចេកទេសយករង A</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📋 មើលវិញ្ញាសា & អត្រាកំណែ</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="វិញ្ញាសាបាក់ឌុប_សំណុំទី០២.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកវិញ្ញាសា"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១២ • កម្រងវិញ្ញាសាប្រឡងបាក់ឌុបឆ្នាំចាស់ៗ (២០១៥-២០២៣)"
+                 data-desc="កម្រងសំណុំវិញ្ញាសាប្រឡងបាក់ឌុបជាក់ស្ដែង ៥០+ សំណុំ ជាមួយនឹងដំណោះស្រាយលម្អិត និងស្ថិតិប្រធានដែលចេញញឹកញាប់។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="កម្រងវិញ្ញាសាបាក់ឌុបចាស់ៗ_៥០សំណុំ.pdf"
+                 data-meta="PDF • ៨.១ MB • ៥០+ សំណុំពេញ">
+              <div class="file-card-top">
+                <span class="file-badge exam">៥០+ សំណុំ</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">📚 កម្រងវិញ្ញាសាបាក់ឌុបឆ្នាំចាស់ៗ (៥០+ សំណុំ)</h4>
+              <p class="file-card-desc">កម្រងសំណុំវិញ្ញាសាប្រឡងបាក់ឌុបជាក់ស្ដែង ៥០+ សំណុំ ជាមួយនឹងដំណោះស្រាយលម្អិត និងស្ថិតិប្រធានដែលចេញញឹកញាប់។</p>
+              <div class="exam-meta-strip">
+                <span>📅 ឆ្នាំ ២០១៥ - ២០២៣</span>
+                <span>📚 ៥០+ សំណុំប្រឡង</span>
+                <span>✅ ដំណោះស្រាយគ្រប់ឆ្នាំ</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📋 មើលវិញ្ញាសា & អត្រាកំណែ</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="វិញ្ញាសាបាក់ឌុបចាស់ៗ_៥០សំណុំ.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកវិញ្ញាសា"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១២ • វិញ្ញាសាប្រឡងសិស្សពូកែទូទាំងប្រទេស (រូបវិទ្យា)"
+                 data-desc="វិញ្ញាសាប្រឡងជ្រើសរើសសិស្សពូកែរូបវិទ្យាថ្នាក់ជាតិ កម្រិតមេដាយមាស ប្រាក់ និងសំរឹទ្ធ ព្រមទាំងអាហារូបករណ៍រដ្ឋ។"
+                 data-file="assets/docs/physics_formula_summary_grade12.pdf"
+                 data-filename="វិញ្ញាសាសិស្សពូកែទូទាំងប្រទេស_ថ្នាក់ទី១២.pdf"
+                 data-meta="PDF • រយៈពេល ១៨០ នាទី • កម្រិតមេដាយជាតិ">
+              <div class="file-card-top">
+                <span class="file-badge gold">សិស្សពូកែជាតិ</span>
+                <span class="file-type-badge pdf">PDF</span>
+              </div>
+              <h4 class="file-card-title">🥇 វិញ្ញាសាសិស្សពូកែទូទាំងប្រទេស (ជាតិ)</h4>
+              <p class="file-card-desc">វិញ្ញាសាប្រឡងជ្រើសរើសសិស្សពូកែរូបវិទ្យាថ្នាក់ជាតិ កម្រិតមេដាយមាស ប្រាក់ និងសំរឹទ្ធ ព្រមទាំងអាហារូបករណ៍រដ្ឋ។</p>
+              <div class="exam-meta-strip">
+                <span>⏱️ រយៈពេល៖ ១៨០ នាទី</span>
+                <span>🥇 មេដាយមាស/ប្រាក់</span>
+                <span>✅ គន្លឹះដោះស្រាយកម្រិតខ្ពស់</span>
+              </div>
+              <div class="file-card-actions">
+                <button class="btn-file-view"><span>📋 មើលវិញ្ញាសា & អត្រាកំណែ</span></button>
+                <a href="assets/docs/physics_formula_summary_grade12.pdf" download="វិញ្ញាសាសិស្សពូកែទូទាំងប្រទេស_ថ្នាក់ទី១២.pdf" class="btn-file-download resource-quick-btn" title="ទាញយកវិញ្ញាសា"><span class="btn-icon">📥</span> <span class="btn-text">ទាញយក</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Folder 5: Lesson Plans (ថតកិច្ចតែងការបង្រៀន) -->
+        <div class="folder-content-panel" id="g12-lessonplans">
+          <div class="cabinet-grid">
+            <div class="glass-card cabinet-file-card resource-card"
+                 data-title="ថ្នាក់ទី ១២ • កិច្ចតែងការបង្រៀនស្តង់ដា៖ ច្បាប់ទី១ទែរម៉ូឌីណាមិច (First Law of Thermodynamics)"
+                 data-desc="កិច្ចតែងការបង្រៀនស្តង់ដាក្រសួងអប់រំ យុវជន និងកីឡា (ទំហំ A4 Margins 1.5cm) រៀបចំដោយលោកគ្រូ គឹម សុមង្គល (វិទ្យាល័យ ហ៊ុនសែនស្វាយធំ)។ រយៈពេល ២ ម៉ោងសិក្សា (៩០ នាទី)។ ខ្លឹមសារគ្របដណ្តប់៖ វត្ថុបំណង ៣ សម្បទា (វិជ្ជាសម្បទា បំណិនសម្បទា ចរិយាសម្បទា), សម្ភារឧបទេស និងឯកសារយោង, ដំណើរការបង្រៀន ៥ ជំហាន (រដ្ឋបាលថ្នាក់, រំលឹកមេរៀនចាស់ & ភ្ជាប់មេរៀនថ្មី, មេរៀនថ្មី Q = W + &Delta;U, ពង្រឹងពុទ្ធិ ជាមួយលំហាត់គំរូ, និងកិច្ចការផ្ទះ), តារាងស្វ័យវាយតម្លៃគ្រូ ៣ ចំណុច និងប្រអប់ចុះហត្ថលេខាឯកភាពនាយកសាលា។ អាចបោះពុម្ព ឬរក្សាទុកជា PDF បានយ៉ាងស្អាត។"
+                 data-file="lessons/lesson_plan_grade12_thermodynamics_law1.html"
+                 data-filename="កិច្ចតែងការ_ច្បាប់ទី១ទែរម៉ូឌីណាមិច_ថ្នាក់ទី១២.html"
+                 data-meta="HTML & PDF Print Ready • ២ ម៉ោង (៩០ នាទី) • លោកគ្រូ គឹម សុមង្គល">
+              <div class="file-card-top">
+                <span class="file-badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4);">⭐ ស្តង់ដាក្រសួង ៥ ជំហាន</span>
+                <div style="display:flex; gap:6px; align-items:center;">
+                  <a href="lessons/lesson_plan_grade12_thermodynamics_law1.html" target="_blank" class="badge-edit-slide" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.35);" title="បើកមើលកិច្ចតែងការ">📋 បើកមើល</a>
+                  <span class="file-type-badge html" style="background: rgba(0, 242, 254, 0.15); color: var(--cyan-glow); border: 1px solid rgba(0, 242, 254, 0.35);">A4 DOC</span>
+                </div>
+              </div>
+              <h4 class="file-card-title">📋 កិច្ចតែងការបង្រៀន៖ ច្បាប់ទី១ទែរម៉ូឌីណាមិច</h4>
+              <p class="file-card-desc">កិច្ចតែងការបង្រៀនស្តង់ដាក្រសួងអប់រំ យុវជន និងកីឡា (ទំហំ A4 Margins 1.5cm) រៀបចំដោយលោកគ្រូ គឹម សុមង្គល (វិទ្យាល័យ ហ៊ុនសែនស្វាយធំ)។ រួមមាន វត្ថុបំណង ៣ សម្បទា ដំណើរការបង្រៀន ៥ ជំហាន លំហាត់ពង្រឹងពុទ្ធិ និងតារាងស្វ័យវាយតម្លៃ។</p>
+              <div class="formula-box">
+                \(Q = W + \Delta U, \quad W = P\Delta V, \quad U = \frac{3}{2}nRT, \quad \Delta U = \frac{3}{2}nR\Delta T\)
+              </div>
+              <ul class="file-chips">
+                <li class="chip">ស្តង់ដា ៥ ជំហាន</li>
+                <li class="chip">រយៈពេល ៩០ នាទី</li>
+                <li class="chip">ច្បាប់ទី១ \(Q = W + \Delta U\)</li>
+                <li class="chip">វិទ្យាល័យ ហ៊ុនសែនស្វាយធំ</li>
+                <li class="chip">Print Ready A4</li>
+              </ul>
+              <div class="file-card-actions">
+                <a href="lessons/lesson_plan_grade12_thermodynamics_law1.html" target="_blank" class="btn-file-view" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;"><span class="btn-icon">👁️</span> <span class="btn-text">បើកមើលកិច្ចតែងការ</span></a>
+                <a href="lessons/lesson_plan_grade12_thermodynamics_law1.html" target="_blank" class="btn-file-download resource-quick-btn" title="បោះពុម្ព ឬរក្សាទុកជា PDF"><span class="btn-icon">🖨️</span> <span class="btn-text">បោះពុម្ព / PDF</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Virtual Physics Lab Section (with Gas Laws: Boyle, Charles, Gay-Lussac) -->
+  <section id="lab" class="section">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-tag">Interactive Sandbox</span>
+        <h2 class="section-title font-moul">បន្ទប់ពិសោធន៍រូបវិទ្យានិម្មិត (Virtual Physics Lab)</h2>
+        <p class="section-subtitle">ពិសោធន៍ច្បាប់ឧស្ម័នរូបវិទ្យា (ច្បាប់ប៊យ, ច្បាប់សាល, ច្បាប់កេលុយសាក់) និងបាតុភូតរូបវិទ្យាលើ Canvas ក្នុងពេលជាក់ស្ដែង!</p>
+      </div>
+
+      <div class="lab-container">
+        <!-- Tab Selector Buttons (Includes Gas Laws) -->
+        <div class="lab-tabs">
+          <button class="lab-tab-btn active" data-mode="boyle">
+            <span>🧪 ច្បាប់ប៊យ \(P_1 V_1 = P_2 V_2\)</span>
+          </button>
+          <button class="lab-tab-btn" data-mode="charles">
+            <span>🔥 ច្បាប់សាល \(\frac{V_1}{T_1} = \frac{V_2}{T_2}\)</span>
+          </button>
+          <button class="lab-tab-btn" data-mode="gaylussac">
+            <span>💥 ច្បាប់កេលុយសាក់ \(\frac{P_1}{T_1} = \frac{P_2}{T_2}\)</span>
+          </button>
+          <button class="lab-tab-btn" data-mode="pendulum">
+            <span>⏱️ លោលទោល \(T = 2\pi\sqrt{\frac{L}{g}}\)</span>
+          </button>
+          <button class="lab-tab-btn" data-mode="prism">
+            <span>🌈 ព្រីស \(n = \frac{\sin i}{\sin r}\)</span>
+          </button>
+          <button class="lab-tab-btn" data-mode="projectile">
+            <span>🚀 ចលនាបោះ \(R = \frac{v_0^2 \sin 2\theta}{g}\)</span>
+          </button>
+        </div>
+
+        <div class="lab-workspace">
+          <!-- Canvas Viewport -->
+          <div class="canvas-wrapper">
+            <canvas id="lab-canvas"></canvas>
+          </div>
+
+          <!-- Controls & Telemetry -->
+          <div class="lab-controls">
+            <h4 style="color:var(--cyan-glow); font-size:1.1rem; border-bottom:1px solid var(--border-glass); padding-bottom:8px;">
+              🎛️ ផ្ទាំងគ្រប់គ្រងប៉ារ៉ាម៉ែត្រ
+            </h4>
+
+            <div class="control-group">
+              <label class="control-label" id="lab-label1">
+                កែប្រែមាឌ ពីស្តុង (\(V\)): <span id="lab-val1">10 L</span>
+              </label>
+              <input type="range" id="lab-param1" min="4" max="16" step="0.5" value="10">
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" id="lab-label2">
+                សំទុះទាញ (\(g\)): <span id="lab-val2">9.8 m/s²</span>
+              </label>
+              <input type="range" id="lab-param2" min="1.6" max="20" step="0.1" value="9.8">
+            </div>
+
+            <div class="telemetry-box">
+              <div style="font-weight:bold; margin-bottom:8px; color:var(--text-main);">📡 ព័ត៌មានគណនា (MathType Readout)</div>
+              <div class="telemetry-row">
+                <span id="tel-label1">សម្ពាធ (\(P = \frac{k}{V}\)):</span>
+                <span id="tel-1" style="font-weight:bold;">10.00 atm</span>
+              </div>
+              <div class="telemetry-row">
+                <span id="tel-label2">ថេរច្បាប់ប៊យ (\(P \cdot V\)):</span>
+                <span id="tel-2" style="font-weight:bold;">100.0 atm·L</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formula Calculator Section (MathType Formats) -->
+  <section id="calculator" class="section" style="background: rgba(0,0,0,0.2);">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-tag">Quick Utility</span>
+        <h2 class="section-title font-moul">ឧបករណ៍គណនារូបមន្តរូបវិទ្យារហ័ស (MathType Solver)</h2>
+        <p class="section-subtitle">បញ្ចូលតម្លៃលេខ ដើម្បីគណនារកលទ្ធផលសមីការរូបវិទ្យាបានភ្លាមៗ</p>
+      </div>
+
+      <div class="calc-container">
+        <!-- Calc Nav -->
+        <div class="calc-nav">
+          <button class="calc-tab active" data-target="calc-kin">
+            🏎️ សមីការល្បឿន \(v = u + a \cdot t\)
+          </button>
+          <button class="calc-tab" data-target="calc-force">
+            🏋️ សមីការកម្លាំង \(F = m \cdot a\)
+          </button>
+          <button class="calc-tab" data-target="calc-ke">
+            ⚡ ថាមពលស៊ីនេទិច \(E_k = \frac{1}{2} m v^2\)
+          </button>
+          <button class="calc-tab" data-target="calc-ohm">
+            🔌 ច្បាប់អូម \(V = I \cdot R\)
+          </button>
+        </div>
+
+        <!-- Calc Panels -->
+        <div class="calc-content">
+          <!-- Panel 1: Kinematics -->
+          <div id="calc-kin" class="calc-panel active">
+            <div class="formula-display">
+              $$\displaystyle v = u + a \cdot t$$
+            </div>
+            <div class="calc-form-grid">
+              <div class="input-field">
+                <label>ល្បឿនដើម \(u \text{ (m/s)}\)</label>
+                <input type="number" id="kin-u" value="0">
+              </div>
+              <div class="input-field">
+                <label>សំទុះ \(a \text{ (m/s}^2\text{)}\)</label>
+                <input type="number" id="kin-a" value="9.8">
+              </div>
+              <div class="input-field" style="grid-column: span 2;">
+                <label>រយះពេល \(t \text{ (s)}\)</label>
+                <input type="number" id="kin-t" value="5">
+              </div>
+            </div>
+            <div class="calc-result-box">
+              <div style="font-size:0.9rem; color:var(--text-muted);">ល្បឿនស្រេច \(v\)៖</div>
+              <div id="kin-res" class="result-val">49.00 m/s</div>
+            </div>
+          </div>
+
+          <!-- Panel 2: Newton's Force -->
+          <div id="calc-force" class="calc-panel">
+            <div class="formula-display">
+              $$\displaystyle F = m \cdot a$$
+            </div>
+            <div class="calc-form-grid">
+              <div class="input-field">
+                <label>ម៉ាស់ \(m \text{ (kg)}\)</label>
+                <input type="number" id="force-m" value="10">
+              </div>
+              <div class="input-field">
+                <label>សំទុះ \(a \text{ (m/s}^2\text{)}\)</label>
+                <input type="number" id="force-a" value="9.8">
+              </div>
+            </div>
+            <div class="calc-result-box">
+              <div style="font-size:0.9rem; color:var(--text-muted);">កម្លាំងទាញ \(F\)៖</div>
+              <div id="force-res" class="result-val">98.00 N</div>
+            </div>
+          </div>
+
+          <!-- Panel 3: Kinetic Energy -->
+          <div id="calc-ke" class="calc-panel">
+            <div class="formula-display">
+              $$\displaystyle E_k = \frac{1}{2} m \cdot v^2$$
+            </div>
+            <div class="calc-form-grid">
+              <div class="input-field">
+                <label>ម៉ាស់ \(m \text{ (kg)}\)</label>
+                <input type="number" id="ke-m" value="1200">
+              </div>
+              <div class="input-field">
+                <label>ល្បឿន \(v \text{ (m/s)}\)</label>
+                <input type="number" id="ke-v" value="20">
+              </div>
+            </div>
+            <div class="calc-result-box">
+              <div style="font-size:0.9rem; color:var(--text-muted);">ថាមពលស៊ីនេទិច \(E_k\)៖</div>
+              <div id="ke-res" class="result-val">240000.00 J</div>
+            </div>
+          </div>
+
+          <!-- Panel 4: Ohm's Law -->
+          <div id="calc-ohm" class="calc-panel">
+            <div class="formula-display">
+              $$\displaystyle V = I \cdot R$$
+            </div>
+            <div class="calc-form-grid">
+              <div class="input-field">
+                <label>អាំងតង់ស៊ីតេចរន្ត \(I \text{ (A)}\)</label>
+                <input type="number" id="ohm-i" value="2.5">
+              </div>
+              <div class="input-field">
+                <label>រេស៊ីស្តង់ \(R \text{ (\Omega)}\)</label>
+                <input type="number" id="ohm-r" value="88">
+              </div>
+            </div>
+            <div class="calc-result-box">
+              <div style="font-size:0.9rem; color:var(--text-muted);">តង់ស្យុង \(V\)៖</div>
+              <div id="ohm-res" class="result-val">220.00 V</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Career Timeline Section -->
+  <section id="timeline" class="section">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-tag">បទពិសោធន៍</span>
+        <h2 class="section-title font-moul">ដំណើរផ្លូវ និងសមិទ្ធផល</h2>
+        <p class="section-subtitle">ការប្តេជ្ញាចិត្តអស់ពីបេះដូងក្នុងវិស័យអប់រំ និងការបណ្តុះបណ្តាលសិស្សជានិស្សិត</p>
+      </div>
+
+      <div class="timeline">
+        <!-- Item 1 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-year">2014 - 2016</span>
+            <h4 style="font-size:1.15rem; margin-bottom:8px; color:var(--cyan-glow);">ចាប់ផ្តើមគ្រូបង្រៀនរូបវិទ្យា</h4>
+            <p style="font-size:0.92rem; color:var(--text-muted);">បានបញ្ចប់បរិញ្ញាបត្រអប់រំ ផ្នែករូបវិទ្យា និងចាប់ផ្តើមបង្រៀនថ្នាក់វិទ្យាល័យជាមួយនឹងការបង្កើតពិសោធន៍ងាយៗក្នុងថ្នាក់។</p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-year">2017 - 2019</span>
+            <h4 style="font-size:1.15rem; margin-bottom:8px; color:var(--cyan-glow);">ពានរង្វាន់គ្រូបង្រៀនឆ្នើម</h4>
+            <p style="font-size:0.92rem; color:var(--text-muted);">ទទួលបានការសរសើរជាគ្រូបង្រៀនច្នៃប្រឌិតខ្ពស់ផ្នែកវិទ្យាសាស្ត្រ និងបានបណ្តុះបណ្តាលសិស្សជាប់និទ្ទេស A បាក់ឌុបជាច្រើននាក់។</p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-year">2020 - 2023</span>
+            <h4 style="font-size:1.15rem; margin-bottom:8px; color:var(--cyan-glow);">បង្កើត Physics Visual Simulator</h4>
+            <p style="font-size:0.92rem; color:var(--text-muted);">រៀបចំប្រព័ន្ធបង្រៀនតាមបែបឌីជីថល (Digital Learning Suite) ជួយសិស្សរាប់ពាន់នាក់ទូទាំងប្រទេសរៀនរូបវិទ្យាតាមអនឡាញ។</p>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-year">2024 - បច្ចុប្បន្ន</span>
+            <h4 style="font-size:1.15rem; margin-bottom:8px; color:var(--cyan-glow);">អ្នកជំនាញបំប៉នអាហារូបករណ៍</h4>
+            <p style="font-size:0.92rem; color:var(--text-muted);">ដឹកនាំថ្នាក់បំប៉នពិសេសសម្រាប់សិស្សប្រឡងបាក់ឌុប និងអាហារូបករណ៍សិក្សានៅបរទេស (ជប៉ុន, កូរ៉េ, ចិន, និងអឺរ៉ុប)។</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Student Success & Testimonials Section -->
+  <section id="testimonials" class="section" style="background: rgba(0,0,0,0.2);">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-tag">ការវាយតម្លៃ</span>
+        <h2 class="section-title font-moul">លទ្ធផល និងអារម្មណ៍របស់សិស្ស</h2>
+        <p class="section-subtitle">ស្តាប់សម្តីពិតពីសិស្សដែលធ្លាប់បានសិក្សាជាមួយលោកគ្រូ គឹម សុមង្គល</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <!-- Review 1 -->
+        <div class="glass-card testimonial-card">
+          <div class="student-info">
+            <div class="student-avatar">សុ</div>
+            <div>
+              <div class="student-name">សុខ សុជាតា</div>
+              <div class="student-grade">🎓 និទ្ទេស A បាក់ឌុបឆ្នាំ ២០២៣</div>
+            </div>
+          </div>
+          <p class="quote-text">
+            "មុនពេលរៀនជាមួយលោកគ្រូ សុមង្គល ខ្ញុំខ្លាចមុខវិជ្ជារូបវិទ្យាណាស់! ប៉ុន្តែលោកគ្រូបានពន្យល់ដោយប្រើរូបភាព Animations និងពិសោធន៍ជាក់ស្ដែង ធ្វើឲ្យខ្ញុំយល់ន័យច្បាស់ រហូតប្រឡងបាក់ឌុបបានពិន្ទុ A លើមុខវិជ្ជានេះ!"
+          </p>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="glass-card testimonial-card">
+          <div class="student-info">
+            <div class="student-avatar">ច</div>
+            <div>
+              <div class="student-name">ចាន់ ពិសិដ្ឋ</div>
+              <div class="student-grade">🌟 អាហារូបករណ៍ MEXT ប្រទេសជប៉ុន</div>
+            </div>
+          </div>
+          <p class="quote-text">
+            "លោកគ្រូមិនត្រឹមតែបង្រៀនមេរៀនបាក់ឌុបប៉ុណ្ណោះទេ ប៉ុន្តែបានជួយបំប៉នលំហាត់កម្រិតខ្ពស់សម្រាប់ប្រឡងអាហារូបករណ៍ជប៉ុន។ វិធីសាស្ត្រដោះស្រាយលំហាត់របស់លោកគ្រូលឿន និងចំគោលដៅមែនទែន!"
+          </p>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="glass-card testimonial-card">
+          <div class="student-info">
+            <div class="student-avatar">ល</div>
+            <div>
+              <div class="student-name">លី ម៉េងហុង</div>
+              <div class="student-grade">🎓 និទ្ទេស A បាក់ឌុបឆ្នាំ ២០២៤</div>
+            </div>
+          </div>
+          <p class="quote-text">
+            "ឧបករណ៍ Virtual Physics Lab លើគេហទំព័ររបស់លោកគ្រូ ជួយខ្ញុំច្រើនណាស់ពេលរំលឹកមេរៀននៅផ្ទះ។ ខ្ញុំអាចសាកល្បងពិសោធន៍ច្បាប់ឧស្ម័ន (ប៊យ, សាល, កេលុយសាក់) ដោយខ្លួនឯង និងយល់មេរៀនបានយ៉ាងជ្រៅជ្រះ!"
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Downloadable Resource Center -->
+  <section id="resources" class="section">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-tag">បណ្ណាល័យមេរៀន</span>
+        <h2 class="section-title font-moul">ឯកសារទាញយកដោយសេរី</h2>
+        <p class="section-subtitle">មេរៀនសង្ខេប រូបមន្តសំខាន់ៗ \(P_1V_1=P_2V_2, \frac{V_1}{T_1}=\frac{V_2}{T_2}, E=mc^2\) និងគំរូវិញ្ញាសាប្រឡងបាក់ឌុប</p>
+      </div>
+
+      <div class="resource-grid">
+        <!-- Resource 1: Real PDF Document -->
+        <div class="glass-card resource-card" 
+             data-title="សង្ខេបរូបមន្តរូបវិទ្យា ថ្នាក់ទី ១២" 
+             data-desc="ប្រមូលផ្តុំរូបមន្តសំខាន់ៗគ្រប់ជំពូកថ្នាក់ទី ១២ (ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន, ច្បាប់ទែរម៉ូឌីណាមិច, ម៉ាស៊ីន, រលក, អន្តរវេឡង់&ឌីប្រាក់ស្យុង, ដែននិងកម្លាំងម៉ាញេទិច, អាំងឌុចស្យុង, សៀគ្វីចរន្តឆ្លាស់, ត្រង់ស្វូ...) ងាយស្រួលមើលរំលឹកមុនប្រឡងបាក់ឌុប។ រៀបរៀង និងបង្រៀនដោយ៖ លោកគ្រូ គឹម សុមង្គល (ចំនួន ២១ ទំព័រ)។"
+             data-file="assets/docs/physics_formula_summary_grade12.pdf"
+             data-filename="រូបមន្តសង្ខេបបាក់ឌុប_រូបវិទ្យា១២_លោកគ្រូ_គឹម_សុមង្គល.pdf"
+             data-meta="PDF File • 2.4 MB (21 ទំព័រពេញលេញ)">
+          <div class="resource-icon">📄</div>
+          <div class="resource-info">
+            <h4 style="font-size:1.05rem; margin-bottom:4px;">រូបមន្តសង្ខេបបាក់ឌុប</h4>
+            <span style="font-size:0.85rem; color:var(--cyan-glow);">PDF File • 2.4 MB</span>
+          </div>
+          <a href="assets/docs/physics_formula_summary_grade12.pdf" 
+             download="រូបមន្តសង្ខេបបាក់ឌុប_រូបវិទ្យា១២_លោកគ្រូ_គឹម_សុមង្គល.pdf" 
+             class="resource-quick-btn" 
+             title="ទាញយក PDF ភ្លាមៗ" 
+             onclick="event.stopPropagation(); showToast('បានចាប់ផ្តើមទាញយកឯកសាររូបមន្តសង្ខេបបាក់ឌុប!');">
+            📥
+          </a>
+        </div>
+
+        <!-- Resource 2 -->
+        <div class="glass-card resource-card" data-title="សំណុំវិញ្ញាសាដោះស្រាយ ៥០ សំណុំ" data-desc="សំណុំវិញ្ញាសាប្រឡងបាក់ឌុបចាស់ៗ ជាមួយនឹងដំណោះស្រាយលម្អិត បង្ហាញរបៀបធ្វើ និងបច្ចេកទេសយករង A។">
+          <div class="resource-icon">📘</div>
+          <div>
+            <h4 style="font-size:1.05rem; margin-bottom:4px;">វិញ្ញាសាគំរូ ៥០ សំណុំ</h4>
+            <span style="font-size:0.85rem; color:var(--cyan-glow);">PDF File • 8.1 MB</span>
+          </div>
+        </div>
+
+        <!-- Resource 3 -->
+        <div class="glass-card resource-card" data-title="សៀវភៅណែនាំការពិសោធន៍រូបវិទ្យា" data-desc="សៀវភៅបង្ហាញពីការធ្វើពិសោធន៍ជាក់ស្ដែង ច្បាប់ឧស្ម័ន បទពិសោធន៍លោលទោល និងព្រីសកែវ។">
+          <div class="resource-icon">🔬</div>
+          <div>
+            <h4 style="font-size:1.05rem; margin-bottom:4px;">សៀវភៅពិសោធន៍</h4>
+            <span style="font-size:0.85rem; color:var(--cyan-glow);">PDF File • 4.5 MB</span>
+          </div>
+        </div>
+
+        <!-- Resource 4 -->
+        <div class="glass-card resource-card" data-title="គន្លឹះយករង A មុខវិជ្ជារូបវិទ្យា" data-desc="អត្ថបទណែនាំពីការបែងចែកពេលវេលាពេលប្រឡង ការកត់ត្រាចម្លើយ និងកំហុសឆ្គងដែលសិស្សជួបប្រទះញឹកញាប់។">
+          <div class="resource-icon">💡</div>
+          <div>
+            <h4 style="font-size:1.05rem; margin-bottom:4px;">គន្លឹះប្រឡងយករង A</h4>
+            <span style="font-size:0.85rem; color:var(--cyan-glow);">PDF File • 1.8 MB</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact & Registration Section -->
+  <section id="contact" class="section" style="background: rgba(0,0,0,0.3);">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-tag">ទំនាក់ទំនង</span>
+        <h2 class="section-title font-moul">ចុះឈ្មោះចូលរៀន & ព័ត៌មានបន្ថែម</h2>
+        <p class="section-subtitle">ទំនាក់ទំនងផ្ទាល់ជាមួយលោកគ្រូ គឹម សុមង្គល សម្រាប់ការចុះឈ្មោះរៀន ឬសួរព័ត៌មានមេរៀន</p>
+      </div>
+
+      <div class="contact-wrapper">
+        <!-- Contact Info -->
+        <div class="contact-info">
+          <div class="glass-card" style="padding:28px;">
+            <h3 style="font-size:1.4rem; margin-bottom:24px; color:var(--cyan-glow);">ព័ត៌មានទំនាក់ទំនង</h3>
+
+            <div class="contact-item" style="margin-bottom:20px;">
+              <div class="contact-icon">📱</div>
+              <div>
+                <div style="font-size:0.85rem; color:var(--text-muted);">លេខទូរស័ព្ទ / Phone:</div>
+                <div style="font-weight:bold; font-size:1.1rem; color:var(--text-main);">012-962-818 / 015-962-818</div>
+              </div>
+            </div>
+
+            <div class="contact-item" style="margin-bottom:20px;">
+              <div class="contact-icon">✈️</div>
+              <div>
+                <div style="font-size:0.85rem; color:var(--text-muted);">Telegram ផ្ទាល់:</div>
+                <a href="https://t.me/kimSomongkol_Physics" target="_blank" style="color:var(--cyan-glow); font-weight:bold; text-decoration:none;">
+                  @kimSomongkol_Physics
+                </a>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div>
+                <div style="font-size:0.85rem; color:var(--text-muted);">ទីតាំងថ្នាក់បង្រៀន:</div>
+                <div style="font-weight:bold; color:var(--text-main);">ខេត្តសៀមរាប, ប្រទេសកម្ពុជា</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="glass-card">
+          <h3 style="font-size:1.4rem; margin-bottom:20px; color:var(--cyan-glow);">ទម្រង់ចុះឈ្មោះចូលរៀន</h3>
+          <form id="enrollment-form" class="contact-form">
+            <div class="form-group">
+              <label for="form-name">ឈ្មោះពេញសិស្ស *</label>
+              <input type="text" id="form-name" placeholder="ឧទាហរណ៍៖ ជា សុខា" required>
+            </div>
+
+            <div class="form-group">
+              <label for="form-phone">លេខទូរស័ព្ទ ឬ Telegram *</label>
+              <input type="tel" id="form-phone" placeholder="012-962-818" required>
+            </div>
+
+            <div class="form-group">
+              <label for="form-course">ជ្រើសរើសថ្នាក់សិក្សា</label>
+              <select id="form-course">
+                <option value="ថ្នាក់ទី ១២ - ត្រៀមប្រឡងបាក់ឌុប">ថ្នាក់ទី ១២ - ត្រៀមប្រឡងបាក់ឌុប</option>
+                <option value="ថ្នាក់ទី ១១ - រូបវិទ្យាមូលដ្ឋានគ្រឹះ">ថ្នាក់ទី ១១ - រូបវិទ្យាមូលដ្ឋានគ្រឹះ</option>
+                <option value="ថ្នាក់ទី ១០ - រូបវិទ្យាដំបូង">ថ្នាក់ទី ១០ - រូបវិទ្យាដំបូង</option>
+                <option value="ថ្នាក់បំប៉នសិស្សពូកែ & អាហារូបករណ៍">ថ្នាក់បំប៉នសិស្សពូកែ & អាហារូបករណ៍</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn-primary" style="justify-content:center; width:100%; margin-top:10px;">
+              <span>🚀 ផ្ញើសំណើចុះឈ្មោះរៀន</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resource Preview Modal -->
+  <div id="resource-modal" class="modal-overlay">
+    <div class="modal-content">
+      <button id="modal-close" class="modal-close" aria-label="បិទ">&times;</button>
+      <div style="display:flex; align-items:center; gap:16px; margin-bottom:16px;">
+        <div class="resource-icon" style="width:56px; height:56px; font-size:1.8rem;">📄</div>
+        <div>
+          <h3 id="modal-title" class="font-moul" style="font-size:1.25rem; margin-bottom:4px; color:var(--text-main);"></h3>
+          <span id="modal-meta" style="font-size:0.85rem; color:var(--cyan-glow); font-weight:600;">PDF File • 2.4 MB</span>
+        </div>
+      </div>
+      <p id="modal-desc" style="color:var(--text-muted); margin-bottom:20px; line-height:1.8;"></p>
+      
+      <!-- Embedded PDF Preview container -->
+      <div id="modal-pdf-preview" style="display:none; margin-bottom:20px; border-radius:12px; overflow:hidden; border:1px solid var(--border-glass-active); background:#000;">
+        <iframe id="pdf-frame" src="" style="width:100%; height:420px; border:none;"></iframe>
+      </div>
+
+      <div class="modal-actions" style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a id="modal-download-btn" href="#" download="" class="btn-primary" style="flex:1; min-width:200px; justify-content:center; text-decoration:none;">
+          <span>📥 ចាប់ផ្តើមទាញយក PDF</span>
+        </a>
+        <a id="modal-view-btn" href="#" target="_blank" class="btn-outline" style="flex:1; min-width:180px; justify-content:center; text-decoration:none;">
+          <span>👁️ បើកមើលក្នុង Tab ថ្មី</span>
+        </a>
+        <a id="modal-edit-btn" href="#" target="_blank" class="btn-outline" style="display:none; padding:10px 16px; font-size:0.9rem; border-color:rgba(251,191,36,0.5); color:var(--amber-glow); text-decoration:none;" title="កែប្រែខ្លឹមសារស្លាយនេះ">
+          <span>✏️ កែប្រែស្លាយ (Edit)</span>
+        </a>
+        <button id="modal-toggle-preview" class="btn-outline" style="padding:10px 16px; font-size:0.9rem;" title="មើលក្នុងផ្ទាំងនេះ">
+          <span>📖 មើលផ្ទាល់ក្នុងនេះ</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Document Modal (ផ្ទាំងបញ្ចូលឯកសាររូបវិទ្យាថ្មី) -->
+  <div id="upload-document-modal" class="modal-overlay">
+    <div class="modal-content upload-modal-content">
+      <button id="upload-modal-close" class="modal-close" aria-label="បិទ">&times;</button>
+      
+      <div class="upload-modal-header">
+        <div class="upload-icon-circle">📤</div>
+        <div>
+          <h3 class="font-moul upload-modal-title">បញ្ចូលឯកសាររូបវិទ្យាថ្មី (Upload Document)</h3>
+          <p class="upload-modal-subtitle">បញ្ចូលមេរៀន ស្លាយបង្រៀន លំហាត់ស្រាវជ្រាវ ឬវិញ្ញាសាទៅក្នុងទូឯកសារ</p>
+        </div>
+      </div>
+
+      <form id="cabinet-upload-form" class="upload-form">
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="upload-target-grade">ជ្រើសរើសកម្រិតថ្នាក់ *</label>
+            <select id="upload-target-grade" required>
+              <option value="10">ថ្នាក់ទី ១០ (មូលដ្ឋានគ្រឹះ)</option>
+              <option value="11">ថ្នាក់ទី ១១ (ស៊ីជម្រៅ)</option>
+              <option value="12" selected>ថ្នាក់ទី ១២ (ត្រៀមបាក់ឌុប & A)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="upload-target-folder">ជ្រើសរើសថតឯកសារ *</label>
+            <select id="upload-target-folder" required>
+              <option value="lessons">📁 ថតមេរៀន (Lessons)</option>
+              <option value="slides">📂 ថតស្លាយមេរៀន (Lesson Slides)</option>
+              <option value="exercises">📝 ថតលំហាត់ស្រាវជ្រាវតាមមេរៀន (Research Exercises)</option>
+              <option value="exams">📑 ថតវិញ្ញាសា (Exam Papers)</option>
+              <option value="lessonplans">📋 ថតកិច្ចតែងការ (Lesson Plans)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="upload-file-title">ចំណងជើងឯកសារ *</label>
+          <input type="text" id="upload-file-title" placeholder="ឧទាហរណ៍៖ មេរៀនទី ៦៖ រូបវិទ្យាកង់ទិច និងផូតុង" required>
+        </div>
+
+        <div class="form-group">
+          <label for="upload-file-desc">ការពិពណ៌នាសង្ខេបពីឯកសារ</label>
+          <textarea id="upload-file-desc" rows="2" placeholder="សង្ខេបខ្លឹមសារមេរៀន ឬការណែនាំអំពីឯកសារ..."></textarea>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="upload-formula">រូបមន្តគន្លឹះ / សមីការ (KaTeX Formula)</label>
+            <input type="text" id="upload-formula" placeholder="ឧទាហរណ៍៖ E = h\nu, \quad \lambda = \frac{h}{p}">
+          </div>
+
+          <div class="form-group">
+            <label for="upload-file-chips">ប្រធានបទ / ស្លាកសម្គាល់ (បំបែកដោយក្បៀស ,)</label>
+            <input type="text" id="upload-file-chips" placeholder="ឧទាហរណ៍៖ កង់ទិច, ផូតុង, អាំងស្ដាញ">
+          </div>
+        </div>
+
+        <!-- Drag & Drop Zone / File Input -->
+        <div class="upload-dropzone" id="upload-dropzone">
+          <input type="file" id="upload-file-input" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip,.png,.jpg" style="display:none;">
+          <div class="dropzone-content" id="dropzone-default-view">
+            <div class="dropzone-icon">📁</div>
+            <div class="dropzone-text">
+              <strong>អូស និងទម្លាក់ឯកសារនៅទីនេះ</strong> ឬ <span class="dropzone-browse">ចុចដើម្បីជ្រើសរើសឯកសារ</span>
+            </div>
+            <div class="dropzone-hint">គាំទ្រឯកសារ PDF, PPTX, Word, Excel, ZIP (ទំហំអតិបរមា 50 MB)</div>
+          </div>
+          <div class="dropzone-file-selected" id="dropzone-selected-view" style="display:none;">
+            <div class="selected-file-icon" id="selected-file-icon">📄</div>
+            <div class="selected-file-info">
+              <div class="selected-file-name" id="selected-file-name">filename.pdf</div>
+              <div class="selected-file-size" id="selected-file-size">2.5 MB</div>
+            </div>
+            <button type="button" class="btn-remove-file" id="btn-remove-file" title="លុបឯកសារ">&times;</button>
+          </div>
+        </div>
+
+        <div class="upload-modal-actions">
+          <button type="button" class="btn-outline" id="btn-cancel-upload">
+            <span>✕ បោះបង់</span>
+          </button>
+          <button type="submit" class="btn-primary" id="btn-submit-upload" style="flex:2; justify-content:center;">
+            <span>🚀 បញ្ចូលឯកសារទៅក្នុងទូ</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p style="margin-bottom:8px;">© 2026 លោកគ្រូ គឹម សុមង្គល (Kim Somangkol) - រក្សាសិទ្ធិគ្រប់យ៉ាង។</p>
+      <p style="font-size:0.85rem; color:var(--text-dim);">
+        អភិវឌ្ឍន៍ដោយភាពឆ្នៃប្រឌិតខ្ពស់សម្រាប់វិស័យអប់រំរូបវិទ្យានៅកម្ពុជា 🇰🇭
+      </p>
+    </div>
+  </footer>
+
+  <!-- App Scripts -->
+  <script src="js/background.js"></script>
+  <script src="js/simulations.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
