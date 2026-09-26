@@ -1270,16 +1270,20 @@ function initEnrolledStudentsTable() {
     currentAlertStudent = student;
 
     const currentSheetUrl = localStorage.getItem('ap_phy_google_sheet_url') || defaultSheetUrl;
+    const webhookUrl = localStorage.getItem('ap_phy_sheet_webhook_url') || defaultWebhookUrl;
     if (alertOpenSheetsBtn) alertOpenSheetsBtn.href = currentSheetUrl || 'https://drive.google.com/drive/my-drive';
 
     const khmerCount = toKhmerDigits(students.length);
+    const hasGoogleLink = (currentSheetUrl && !currentSheetUrl.includes('1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms')) || (webhookUrl && webhookUrl.startsWith('http'));
 
     alertCard.innerHTML = `
-      <div style="margin-bottom: 12px; display:flex; justify-content:space-between; align-items:center;">
+      <div style="margin-bottom: 12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
         <span style="font-size:0.85rem; color:var(--cyan-glow); font-weight:700;">
           🔢 លេខរៀងសិស្សជាក់ស្តែងក្នុងបញ្ជី៖ ${khmerCount}
         </span>
-        <span class="status-badge new">● បានចុះឈ្មោះជាក់ស្តែង</span>
+        ${hasGoogleLink 
+          ? '<span class="status-badge new">● បានភ្ជាប់ Google Sheets</span>' 
+          : '<span class="status-badge" style="background:rgba(234,179,8,0.15); color:#facc15; border-color:rgba(234,179,8,0.3);">● កត់ត្រាក្នុងម៉ាស៊ីន</span>'}
       </div>
       <div class="student-detail-grid">
         <div class="student-detail-item">
@@ -1307,6 +1311,12 @@ function initEnrolledStudentsTable() {
           <div class="student-detail-value" style="font-size:0.84rem; color:var(--text-muted);">${student.date}</div>
         </div>
       </div>
+      ${!hasGoogleLink ? `
+      <div style="margin-top:14px; padding:10px 14px; background:rgba(234,179,8,0.08); border:1px solid rgba(234,179,8,0.25); border-radius:8px; font-size:0.82rem; color:#fde047; line-height:1.6;">
+        💡 <strong>ដើម្បីឱ្យទិន្នន័យនេះរត់ចូល Google Sheet ក្នុង Drive និងឃើញលើគ្រប់ Device ទាំងអស់៖</strong><br>
+        សូមភ្ជាប់តំណភ្ជាប់ Google Sheets ក្នុង Google Drive របស់អ្នកត្រង់ប៊ូតុង <strong>"⚙️ កំណត់តំណ Sheets"</strong> ឬផ្ញើតំណភ្ជាប់ Google Sheet មកខ្ញុំ!
+      </div>
+      ` : ''}
     `;
 
     alertModal.classList.add('active');
@@ -1529,12 +1539,7 @@ function initEnrolledStudentsTable() {
     }
   });
 
-  // Background polling every 20 seconds for seamless cross-device sync
-  setInterval(() => {
-    if (document.visibilityState === 'visible') {
-      fetchStudentsFromGoogleSheets(true);
-    }
-  }, 20000);
+
 }
 
 // Global Toast System
