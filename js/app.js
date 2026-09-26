@@ -574,9 +574,10 @@ function initEnrolledStudentsTable() {
   const filterBtns = document.querySelectorAll('.student-filter-btn');
 
   // ==========================================================================
-  // Google Sheets & Webhook Configuration
-  // លោកគ្រូអាចដាក់ Webhook URL ឬ Google Sheets URL នៅទីនេះ ដើម្បីឱ្យគ្រប់ Device ទាំងអស់ Sync
+  // Central Cloud Registry & Google Sheets Configuration
+  // ធានាថាការចុះឈ្មោះពីទូរស័ព្ទ ឬកុំព្យូទ័រណាក៏ដោយ អាចមើលឃើញគ្រប់ Device ទាំងអស់ភ្លាមៗ
   // ==========================================================================
+  const CLOUD_REGISTRY_URL = 'https://api.restful-api.dev/objects/ff808181a09d98f701a0dc728bfc19ef';
   const DEFAULT_WEBHOOK_URL = ''; // e.g. 'https://script.google.com/macros/s/.../exec'
   const DEFAULT_SHEET_URL = '';   // e.g. 'https://docs.google.com/spreadsheets/d/.../edit'
   const defaultSheetUrl = DEFAULT_SHEET_URL;
@@ -767,43 +768,43 @@ function initEnrolledStudentsTable() {
   }
 
   // --------------------------------------------------------------------------
-  // Core Google Sheets Pull / Fetch Logic
+  // Core Data Synchronization Logic (Cloud Registry + Google Sheets Two-Way Sync)
+  // ធានាថាគ្រប់ Device ទាំងអស់អាចមើលឃើញទិន្នន័យដូចគ្នាភ្លាមៗ (Cross-Device Live Sync)
   // --------------------------------------------------------------------------
   async function fetchStudentsFromGoogleSheets(silent = false) {
     const currentSheetUrl = localStorage.getItem('ap_phy_google_sheet_url') || defaultSheetUrl;
-    const webhookUrl = localStorage.getItem('ap_phy_sheet_webhook_url');
-
-    // If neither is configured, or if sheetUrl points to the old example sheet, DO NOT fetch dummy template!
-    if ((!currentSheetUrl || currentSheetUrl.includes('1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms')) && (!webhookUrl || !webhookUrl.startsWith('http'))) {
-      if (syncStatusPill) {
-        syncStatusPill.className = 'sync-status-pill';
-        const khmerTotal = toKhmerDigits(students.length);
-        if (syncStatusText) {
-          syncStatusText.innerText = students.length > 0 
-            ? `🟢 សិស្សចុះឈ្មោះជាក់ស្តែង (${khmerTotal} នាក់)` 
-            : `⚪ មិនទាន់ភ្ជាប់ Google Sheets`;
-        }
-      }
-      renderTable();
-      return;
-    }
+    const webhookUrl = localStorage.getItem('ap_phy_sheet_webhook_url') || defaultWebhookUrl;
 
     if (syncSheetsBtn) syncSheetsBtn.classList.add('syncing');
     if (syncStatusPill) {
       syncStatusPill.className = 'sync-status-pill syncing';
-      if (syncStatusText) syncStatusText.innerText = 'កំពុងទាញយកទិន្នន័យពី Sheets...';
+      if (syncStatusText) syncStatusText.innerText = 'កំពុងធ្វើបច្ចុប្បន្នភាពទិន្នន័យ...';
     }
 
-    let fetchedStudents = null;
+    let cloudStudents = null;
+    let sheetStudents = null;
 
-    // 1. First attempt: Google Apps Script Webhook (GET request)
+    // 1. Fetch from Central Cloud Registry (Real-time Cross-Device Sync)
+    try {
+      const cRes = await fetch(`${CLOUD_REGISTRY_URL}?_=${Date.now()}`);
+      if (cRes.ok) {
+        const cJson = await cRes.json();
+        if (cJson && cJson.data && Array.isArray(cJson.data.students)) {
+          cloudStudents = cJson.data.students;
+        }
+      }
+    } catch (cErr) {
+      console.warn('Notice from Cloud Registry:', cErr);
+    }
+
+    // 2. Fetch from Google Apps Script Webhook (if configured)
     if (webhookUrl && webhookUrl.startsWith('http')) {
       try {
         const resp = await fetch(webhookUrl, { method: 'GET' });
         if (resp.ok) {
           const json = await resp.json();
           if (json && json.status === 'success' && Array.isArray(json.data)) {
-            fetchedStudents = json.data;
+            sheetStudents = json.data;
           }
         }
       } catch (err) {
@@ -811,8 +812,8 @@ function initEnrolledStudentsTable() {
       }
     }
 
-    // 2. Second attempt: Google Visualization API (GViz) from custom Google Sheets URL
-    if (!fetchedStudents && currentSheetUrl && !currentSheetUrl.includes('1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms')) {
+    // 3. Fetch from Google Visualization API (GViz) (if custom Sheet URL is configured)
+    if (!sheetStudents && currentSheetUrl && !currentSheetUrl.includes('1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms')) {
       const sheetId = extractGoogleSheetId(currentSheetUrl);
       if (sheetId) {
         try {
@@ -859,7 +860,6 @@ function initEnrolledStudentsTable() {
                   }
                 }
 
-                // Filter out any sample template rows
                 const nLower = String(name).toLowerCase();
                 if (nLower === 'student name' || nLower === 'gender' || nLower === 'female' || nLower === 'male') {
                   continue;
@@ -878,7 +878,7 @@ function initEnrolledStudentsTable() {
                 });
               }
 
-              fetchedStudents = parsed;
+              sheetStudents = parsed;
             }
           }
         } catch (err) {
@@ -889,17 +889,41 @@ function initEnrolledStudentsTable() {
 
     if (syncSheetsBtn) syncSheetsBtn.classList.remove('syncing');
 
-    if (fetchedStudents !== null && fetchedStudents.length > 0) {
-      // Merge any pending local real students that are not yet reflected in the sheet
-      const sheetPhones = new Set(fetchedStudents.map(s => String(s.phone || '').trim().replace(/[-\s]/g, '')));
-      const pendingLocal = students.filter(s => {
-        const cleanPhone = String(s.phone || '').trim().replace(/[-\s]/g, '');
-        return cleanPhone && !sheetPhones.has(cleanPhone);
+    // Combine all sources: Cloud Registry + Google Sheets + Local Storage
+    let combined = [];
+    const seenKeys = new Set();
+
+    function addUnique(list) {
+      if (!Array.isArray(list)) return;
+      list.forEach(item => {
+        if (!item || !item.name) return;
+        const phoneKey = String(item.phone || '').trim().replace(/[-\s]/g, '');
+        const nameKey = String(item.name || '').trim().toLowerCase();
+        const dedupeKey = phoneKey ? phoneKey : (nameKey + '_' + String(item.schedule || item.time || ''));
+        if (!seenKeys.has(dedupeKey)) {
+          seenKeys.add(dedupeKey);
+          combined.push(item);
+        }
       });
-      students = [...pendingLocal, ...fetchedStudents];
+    }
+
+    // Add Cloud Students (highest cross-device priority)
+    addUnique(cloudStudents);
+    // Add Google Sheets Students
+    addUnique(sheetStudents);
+    // Add Local Pending Students
+    addUnique(students);
+
+    if (combined.length > 0) {
+      students = combined;
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
       } catch (e) {}
+
+      // If local had students not yet in cloud, push to cloud in background
+      if (cloudStudents && cloudStudents.length < combined.length) {
+        updateFullCloudList(combined);
+      }
 
       renderTable();
 
@@ -907,22 +931,21 @@ function initEnrolledStudentsTable() {
         syncStatusPill.className = 'sync-status-pill';
         const khmerTotal = toKhmerDigits(students.length);
         if (syncStatusText) {
-          syncStatusText.innerText = `🟢 ភ្ជាប់ Google Sheets (${khmerTotal} នាក់)`;
+          syncStatusText.innerText = (currentSheetUrl || webhookUrl)
+            ? `🟢 ភ្ជាប់ Sheets & Cloud (${khmerTotal} នាក់)`
+            : `🟢 Sync គ្រប់ Device ផ្ទាល់ (${khmerTotal} នាក់)`;
         }
       }
 
       if (!silent) {
-        showToast(`✅ បានទាញយកទិន្នន័យសិស្ស ${toKhmerDigits(students.length)} នាក់ពី Google Sheets ដោយជោគជ័យ!`);
+        showToast(`✅ បានធ្វើបច្ចុប្បន្នភាពបញ្ជីសិស្ស ${toKhmerDigits(students.length)} នាក់គ្រប់ Device ទាំងអស់ដោយជោគជ័យ!`);
       }
     } else {
-      // Keep existing real local registrations! Never wipe them!
       renderTable();
       if (syncStatusPill) {
         syncStatusPill.className = 'sync-status-pill';
         if (syncStatusText) {
-          syncStatusText.innerText = students.length > 0 
-            ? `🟢 សិស្សជាក់ស្តែង (${toKhmerDigits(students.length)} នាក់)` 
-            : `⚪ មិនទាន់ភ្ជាប់ Google Sheets`;
+          syncStatusText.innerText = `⚪ មិនទាន់មានសិស្សចុះឈ្មោះ`;
         }
       }
       if (!silent && (currentSheetUrl || webhookUrl)) {
@@ -1037,6 +1060,108 @@ function initEnrolledStudentsTable() {
     });
   }
 
+  // --------------------------------------------------------------------------
+  // Cloud Registry Real-time Synchronization Functions
+  // --------------------------------------------------------------------------
+  async function syncStudentToCloud(newStudent) {
+    try {
+      let cloudList = [];
+      try {
+        const res = await fetch(`${CLOUD_REGISTRY_URL}?_=${Date.now()}`);
+        if (res.ok) {
+          const json = await res.json();
+          if (json && json.data && Array.isArray(json.data.students)) {
+            cloudList = json.data.students;
+          }
+        }
+      } catch (e) {}
+
+      const newPhone = String(newStudent.phone || '').trim().replace(/[-\s]/g, '');
+      const newName = String(newStudent.name || '').trim().toLowerCase();
+
+      const exists = cloudList.some(s => {
+        const sPhone = String(s.phone || '').trim().replace(/[-\s]/g, '');
+        const sName = String(s.name || '').trim().toLowerCase();
+        if (newPhone && sPhone && newPhone === sPhone) return true;
+        if (newName === sName && s.time === newStudent.time) return true;
+        return s.id === newStudent.id;
+      });
+
+      if (!exists) {
+        cloudList.unshift(newStudent);
+      }
+
+      await fetch(CLOUD_REGISTRY_URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: 'Somongkol Physics Students Registry',
+          data: {
+            lastUpdated: new Date().toISOString(),
+            students: cloudList
+          }
+        })
+      });
+    } catch (err) {
+      console.warn('Sync to Cloud notice:', err);
+    }
+  }
+
+  async function updateFullCloudList(list) {
+    try {
+      await fetch(CLOUD_REGISTRY_URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: 'Somongkol Physics Students Registry',
+          data: {
+            lastUpdated: new Date().toISOString(),
+            students: list
+          }
+        })
+      });
+    } catch (err) {
+      console.warn('Update cloud list notice:', err);
+    }
+  }
+
+  async function deleteStudentFromCloud(studentId) {
+    try {
+      const res = await fetch(`${CLOUD_REGISTRY_URL}?_=${Date.now()}`);
+      if (!res.ok) return;
+      const json = await res.json();
+      if (!json.data || !Array.isArray(json.data.students)) return;
+      const updated = json.data.students.filter(s => s.id !== studentId);
+      await fetch(CLOUD_REGISTRY_URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: 'Somongkol Physics Students Registry',
+          data: {
+            lastUpdated: new Date().toISOString(),
+            students: updated
+          }
+        })
+      });
+    } catch (e) {}
+  }
+
+  async function clearCloudRegistry() {
+    try {
+      await fetch(CLOUD_REGISTRY_URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: 'Somongkol Physics Students Registry',
+          data: {
+            lastUpdated: new Date().toISOString(),
+            students: []
+          }
+        })
+      });
+    } catch (e) {}
+  }
+
   // Clear all students button
   if (clearStudentsBtn) {
     clearStudentsBtn.addEventListener('click', () => {
@@ -1050,11 +1175,11 @@ function initEnrolledStudentsTable() {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
         } catch (e) {}
         renderTable();
+        clearCloudRegistry();
         showToast('🗑️ បានសម្អាតបញ្ជីឈ្មោះសិស្សរួចរាល់!');
       }
     });
   }
-
 
   // Global helper: Copy single student row
   window.copySingleStudent = function(studentId) {
@@ -1080,11 +1205,12 @@ function initEnrolledStudentsTable() {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
       } catch (e) {}
       renderTable();
+      deleteStudentFromCloud(studentId);
       showToast(`🗑️ បានលុបសិស្ស "${st.name}" រួចរាល់!`);
     }
   };
 
-  // Global helper: Add enrolled student locally
+  // Global helper: Add enrolled student locally & sync to cloud
   window.addActualStudent = function(newStudent) {
     students.unshift(newStudent);
     recentlyAddedId = newStudent.id;
@@ -1092,6 +1218,9 @@ function initEnrolledStudentsTable() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
     } catch (e) {}
     renderTable();
+
+    // Broadcast to Central Cloud Registry so all other devices see it in real time!
+    syncStudentToCloud(newStudent);
   };
 
   // Global helper: Send student to Google Sheets via Webhook (POST)
@@ -1387,8 +1516,25 @@ function initEnrolledStudentsTable() {
   // Initial table render from cache
   renderTable();
 
-  // Automatically pull live data from Google Sheets on page load
+  // Automatically pull live data from Cloud & Google Sheets on page load
   fetchStudentsFromGoogleSheets(true);
+
+  // Auto-sync across devices on window focus / tab visibility change
+  window.addEventListener('focus', () => {
+    fetchStudentsFromGoogleSheets(true);
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      fetchStudentsFromGoogleSheets(true);
+    }
+  });
+
+  // Background polling every 20 seconds for seamless cross-device sync
+  setInterval(() => {
+    if (document.visibilityState === 'visible') {
+      fetchStudentsFromGoogleSheets(true);
+    }
+  }, 20000);
 }
 
 // Global Toast System
