@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCabinetUpload();
   initResourceModal();
   initContactForm();
+  initEnrolledStudentsTable();
 });
 
 // 1. Navbar Scroll Effect, Mobile Menu, & Dropdowns
@@ -340,18 +341,223 @@ function initContactForm() {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = document.getElementById('form-name').value;
-    const phone = document.getElementById('form-phone').value;
+    const name = document.getElementById('form-name').value.trim();
+    const phone = document.getElementById('form-phone').value.trim();
     const course = document.getElementById('form-course').value;
+    const scheduleElem = document.getElementById('form-schedule');
+    const schedule = scheduleElem ? scheduleElem.value : 'ចន្ទ - ពុធ - សុក្រ (5:30 PM - 7:00 PM)';
 
     if (!name || !phone) {
       showToast('សូមបំពេញឈ្មោះ និងលេខទូរស័ព្ទឲ្យបានត្រឹមត្រូវ!');
       return;
     }
 
-    showToast(`សូមអរគុណ ${name}! សំណើចុះឈ្មោះរៀនវគ្គ ${course} ត្រូវបានផ្ញើរួចរាល់។ លោកគ្រូនឹងទាក់ទងទៅកាន់ ${phone} ឆាប់ៗនេះ!`);
+    // Add to enrolled students list
+    if (window.addEnrolledStudent) {
+      window.addEnrolledStudent({
+        id: Date.now(),
+        name: name,
+        grade: course,
+        schedule: schedule,
+        status: 'សិស្សថ្មី'
+      });
+    }
+
+    showToast(`សូមអរគុណ ${name}! អ្នកត្រូវបានចុះឈ្មោះចូលរៀនវគ្គ ${course} ម៉ោង ${schedule} និងបានបញ្ចូលទៅក្នុងបញ្ជីឈ្មោះដោយជោគជ័យ!`);
     form.reset();
+
+    // Smooth scroll to the student table
+    const studentsSec = document.getElementById('students');
+    if (studentsSec) {
+      setTimeout(() => {
+        studentsSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 500);
+    }
   });
+}
+
+// 6. Enrolled Students Directory & Google Sheets Link Handler
+function initEnrolledStudentsTable() {
+  const tableBody = document.getElementById('students-table-body');
+  if (!tableBody) return;
+
+  const countBadge = document.getElementById('student-count-badge');
+  const googleSheetBtn = document.getElementById('google-sheet-link-btn');
+  const configSheetBtn = document.getElementById('btn-config-sheet');
+  const searchInput = document.getElementById('student-search-input');
+  const filterBtns = document.querySelectorAll('.student-filter-btn');
+
+  // Load configured Google Sheet URL or default
+  const defaultSheetUrl = 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit?usp=sharing';
+  const savedSheetUrl = localStorage.getItem('ap_phy_google_sheet_url') || defaultSheetUrl;
+  if (googleSheetBtn) {
+    googleSheetBtn.href = savedSheetUrl;
+  }
+
+  // Handle Sheet URL configuration
+  if (configSheetBtn) {
+    configSheetBtn.addEventListener('click', () => {
+      const currentUrl = localStorage.getItem('ap_phy_google_sheet_url') || defaultSheetUrl;
+      const newUrl = prompt('សូមបញ្ចូលតំណភ្ជាប់ (URL) ឯកសារ Google Sheets នៅក្នុង My Drive របស់អ្នក៖', currentUrl);
+      if (newUrl && newUrl.trim()) {
+        const trimmed = newUrl.trim();
+        if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+          localStorage.setItem('ap_phy_google_sheet_url', trimmed);
+          if (googleSheetBtn) googleSheetBtn.href = trimmed;
+          showToast('បានរក្សាទុកតំណភ្ជាប់ Google Sheets នៅក្នុង My Drive ដោយជោគជ័យ!');
+        } else {
+          showToast('សូមបញ្ចូលតំណភ្ជាប់ URL ឲ្យបានត្រឹមត្រូវ (ផ្តើមដោយ https://)!');
+        }
+      }
+    });
+  }
+
+  // Initial Students Seed Data
+  const defaultStudents = [
+    { id: 1, name: 'ជា សុខា', grade: 'ថ្នាក់ទី ១២', schedule: 'ចន្ទ - ពុធ - សុក្រ (5:30 PM - 7:00 PM)', status: 'បានបញ្ជាក់' },
+    { id: 2, name: 'ស៊ន វ៉ាន់នី', grade: 'ថ្នាក់ទី ១២', schedule: 'សៅរ៍ - អាទិត្យ (8:00 AM - 10:30 AM)', status: 'បានបញ្ជាក់' },
+    { id: 3, name: 'ម៉េង គីមឡុង', grade: 'ថ្នាក់ទី ១២', schedule: 'ចន្ទ - ពុធ - សុក្រ (5:30 PM - 7:00 PM)', status: 'កំពុងរៀន' },
+    { id: 4, name: 'ហេង ស្រីនិច', grade: 'ថ្នាក់ទី ១១', schedule: 'អង្គារ - ព្រហស្បតិ៍ - សៅរ៍ (5:30 PM - 7:00 PM)', status: 'បានបញ្ជាក់' },
+    { id: 5, name: 'លី ច័ន្ទរស្មី', grade: 'ថ្នាក់ទី ១១', schedule: 'សៅរ៍ - អាទិត្យ (2:00 PM - 4:30 PM)', status: 'កំពុងរៀន' },
+    { id: 6, name: 'គង់ ពិសិដ្ឋ', grade: 'ថ្នាក់ទី ១០', schedule: 'ចន្ទ - ពុធ - សុក្រ (2:00 PM - 3:30 PM)', status: 'បានបញ្ជាក់' },
+    { id: 7, name: 'សេង ដាលីន', grade: 'ថ្នាក់ទី ១២', schedule: 'សៅរ៍ - អាទិត្យ (8:00 AM - 10:30 AM)', status: 'បានបញ្ជាក់' },
+    { id: 8, name: 'អ៊ុំ សុវណ្ណារ៉ា', grade: 'ថ្នាក់ទី ១០', schedule: 'អង្គារ - ព្រហស្បតិ៍ (2:00 PM - 3:30 PM)', status: 'កំពុងរៀន' },
+    { id: 9, name: 'រិទ្ធី មុន្នីរ័ត្ន', grade: 'ថ្នាក់ទី ១១', schedule: 'អង្គារ - ព្រហស្បតិ៍ - សៅរ៍ (5:30 PM - 7:00 PM)', status: 'បានបញ្ជាក់' },
+    { id: 10, name: 'ចាន់ ធីតា', grade: 'ថ្នាក់ទី ១២', schedule: 'ចន្ទ - ពុធ - សុក្រ (5:30 PM - 7:00 PM)', status: 'សិស្សថ្មី' },
+    { id: 11, name: 'ភីរម្យ រស្មី', grade: 'ថ្នាក់ទី ១១', schedule: 'សៅរ៍ - អាទិត្យ (2:00 PM - 4:30 PM)', status: 'បានបញ្ជាក់' },
+    { id: 12, name: 'ទិត្យ វីរៈ', grade: 'ថ្នាក់ទី ១០', schedule: 'ចន្ទ - ពុធ - សុក្រ (2:00 PM - 3:30 PM)', status: 'បានបញ្ជាក់' }
+  ];
+
+  let students = [];
+  try {
+    const stored = localStorage.getItem('ap_phy_enrolled_students');
+    students = stored ? JSON.parse(stored) : defaultStudents;
+  } catch (err) {
+    students = defaultStudents;
+  }
+  if (!students || !students.length) students = defaultStudents;
+
+  // Render Table
+  let currentGradeFilter = 'all';
+  let currentSearchQuery = '';
+
+  function renderTable() {
+    tableBody.innerHTML = '';
+
+    const filtered = students.filter(st => {
+      // Grade filter
+      let matchGrade = true;
+      if (currentGradeFilter === '12') matchGrade = st.grade.includes('១២');
+      else if (currentGradeFilter === '11') matchGrade = st.grade.includes('១១');
+      else if (currentGradeFilter === '10') matchGrade = st.grade.includes('១០');
+
+      // Search query
+      let matchSearch = true;
+      if (currentSearchQuery) {
+        const q = currentSearchQuery.toLowerCase();
+        matchSearch = st.name.toLowerCase().includes(q) || 
+                      st.grade.toLowerCase().includes(q) || 
+                      st.schedule.toLowerCase().includes(q);
+      }
+
+      return matchGrade && matchSearch;
+    });
+
+    if (filtered.length === 0) {
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align:center; padding: 36px; color: var(--text-muted);">
+            <div style="font-size: 2rem; margin-bottom: 8px;">🔍</div>
+            <div>មិនមានទិន្នន័យសិស្សត្រូវនឹងលក្ខខណ្ឌស្វែងរកនេះទេ!</div>
+          </td>
+        </tr>
+      `;
+    } else {
+      filtered.forEach((st, idx) => {
+        const tr = document.createElement('tr');
+
+        // Grade styling class
+        let gradeClass = 'g12';
+        if (st.grade.includes('១១')) gradeClass = 'g11';
+        else if (st.grade.includes('១០')) gradeClass = 'g10';
+
+        // Status styling class
+        let statusClass = 'confirmed';
+        if (st.status === 'កំពុងរៀន') statusClass = 'active-study';
+        else if (st.status === 'សិស្សថ្មី') statusClass = 'new';
+
+        // Convert index to Khmer number
+        const arabicToKhmer = { '0': '០', '1': '១', '2': '២', '3': '៣', '4': '៤', '5': '៥', '6': '៦', '7': '៧', '8': '៨', '9': '៩' };
+        const khmerIdx = String(idx + 1).split('').map(d => arabicToKhmer[d] || d).join('');
+
+        tr.innerHTML = `
+          <td style="text-align: center;">
+            <span class="student-no-badge">${khmerIdx}</span>
+          </td>
+          <td>
+            <div class="student-name-cell">
+              <span class="student-avatar">${st.name.charAt(0)}</span>
+              <span>${st.name}</span>
+            </div>
+          </td>
+          <td>
+            <span class="grade-tag ${gradeClass}">${st.grade}</span>
+          </td>
+          <td>
+            <span class="schedule-pill">
+              <span class="schedule-icon">⏰</span>
+              <span>${st.schedule}</span>
+            </span>
+          </td>
+          <td style="text-align: center;">
+            <span class="status-badge ${statusClass}">
+              <span>●</span>
+              <span>${st.status}</span>
+            </span>
+          </td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    }
+
+    // Update total count badge in Khmer digits
+    if (countBadge) {
+      const count = students.length;
+      const arabicToKhmer = { '0': '០', '1': '១', '2': '២', '3': '៣', '4': '៤', '5': '៥', '6': '៦', '7': '៧', '8': '៨', '9': '៩' };
+      const khmerCount = String(count).split('').map(d => arabicToKhmer[d] || d).join('');
+      countBadge.innerText = `${khmerCount} នាក់`;
+    }
+  }
+
+  // Filter button handlers
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentGradeFilter = btn.dataset.grade || 'all';
+      renderTable();
+    });
+  });
+
+  // Search input handler
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      currentSearchQuery = e.target.value.trim();
+      renderTable();
+    });
+  }
+
+  // Render initially
+  renderTable();
+
+  // Expose global helper to add new enrolled student
+  window.addEnrolledStudent = function(newStudent) {
+    students.unshift(newStudent);
+    try {
+      localStorage.setItem('ap_phy_enrolled_students', JSON.stringify(students));
+    } catch (e) {}
+    renderTable();
+  };
 }
 
 // Global Toast System

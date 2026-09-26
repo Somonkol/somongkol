@@ -209,7 +209,15 @@
           </div>
         </li>
 
-        <!-- 6. ទំនាក់ទំនង -->
+        <!-- 6. បញ្ជីឈ្មោះសិស្ស -->
+        <li class="nav-item">
+          <a href="#students" class="nav-link">
+            <span>បញ្ជីឈ្មោះសិស្ស</span>
+            <span style="font-size:0.7rem; background:rgba(16,185,129,0.15); color:#34d399; padding:2px 8px; border-radius:10px; margin-left:4px; border: 1px solid rgba(16,185,129,0.3);">Sheets</span>
+          </a>
+        </li>
+
+        <!-- 7. ទំនាក់ទំនង -->
         <li class="nav-item">
           <a href="#contact" class="nav-link">ទំនាក់ទំនង</a>
         </li>
@@ -2118,6 +2126,97 @@
     </div>
   </section>
 
+  <!-- Enrolled Students Directory & Google Sheets Section -->
+  <section id="students" class="section" style="background: rgba(0, 0, 0, 0.22);">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-tag">Student Enrollment Directory</span>
+        <h2 class="section-title font-moul">បញ្ជីឈ្មោះសិស្សដែលបានចុះឈ្មោះចូលរៀន</h2>
+        <p class="section-subtitle">
+          តារាងតាមដានព័ត៌មានសិស្សចុះឈ្មោះចូលរៀនរូបវិទ្យា តាមកម្រិតថ្នាក់ និងម៉ោងសិក្សា ភ្ជាប់ទិន្នន័យផ្ទាល់ជាមួយ Google Sheets ក្នុង My Drive
+        </p>
+      </div>
+
+      <div class="students-container glass-card">
+        <!-- Header Actions & Google Sheets Drive Link -->
+        <div class="students-header-actions">
+          <div class="students-stats-pill">
+            <span class="stat-dot"></span>
+            <span>ចំនួនសិស្សចុះឈ្មោះសរុប៖ <strong id="student-count-badge">១២ នាក់</strong></span>
+          </div>
+
+          <div class="students-btns-group">
+            <!-- Main Google Sheets in My Drive Link -->
+            <a href="https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit?usp=sharing" 
+               id="google-sheet-link-btn"
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="btn-google-sheets" 
+               title="បើកមើល និងកែប្រែបញ្ជីឈ្មោះសិស្សក្នុង Google Sheets (My Drive)">
+              <svg class="google-sheets-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H6v-2h6v2zm4-4H6v-2h10v2zm0-4H6V7h10v2z" fill="#0F9D58"/>
+              </svg>
+              <span>📊 បើកមើលក្នុង Google Sheets (My Drive)</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </a>
+
+            <!-- Quick Configure Sheet Link / Open Drive Button -->
+            <button id="btn-config-sheet" class="btn-sheet-config" title="ផ្លាស់ប្តូរតំណភ្ជាប់ Google Sheets ផ្ទាល់ខ្លួន">
+              ⚙️ កំណត់តំណ Sheets
+            </button>
+            
+            <a href="https://drive.google.com/drive/my-drive" target="_blank" rel="noopener noreferrer" class="btn-sheet-drive" title="ចូលទៅកាន់ Google Drive ផ្ទាល់">
+              📁 My Drive
+            </a>
+          </div>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <div class="students-filter-bar">
+          <div class="grade-filters">
+            <button class="student-filter-btn active" data-grade="all">ទាំងអស់ (All)</button>
+            <button class="student-filter-btn" data-grade="12">ថ្នាក់ទី ១២</button>
+            <button class="student-filter-btn" data-grade="11">ថ្នាក់ទី ១១</button>
+            <button class="student-filter-btn" data-grade="10">ថ្នាក់ទី ១០</button>
+          </div>
+
+          <div class="search-box-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="student-search-input" placeholder="ស្វែងរកតាមឈ្មោះសិស្ស ឬម៉ោងសិក្សា...">
+          </div>
+        </div>
+
+        <!-- The Responsive Table -->
+        <div class="table-responsive">
+          <table class="students-table" id="students-table">
+            <thead>
+              <tr>
+                <th style="width: 80px; text-align: center;">ល.រ</th>
+                <th>ឈ្មោះសិស្ស</th>
+                <th style="width: 160px;">ថ្នាក់ទី</th>
+                <th>ម៉ោងសិក្សា</th>
+                <th style="width: 140px; text-align: center;">ស្ថានភាព</th>
+              </tr>
+            </thead>
+            <tbody id="students-table-body">
+              <!-- Dynamically populated by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Table Footer: Quick Registration link & info -->
+        <div class="students-table-footer">
+          <div class="footer-info">
+            <span>💡 បញ្ជីឈ្មោះនេះធ្វើបច្ចុប្បន្នភាព និងអាចភ្ជាប់ទិន្នន័យជាមួយ Google Sheets លើ My Drive របស់លោកគ្រូ។</span>
+          </div>
+          <a href="#contact" class="btn-primary" style="padding: 8px 18px; font-size: 0.88rem;">
+            <span>✍️ ចុះឈ្មោះសិស្សថ្មី</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Contact & Registration Section -->
   <section id="contact" class="section" style="background: rgba(0,0,0,0.3);">
     <div class="container">
@@ -2176,12 +2275,23 @@
             </div>
 
             <div class="form-group">
-              <label for="form-course">ជ្រើសរើសថ្នាក់សិក្សា</label>
-              <select id="form-course">
-                <option value="ថ្នាក់ទី ១២ - ត្រៀមប្រឡងបាក់ឌុប">ថ្នាក់ទី ១២ - ត្រៀមប្រឡងបាក់ឌុប</option>
-                <option value="ថ្នាក់ទី ១១ - រូបវិទ្យាមូលដ្ឋានគ្រឹះ">ថ្នាក់ទី ១១ - រូបវិទ្យាមូលដ្ឋានគ្រឹះ</option>
-                <option value="ថ្នាក់ទី ១០ - រូបវិទ្យាដំបូង">ថ្នាក់ទី ១០ - រូបវិទ្យាដំបូង</option>
-                <option value="ថ្នាក់បំប៉នសិស្សពូកែ & អាហារូបករណ៍">ថ្នាក់បំប៉នសិស្សពូកែ & អាហារូបករណ៍</option>
+              <label for="form-course">ជ្រើសរើសថ្នាក់សិក្សា *</label>
+              <select id="form-course" required>
+                <option value="ថ្នាក់ទី ១២">ថ្នាក់ទី ១២ - ត្រៀមប្រឡងបាក់ឌុប</option>
+                <option value="ថ្នាក់ទី ១១">ថ្នាក់ទី ១១ - រូបវិទ្យាមូលដ្ឋានគ្រឹះ</option>
+                <option value="ថ្នាក់ទី ១០">ថ្នាក់ទី ១០ - រូបវិទ្យាដំបូង</option>
+                <option value="ថ្នាក់បំប៉នសិស្សពូកែ">ថ្នាក់បំប៉នសិស្សពូកែ & អាហារូបករណ៍</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="form-schedule">ជ្រើសរើសម៉ោងសិក្សា *</label>
+              <select id="form-schedule" required>
+                <option value="ចន្ទ - ពុធ - សុក្រ (5:30 PM - 7:00 PM)">ចន្ទ - ពុធ - សុក្រ (5:30 PM - 7:00 PM)</option>
+                <option value="អង្គារ - ព្រហស្បតិ៍ - សៅរ៍ (5:30 PM - 7:00 PM)">អង្គារ - ព្រហស្បតិ៍ - សៅរ៍ (5:30 PM - 7:00 PM)</option>
+                <option value="សៅរ៍ - អាទិត្យ (8:00 AM - 10:30 AM)">សៅរ៍ - អាទិត្យ (8:00 AM - 10:30 AM)</option>
+                <option value="សៅរ៍ - អាទិត្យ (2:00 PM - 4:30 PM)">សៅរ៍ - អាទិត្យ (2:00 PM - 4:30 PM)</option>
+                <option value="ចន្ទ - ពុធ - សុក្រ (2:00 PM - 3:30 PM)">ចន្ទ - ពុធ - សុក្រ (2:00 PM - 3:30 PM)</option>
               </select>
             </div>
 
