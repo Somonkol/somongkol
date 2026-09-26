@@ -2142,7 +2142,7 @@
         <div class="students-header-actions">
           <div class="students-stats-pill">
             <span class="stat-dot"></span>
-            <span>ចំនួនសិស្សចុះឈ្មោះសរុប៖ <strong id="student-count-badge">១២ នាក់</strong></span>
+            <span>ចំនួនសិស្សជាក់ស្តែង៖ <strong id="student-count-badge">០ នាក់</strong></span>
           </div>
 
           <div class="students-btns-group">
@@ -2160,8 +2160,23 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
             </a>
 
+            <!-- One-Click Copy formatted for Google Sheets -->
+            <button id="btn-copy-sheets" class="btn-sheet-action" title="ចម្លងទិន្នន័យសិស្សជាក់ស្តែងទាំងអស់សម្រាប់បិទភ្ជាប់ (Paste) ក្នុង Google Sheets">
+              📋 ចម្លងសម្រាប់ Sheets
+            </button>
+
+            <!-- Download CSV -->
+            <button id="btn-download-csv" class="btn-sheet-action" title="ទាញយកជា CSV សម្រាប់ Google Sheets និង Excel">
+              📥 ទាញយកជា CSV
+            </button>
+
+            <!-- Quick Add Student Direct Button -->
+            <button id="btn-quick-add" class="btn-sheet-action" title="បញ្ចូលសិស្សជាក់ស្តែងដោយផ្ទាល់">
+              ➕ បន្ថែមសិស្សផ្ទាល់
+            </button>
+
             <!-- Quick Configure Sheet Link / Open Drive Button -->
-            <button id="btn-config-sheet" class="btn-sheet-config" title="ផ្លាស់ប្តូរតំណភ្ជាប់ Google Sheets ផ្ទាល់ខ្លួន">
+            <button id="btn-config-sheet" class="btn-sheet-config" title="ផ្លាស់ប្តូរតំណភ្ជាប់ Google Sheets ឬ Webhook ផ្ទាល់ខ្លួន">
               ⚙️ កំណត់តំណ Sheets
             </button>
             
@@ -2174,15 +2189,17 @@
         <!-- Filter & Search Bar -->
         <div class="students-filter-bar">
           <div class="grade-filters">
-            <button class="student-filter-btn active" data-grade="all">ទាំងអស់ (All)</button>
-            <button class="student-filter-btn" data-grade="12">ថ្នាក់ទី ១២</button>
-            <button class="student-filter-btn" data-grade="11">ថ្នាក់ទី ១១</button>
-            <button class="student-filter-btn" data-grade="10">ថ្នាក់ទី ១០</button>
+            <button class="student-filter-btn active" data-filter="all">ទាំងអស់ (All)</button>
+            <button class="student-filter-btn" data-filter="12">ថ្នាក់ទី ១២</button>
+            <button class="student-filter-btn" data-filter="11">ថ្នាក់ទី ១១</button>
+            <button class="student-filter-btn" data-filter="10">ថ្នាក់ទី ១០</button>
+            <button class="student-filter-btn" data-filter="ចន្ទ - សុក្រ">ចន្ទ - សុក្រ</button>
+            <button class="student-filter-btn" data-filter="សៅរ៍ - អាទិត្យ">សៅរ៍ - អាទិត្យ</button>
           </div>
 
           <div class="search-box-wrapper">
             <span class="search-icon">🔍</span>
-            <input type="text" id="student-search-input" placeholder="ស្វែងរកតាមឈ្មោះសិស្ស ឬម៉ោងសិក្សា...">
+            <input type="text" id="student-search-input" placeholder="ស្វែងរកតាមឈ្មោះ, ថ្នាក់, ឬម៉ោងសិក្សា...">
           </div>
         </div>
 
@@ -2191,11 +2208,13 @@
           <table class="students-table" id="students-table">
             <thead>
               <tr>
-                <th style="width: 80px; text-align: center;">ល.រ</th>
+                <th style="width: 70px; text-align: center;">ល.រ</th>
                 <th>ឈ្មោះសិស្ស</th>
-                <th style="width: 160px;">ថ្នាក់ទី</th>
-                <th>ម៉ោងសិក្សា</th>
-                <th style="width: 140px; text-align: center;">ស្ថានភាព</th>
+                <th style="width: 140px;">ថ្នាក់ទី</th>
+                <th>ថ្ងៃ និងម៉ោងសិក្សា</th>
+                <th style="width: 160px;">ទូរស័ព្ទ / Telegram</th>
+                <th style="width: 140px; text-align: center;">កាលបរិច្ឆេទ</th>
+                <th style="width: 110px; text-align: center;">សកម្មភាព</th>
               </tr>
             </thead>
             <tbody id="students-table-body">
@@ -2207,11 +2226,16 @@
         <!-- Table Footer: Quick Registration link & info -->
         <div class="students-table-footer">
           <div class="footer-info">
-            <span>💡 បញ្ជីឈ្មោះនេះធ្វើបច្ចុប្បន្នភាព និងអាចភ្ជាប់ទិន្នន័យជាមួយ Google Sheets លើ My Drive របស់លោកគ្រូ។</span>
+            <span>💡 បញ្ជីឈ្មោះនេះបង្ហាញទិន្នន័យជាក់ស្តែងតាមចំនួនសិស្សដែលបានចុះឈ្មោះ និងអាចចម្លង/ភ្ជាប់ជាមួយ Google Sheets ក្នុង My Drive ដោយផ្ទាល់។</span>
           </div>
-          <a href="#contact" class="btn-primary" style="padding: 8px 18px; font-size: 0.88rem;">
-            <span>✍️ ចុះឈ្មោះសិស្សថ្មី</span>
-          </a>
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <button id="btn-clear-students" class="btn-sheet-config" style="color:#ef4444; border-color:rgba(239,68,68,0.3);" title="សម្អាតបញ្ជីឈ្មោះជាក់ស្តែង">
+              🗑️ សម្អាតបញ្ជី
+            </button>
+            <a href="#contact" class="btn-primary" style="padding: 8px 18px; font-size: 0.88rem;">
+              <span>✍️ ចុះឈ្មោះសិស្សថ្មី</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -2284,15 +2308,26 @@
               </select>
             </div>
 
-            <div class="form-group">
-              <label for="form-schedule">ជ្រើសរើសម៉ោងសិក្សា *</label>
-              <select id="form-schedule" required>
-                <option value="ចន្ទ - ពុធ - សុក្រ (5:30 PM - 7:00 PM)">ចន្ទ - ពុធ - សុក្រ (5:30 PM - 7:00 PM)</option>
-                <option value="អង្គារ - ព្រហស្បតិ៍ - សៅរ៍ (5:30 PM - 7:00 PM)">អង្គារ - ព្រហស្បតិ៍ - សៅរ៍ (5:30 PM - 7:00 PM)</option>
-                <option value="សៅរ៍ - អាទិត្យ (8:00 AM - 10:30 AM)">សៅរ៍ - អាទិត្យ (8:00 AM - 10:30 AM)</option>
-                <option value="សៅរ៍ - អាទិត្យ (2:00 PM - 4:30 PM)">សៅរ៍ - អាទិត្យ (2:00 PM - 4:30 PM)</option>
-                <option value="ចន្ទ - ពុធ - សុក្រ (2:00 PM - 3:30 PM)">ចន្ទ - ពុធ - សុក្រ (2:00 PM - 3:30 PM)</option>
-              </select>
+            <div class="form-row-schedule">
+              <div class="form-group">
+                <label for="form-day">ជ្រើសរើសថ្ងៃសិក្សា *</label>
+                <select id="form-day" required>
+                  <option value="ចន្ទ - សុក្រ">ចន្ទ - សុក្រ</option>
+                  <option value="សៅរ៍ - អាទិត្យ">សៅរ៍ - អាទិត្យ</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="form-time">ជ្រើសរើសម៉ោងសិក្សា *</label>
+                <select id="form-time" required>
+                  <option value="ម៉ោង 1-2">ម៉ោង 1-2</option>
+                  <option value="ម៉ោង 3-4">ម៉ោង 3-4</option>
+                  <option value="ម៉ោង 4-5">ម៉ោង 4-5</option>
+                  <option value="ម៉ោង 5-6">ម៉ោង 5-6</option>
+                  <option value="ម៉ោង 6-7">ម៉ោង 6-7</option>
+                  <option value="ម៉ោង 7-8">ម៉ោង 7-8</option>
+                </select>
+              </div>
             </div>
 
             <button type="submit" class="btn-primary" style="justify-content:center; width:100%; margin-top:10px;">
@@ -2425,6 +2460,161 @@
             <span>🚀 បញ្ចូលឯកសារទៅក្នុងទូ</span>
           </button>
         </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- New Student Enrollment Alert Modal (ផ្ទាំងបង្ហាញសិស្សចុះឈ្មោះពិតប្រាកដ) -->
+  <div id="new-student-modal" class="modal-overlay">
+    <div class="modal-content student-alert-modal">
+      <button id="new-student-close" class="modal-close" aria-label="បិទ">&times;</button>
+      <div class="student-alert-header">
+        <div class="student-alert-icon">🎉</div>
+        <div>
+          <h3 class="font-moul" style="font-size:1.3rem; color:var(--cyan-glow); margin-bottom:4px;">
+            សិស្សបានចុះឈ្មោះចូលរៀនជោគជ័យ!
+          </h3>
+          <p style="font-size:0.86rem; color:var(--text-muted); margin:0;">
+            ទិន្នន័យជាក់ស្តែងត្រូវបានកត់ត្រា និងធ្វើបច្ចុប្បន្នភាពក្នុងបញ្ជីឈ្មោះភ្លាមៗ
+          </p>
+        </div>
+      </div>
+
+      <!-- Student Details Summary Card -->
+      <div class="student-alert-card" id="student-alert-card">
+        <!-- Injected dynamically by JS -->
+      </div>
+
+      <!-- Alert Actions -->
+      <div class="student-alert-actions">
+        <a href="https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit?usp=sharing" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           id="modal-open-sheets-btn" 
+           class="btn-google-sheets" 
+           style="flex:1; justify-content:center;">
+          <span>📊 បើកមើលក្នុង Google Sheets</span>
+        </a>
+        <button id="modal-copy-student-btn" class="btn-outline" style="flex:1; justify-content:center;">
+          <span>📋 ចម្លងសម្រាប់ Sheets</span>
+        </button>
+        <button id="modal-view-table-btn" class="btn-primary" style="flex:1; justify-content:center;">
+          <span>👁️ ទៅកាន់បញ្ជីសិស្ស</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Google Sheets Integration & Webhook Configuration Modal -->
+  <div id="sheet-config-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 580px;">
+      <button id="sheet-config-close" class="modal-close" aria-label="បិទ">&times;</button>
+      <div style="display:flex; align-items:center; gap:14px; margin-bottom:18px;">
+        <div class="resource-icon" style="background:rgba(16,185,129,0.2); border-color:rgba(16,185,129,0.4); font-size:1.8rem; width:52px; height:52px; border-radius:12px; display:flex; align-items:center; justify-content:center;">📊</div>
+        <div>
+          <h3 class="font-moul" style="font-size:1.25rem; color:#34d399; margin-bottom:4px;">
+            កំណត់តំណភ្ជាប់ Google Sheets (My Drive)
+          </h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">
+            ភ្ជាប់តារាងសិស្សជាក់ស្តែងជាមួយ Google Sheets ក្នុង Google Drive របស់អ្នក
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom:16px;">
+        <label for="cfg-sheet-url" style="display:block; font-weight:600; margin-bottom:8px; font-size:0.9rem;">
+          តំណភ្ជាប់ Google Sheets URL ក្នុង My Drive:
+        </label>
+        <input type="url" id="cfg-sheet-url" class="sheet-cfg-input" placeholder="https://docs.google.com/spreadsheets/d/.../edit?usp=sharing">
+        <small style="display:block; margin-top:6px; color:var(--text-muted); font-size:0.8rem;">
+          💡 បើក Google Drive -> ចុចកណ្ដុរស្ដាំលើឯកសារ Sheets របស់អ្នក -> Copy link រួចបិទភ្ជាប់ទីនេះ
+        </small>
+      </div>
+
+      <div class="form-group" style="margin-bottom:16px;">
+        <label for="cfg-webhook-url" style="display:block; font-weight:600; margin-bottom:8px; font-size:0.9rem;">
+          Google Apps Script Webhook URL (ស្រេចចិត្ត - សម្រាប់ Auto-Sync ស្វ័យប្រវត្តិ):
+        </label>
+        <input type="url" id="cfg-webhook-url" class="sheet-cfg-input" placeholder="https://script.google.com/macros/s/.../exec">
+        <small style="display:block; margin-top:6px; color:var(--text-muted); font-size:0.8rem;">
+          ⚡ ប្រសិនបើមាន Webhook URL នៅពេលសិស្សចុះឈ្មោះ ព័ត៌មាននឹងរត់ចូល Google Sheet ក្នុង Drive ភ្លាមៗដោយស្វ័យប្រវត្តិ!
+        </small>
+      </div>
+
+      <div style="background:rgba(0,242,254,0.06); border:1px solid rgba(0,242,254,0.2); border-radius:10px; padding:12px 16px; margin-bottom:20px; font-size:0.83rem; line-height:1.6; color:var(--text-muted);">
+        <strong style="color:var(--cyan-glow);">📌 វិធីងាយៗបំផុតក្នុងការ Sync ចូល Sheets៖</strong><br>
+        គ្រាន់តែចុចប៊ូតុង <strong>"📋 ចម្លងសម្រាប់ Sheets"</strong> លើតារាងសិស្ស រួចបើក Google Sheets របស់អ្នកហើយចុច <strong>Ctrl + V</strong> នោះទិន្នន័យសិស្សទាំងអស់នឹងបែងចែកតាមជួរឈរ (Columns) យ៉ាងស្អាតដោយស្វ័យប្រវត្តិ!
+      </div>
+
+      <div style="display:flex; gap:12px; justify-content:flex-end;">
+        <button id="cfg-sheet-reset" class="btn-outline" style="padding:8px 18px;">កំណត់លំនាំដើម</button>
+        <button id="cfg-sheet-save" class="btn-primary" style="padding:8px 22px;">💾 រក្សាទុក</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Add Student Modal (បន្ថែមសិស្សផ្ទាល់) -->
+  <div id="quick-add-student-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width:520px;">
+      <button id="quick-add-close" class="modal-close" aria-label="បិទ">&times;</button>
+      <div style="display:flex; align-items:center; gap:14px; margin-bottom:18px;">
+        <div class="resource-icon" style="font-size:1.6rem; width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:rgba(0,242,254,0.15); border:1px solid rgba(0,242,254,0.3);">➕</div>
+        <div>
+          <h3 class="font-moul" style="font-size:1.2rem; color:var(--cyan-glow); margin-bottom:4px;">
+            បន្ថែមឈ្មោះសិស្សជាក់ស្តែង
+          </h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">
+            បញ្ចូលព័ត៌មានសិស្សដោយផ្ទាល់ចូលក្នុងបញ្ជីឈ្មោះ
+          </p>
+        </div>
+      </div>
+
+      <form id="quick-add-form" class="contact-form">
+        <div class="form-group">
+          <label for="quick-name">ឈ្មោះពេញសិស្ស *</label>
+          <input type="text" id="quick-name" placeholder="ឧទាហរណ៍៖ ជា សុខា" required>
+        </div>
+
+        <div class="form-group">
+          <label for="quick-phone">លេខទូរស័ព្ទ ឬ Telegram *</label>
+          <input type="tel" id="quick-phone" placeholder="012-962-818" required>
+        </div>
+
+        <div class="form-group">
+          <label for="quick-grade">ថ្នាក់សិក្សា *</label>
+          <select id="quick-grade" required>
+            <option value="ថ្នាក់ទី ១២">ថ្នាក់ទី ១២ - ត្រៀមប្រឡងបាក់ឌុប</option>
+            <option value="ថ្នាក់ទី ១១">ថ្នាក់ទី ១១ - រូបវិទ្យាមូលដ្ឋានគ្រឹះ</option>
+            <option value="ថ្នាក់ទី ១០">ថ្នាក់ទី ១០ - រូបវិទ្យាដំបូង</option>
+            <option value="ថ្នាក់បំប៉នសិស្សពូកែ">ថ្នាក់បំប៉នសិស្សពូកែ & អាហារូបករណ៍</option>
+          </select>
+        </div>
+
+        <div class="form-row-schedule">
+          <div class="form-group">
+            <label for="quick-day">ថ្ងៃសិក្សា *</label>
+            <select id="quick-day" required>
+              <option value="ចន្ទ - សុក្រ">ចន្ទ - សុក្រ</option>
+              <option value="សៅរ៍ - អាទិត្យ">សៅរ៍ - អាទិត្យ</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="quick-time">ម៉ោងសិក្សា *</label>
+            <select id="quick-time" required>
+              <option value="ម៉ោង 1-2">ម៉ោង 1-2</option>
+              <option value="ម៉ោង 3-4">ម៉ោង 3-4</option>
+              <option value="ម៉ោង 4-5">ម៉ោង 4-5</option>
+              <option value="ម៉ោង 5-6">ម៉ោង 5-6</option>
+              <option value="ម៉ោង 6-7">ម៉ោង 6-7</option>
+              <option value="ម៉ោង 7-8">ម៉ោង 7-8</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" style="width:100%; justify-content:center; margin-top:10px;">
+          <span>💾 រក្សាទុកក្នុងបញ្ជីជាក់ស្តែង</span>
+        </button>
       </form>
     </div>
   </div>

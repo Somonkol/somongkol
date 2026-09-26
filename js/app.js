@@ -334,9 +334,90 @@ function initResourceModal() {
   }
 }
 
-// 5. Contact & Registration Form
+// Schedule Slot Definitions (ចន្ទ-សុក្រ vs សៅរ៍-អាទិត្យ)
+const SCHEDULE_OPTIONS = {
+  'ចន្ទ - សុក្រ': [
+    'ម៉ោង 1-2',
+    'ម៉ោង 3-4',
+    'ម៉ោង 4-5',
+    'ម៉ោង 5-6',
+    'ម៉ោង 6-7',
+    'ម៉ោង 7-8'
+  ],
+  'សៅរ៍ - អាទិត្យ': [
+    'ម៉ោង 1-3',
+    'ម៉ោង 3-5'
+  ]
+};
+
+// Helper: Convert Arabic numbers to Khmer digits
+function toKhmerDigits(num) {
+  const map = { '0': '០', '1': '១', '2': '២', '3': '៣', '4': '៤', '5': '៥', '6': '៦', '7': '៧', '8': '៨', '9': '៩' };
+  return String(num).split('').map(d => map[d] || d).join('');
+}
+
+// Helper: Format readable date time
+function formatRegistrationDate(d = new Date()) {
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  let hours = d.getHours();
+  const minutes = String(d.getMinutes()).padStart(2, '0');
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12;
+  return `${day}/${month}/${year} ${hours}:${minutes} ${ampm}`;
+}
+
+// Helper: Play celebratory chime via Web Audio API
+function playEnrollmentChime() {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 fanfare
+    notes.forEach((freq, idx) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.1);
+      gain.gain.setValueAtTime(0.2, ctx.currentTime + idx * 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.1 + 0.35);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(ctx.currentTime + idx * 0.1);
+      osc.stop(ctx.currentTime + idx * 0.1 + 0.35);
+    });
+  } catch (e) {}
+}
+
+// Helper: Populate dynamic time select options based on selected day
+function syncScheduleTimeDropdown(dayElem, timeElem) {
+  if (!dayElem || !timeElem) return;
+  const day = dayElem.value;
+  const times = SCHEDULE_OPTIONS[day] || SCHEDULE_OPTIONS['ចន្ទ - សុក្រ'];
+  timeElem.innerHTML = '';
+  times.forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t;
+    opt.textContent = t;
+    timeElem.appendChild(opt);
+  });
+}
+
+// 5. Contact & Enrollment Form Handler
 function initContactForm() {
   const form = document.getElementById('enrollment-form');
+  const daySelect = document.getElementById('form-day');
+  const timeSelect = document.getElementById('form-time');
+
+  if (daySelect && timeSelect) {
+    // Populate initial and on change
+    syncScheduleTimeDropdown(daySelect, timeSelect);
+    daySelect.addEventListener('change', () => {
+      syncScheduleTimeDropdown(daySelect, timeSelect);
+    });
+  }
+
   if (!form) return;
 
   form.addEventListener('submit', (e) => {
@@ -344,39 +425,48 @@ function initContactForm() {
     const name = document.getElementById('form-name').value.trim();
     const phone = document.getElementById('form-phone').value.trim();
     const course = document.getElementById('form-course').value;
-    const scheduleElem = document.getElementById('form-schedule');
-    const schedule = scheduleElem ? scheduleElem.value : 'ចន្ទ - ពុធ - សុក្រ (5:30 PM - 7:00 PM)';
+    const day = daySelect ? daySelect.value : 'ចន្ទ - សុក្រ';
+    const time = timeSelect ? timeSelect.value : 'ម៉ោង 5-6';
 
     if (!name || !phone) {
-      showToast('សូមបំពេញឈ្មោះ និងលេខទូរស័ព្ទឲ្យបានត្រឹមត្រូវ!');
+      showToast('សូមបំពេញឈ្មោះពេញ និងលេខទូរស័ព្ទឲ្យបានត្រឹមត្រូវ!');
       return;
     }
 
-    // Add to enrolled students list
-    if (window.addEnrolledStudent) {
-      window.addEnrolledStudent({
-        id: Date.now(),
-        name: name,
-        grade: course,
-        schedule: schedule,
-        status: 'សិស្សថ្មី'
-      });
+    const newStudent = {
+      id: Date.now(),
+      name: name,
+      grade: course,
+      day: day,
+      time: time,
+      schedule: `${day} (${time})`,
+      phone: phone,
+      date: formatRegistrationDate(new Date()),
+      status: 'បានចុះឈ្មោះជាក់ស្តែង'
+    };
+
+    // Add to actual students database
+    if (window.addActualStudent) {
+      window.addActualStudent(newStudent);
     }
 
-    showToast(`សូមអរគុណ ${name}! អ្នកត្រូវបានចុះឈ្មោះចូលរៀនវគ្គ ${course} ម៉ោង ${schedule} និងបានបញ្ចូលទៅក្នុងបញ្ជីឈ្មោះដោយជោគជ័យ!`);
-    form.reset();
+    // Play celebration audio chime
+    playEnrollmentChime();
 
-    // Smooth scroll to the student table
-    const studentsSec = document.getElementById('students');
-    if (studentsSec) {
-      setTimeout(() => {
-        studentsSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 500);
+    // Show celebration alert modal to the user
+    if (window.showNewStudentAlertModal) {
+      window.showNewStudentAlertModal(newStudent);
+    }
+
+    showToast(`🎉 សូមអរគុណ ${name}! បានចុះឈ្មោះចូលរៀនវគ្គ ${course} (${day} ${time}) ដោយជោគជ័យ!`);
+    form.reset();
+    if (daySelect && timeSelect) {
+      syncScheduleTimeDropdown(daySelect, timeSelect);
     }
   });
 }
 
-// 6. Enrolled Students Directory & Google Sheets Link Handler
+// 6. Enrolled Students Directory & Google Sheets System (Actual Count)
 function initEnrolledStudentsTable() {
   const tableBody = document.getElementById('students-table-body');
   if (!tableBody) return;
@@ -384,180 +474,635 @@ function initEnrolledStudentsTable() {
   const countBadge = document.getElementById('student-count-badge');
   const googleSheetBtn = document.getElementById('google-sheet-link-btn');
   const configSheetBtn = document.getElementById('btn-config-sheet');
+  const copySheetsBtn = document.getElementById('btn-copy-sheets');
+  const downloadCsvBtn = document.getElementById('btn-download-csv');
+  const quickAddBtn = document.getElementById('btn-quick-add');
+  const clearStudentsBtn = document.getElementById('btn-clear-students');
   const searchInput = document.getElementById('student-search-input');
   const filterBtns = document.querySelectorAll('.student-filter-btn');
 
-  // Load configured Google Sheet URL or default
+  // Sheet configuration & Webhook
   const defaultSheetUrl = 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit?usp=sharing';
   const savedSheetUrl = localStorage.getItem('ap_phy_google_sheet_url') || defaultSheetUrl;
   if (googleSheetBtn) {
     googleSheetBtn.href = savedSheetUrl;
   }
 
-  // Handle Sheet URL configuration
-  if (configSheetBtn) {
-    configSheetBtn.addEventListener('click', () => {
-      const currentUrl = localStorage.getItem('ap_phy_google_sheet_url') || defaultSheetUrl;
-      const newUrl = prompt('សូមបញ្ចូលតំណភ្ជាប់ (URL) ឯកសារ Google Sheets នៅក្នុង My Drive របស់អ្នក៖', currentUrl);
-      if (newUrl && newUrl.trim()) {
-        const trimmed = newUrl.trim();
-        if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
-          localStorage.setItem('ap_phy_google_sheet_url', trimmed);
-          if (googleSheetBtn) googleSheetBtn.href = trimmed;
-          showToast('បានរក្សាទុកតំណភ្ជាប់ Google Sheets នៅក្នុង My Drive ដោយជោគជ័យ!');
-        } else {
-          showToast('សូមបញ្ចូលតំណភ្ជាប់ URL ឲ្យបានត្រឹមត្រូវ (ផ្តើមដោយ https://)!');
-        }
-      }
-    });
-  }
-
-  // Initial Students Seed Data
-  const defaultStudents = [
-    { id: 1, name: 'ជា សុខា', grade: 'ថ្នាក់ទី ១២', schedule: 'ចន្ទ - ពុធ - សុក្រ (5:30 PM - 7:00 PM)', status: 'បានបញ្ជាក់' },
-    { id: 2, name: 'ស៊ន វ៉ាន់នី', grade: 'ថ្នាក់ទី ១២', schedule: 'សៅរ៍ - អាទិត្យ (8:00 AM - 10:30 AM)', status: 'បានបញ្ជាក់' },
-    { id: 3, name: 'ម៉េង គីមឡុង', grade: 'ថ្នាក់ទី ១២', schedule: 'ចន្ទ - ពុធ - សុក្រ (5:30 PM - 7:00 PM)', status: 'កំពុងរៀន' },
-    { id: 4, name: 'ហេង ស្រីនិច', grade: 'ថ្នាក់ទី ១១', schedule: 'អង្គារ - ព្រហស្បតិ៍ - សៅរ៍ (5:30 PM - 7:00 PM)', status: 'បានបញ្ជាក់' },
-    { id: 5, name: 'លី ច័ន្ទរស្មី', grade: 'ថ្នាក់ទី ១១', schedule: 'សៅរ៍ - អាទិត្យ (2:00 PM - 4:30 PM)', status: 'កំពុងរៀន' },
-    { id: 6, name: 'គង់ ពិសិដ្ឋ', grade: 'ថ្នាក់ទី ១០', schedule: 'ចន្ទ - ពុធ - សុក្រ (2:00 PM - 3:30 PM)', status: 'បានបញ្ជាក់' },
-    { id: 7, name: 'សេង ដាលីន', grade: 'ថ្នាក់ទី ១២', schedule: 'សៅរ៍ - អាទិត្យ (8:00 AM - 10:30 AM)', status: 'បានបញ្ជាក់' },
-    { id: 8, name: 'អ៊ុំ សុវណ្ណារ៉ា', grade: 'ថ្នាក់ទី ១០', schedule: 'អង្គារ - ព្រហស្បតិ៍ (2:00 PM - 3:30 PM)', status: 'កំពុងរៀន' },
-    { id: 9, name: 'រិទ្ធី មុន្នីរ័ត្ន', grade: 'ថ្នាក់ទី ១១', schedule: 'អង្គារ - ព្រហស្បតិ៍ - សៅរ៍ (5:30 PM - 7:00 PM)', status: 'បានបញ្ជាក់' },
-    { id: 10, name: 'ចាន់ ធីតា', grade: 'ថ្នាក់ទី ១២', schedule: 'ចន្ទ - ពុធ - សុក្រ (5:30 PM - 7:00 PM)', status: 'សិស្សថ្មី' },
-    { id: 11, name: 'ភីរម្យ រស្មី', grade: 'ថ្នាក់ទី ១១', schedule: 'សៅរ៍ - អាទិត្យ (2:00 PM - 4:30 PM)', status: 'បានបញ្ជាក់' },
-    { id: 12, name: 'ទិត្យ វីរៈ', grade: 'ថ្នាក់ទី ១០', schedule: 'ចន្ទ - ពុធ - សុក្រ (2:00 PM - 3:30 PM)', status: 'បានបញ្ជាក់' }
-  ];
-
+  // Load actual students from localStorage
+  const STORAGE_KEY = 'ap_phy_actual_students';
   let students = [];
   try {
-    const stored = localStorage.getItem('ap_phy_enrolled_students');
-    students = stored ? JSON.parse(stored) : defaultStudents;
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      students = JSON.parse(stored);
+    } else {
+      // Check legacy key if exists and migrate non-default
+      const legacy = localStorage.getItem('ap_phy_enrolled_students');
+      if (legacy) {
+        const parsed = JSON.parse(legacy);
+        // Only keep if it was custom user data
+        if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].id > 100) {
+          students = parsed;
+        }
+      }
+    }
   } catch (err) {
-    students = defaultStudents;
+    students = [];
   }
-  if (!students || !students.length) students = defaultStudents;
 
-  // Render Table
-  let currentGradeFilter = 'all';
-  let currentSearchQuery = '';
+  let activeFilter = 'all';
+  let activeSearch = '';
+  let recentlyAddedId = null;
 
+  // Render Table function
   function renderTable() {
     tableBody.innerHTML = '';
 
     const filtered = students.filter(st => {
-      // Grade filter
-      let matchGrade = true;
-      if (currentGradeFilter === '12') matchGrade = st.grade.includes('១២');
-      else if (currentGradeFilter === '11') matchGrade = st.grade.includes('១១');
-      else if (currentGradeFilter === '10') matchGrade = st.grade.includes('១០');
+      // Filter logic
+      let matchFilter = true;
+      if (activeFilter === '12') matchFilter = st.grade.includes('១២');
+      else if (activeFilter === '11') matchFilter = st.grade.includes('១១');
+      else if (activeFilter === '10') matchFilter = st.grade.includes('១០');
+      else if (activeFilter === 'ចន្ទ - សុក្រ') matchFilter = (st.day === 'ចន្ទ - សុក្រ' || st.schedule.includes('ចន្ទ'));
+      else if (activeFilter === 'សៅរ៍ - អាទិត្យ') matchFilter = (st.day === 'សៅរ៍ - អាទិត្យ' || st.schedule.includes('សៅរ៍'));
 
-      // Search query
+      // Search logic
       let matchSearch = true;
-      if (currentSearchQuery) {
-        const q = currentSearchQuery.toLowerCase();
-        matchSearch = st.name.toLowerCase().includes(q) || 
-                      st.grade.toLowerCase().includes(q) || 
-                      st.schedule.toLowerCase().includes(q);
+      if (activeSearch) {
+        const q = activeSearch.toLowerCase();
+        matchSearch = (st.name && st.name.toLowerCase().includes(q)) || 
+                      (st.grade && st.grade.toLowerCase().includes(q)) || 
+                      (st.schedule && st.schedule.toLowerCase().includes(q)) ||
+                      (st.phone && st.phone.toLowerCase().includes(q));
       }
 
-      return matchGrade && matchSearch;
+      return matchFilter && matchSearch;
     });
+
+    // Update count badge to actual total registered count
+    if (countBadge) {
+      const khmerCount = toKhmerDigits(students.length);
+      countBadge.innerText = `${khmerCount} នាក់`;
+    }
+
+    if (students.length === 0) {
+      // Empty state when no actual students are registered
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="7" class="students-empty-state">
+            <div style="font-size: 2.8rem; margin-bottom: 10px;">📋</div>
+            <div style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
+              មិនទាន់មានសិស្សចុះឈ្មោះជាក់ស្តែងនៅឡើយទេ
+            </div>
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 18px; max-width: 480px; margin-left: auto; margin-right: auto;">
+              នៅពេលសិស្សចុះឈ្មោះក្នុងទម្រង់ខាងក្រោម ឬលោកគ្រូបញ្ចូលសិស្សផ្ទាល់ ទិន្នន័យនឹងបង្ហាញនៅទីនេះតាមចំនួនជាក់ស្តែងភ្លាមៗ។
+            </div>
+            <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+              <a href="#contact" class="btn-primary" style="padding: 7px 18px; font-size: 0.86rem;">
+                <span>✍️ ចុះឈ្មោះសិស្សថ្មី</span>
+              </a>
+              <button id="btn-seed-sample" class="btn-outline" style="padding: 7px 16px; font-size: 0.86rem;">
+                <span>🔄 បញ្ចូលទិន្នន័យគំរូសាកល្បង</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+
+      // Bind seed sample button
+      const seedBtn = document.getElementById('btn-seed-sample');
+      if (seedBtn) {
+        seedBtn.addEventListener('click', seedSampleStudents);
+      }
+      return;
+    }
 
     if (filtered.length === 0) {
       tableBody.innerHTML = `
         <tr>
-          <td colspan="5" style="text-align:center; padding: 36px; color: var(--text-muted);">
+          <td colspan="7" style="text-align:center; padding: 36px; color: var(--text-muted);">
             <div style="font-size: 2rem; margin-bottom: 8px;">🔍</div>
             <div>មិនមានទិន្នន័យសិស្សត្រូវនឹងលក្ខខណ្ឌស្វែងរកនេះទេ!</div>
           </td>
         </tr>
       `;
-    } else {
-      filtered.forEach((st, idx) => {
-        const tr = document.createElement('tr');
+      return;
+    }
 
-        // Grade styling class
-        let gradeClass = 'g12';
-        if (st.grade.includes('១១')) gradeClass = 'g11';
-        else if (st.grade.includes('១០')) gradeClass = 'g10';
+    filtered.forEach((st, idx) => {
+      const tr = document.createElement('tr');
+      if (st.id === recentlyAddedId) {
+        tr.classList.add('highlight-new-row');
+      }
 
-        // Status styling class
-        let statusClass = 'confirmed';
-        if (st.status === 'កំពុងរៀន') statusClass = 'active-study';
-        else if (st.status === 'សិស្សថ្មី') statusClass = 'new';
+      // Grade styling class
+      let gradeClass = 'g12';
+      if (st.grade && st.grade.includes('១១')) gradeClass = 'g11';
+      else if (st.grade && st.grade.includes('១០')) gradeClass = 'g10';
 
-        // Convert index to Khmer number
-        const arabicToKhmer = { '0': '០', '1': '១', '2': '២', '3': '៣', '4': '៤', '5': '៥', '6': '៦', '7': '៧', '8': '៨', '9': '៩' };
-        const khmerIdx = String(idx + 1).split('').map(d => arabicToKhmer[d] || d).join('');
+      const khmerIdx = toKhmerDigits(idx + 1);
+      const studentDay = st.day || (st.schedule.includes('សៅរ៍') ? 'សៅរ៍ - អាទិត្យ' : 'ចន្ទ - សុក្រ');
+      const studentTime = st.time || st.schedule.replace(/^[^(]+\(([^)]+)\).*$/, '$1');
 
-        tr.innerHTML = `
-          <td style="text-align: center;">
-            <span class="student-no-badge">${khmerIdx}</span>
-          </td>
-          <td>
-            <div class="student-name-cell">
-              <span class="student-avatar">${st.name.charAt(0)}</span>
-              <span>${st.name}</span>
-            </div>
-          </td>
-          <td>
-            <span class="grade-tag ${gradeClass}">${st.grade}</span>
-          </td>
-          <td>
-            <span class="schedule-pill">
+      tr.innerHTML = `
+        <td style="text-align: center;">
+          <span class="student-no-badge">${khmerIdx}</span>
+        </td>
+        <td>
+          <div class="student-name-cell">
+            <span class="student-avatar">${st.name ? st.name.charAt(0) : 'ស'}</span>
+            <span style="font-weight: 600;">${st.name}</span>
+          </div>
+        </td>
+        <td>
+          <span class="grade-tag ${gradeClass}">${st.grade}</span>
+        </td>
+        <td>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-size: 0.88rem; font-weight: 600; color: var(--text-main);">
+              📅 ${studentDay}
+            </span>
+            <span class="schedule-pill" style="font-size: 0.82rem; color: var(--cyan-glow);">
               <span class="schedule-icon">⏰</span>
-              <span>${st.schedule}</span>
+              <span>${studentTime}</span>
             </span>
-          </td>
-          <td style="text-align: center;">
-            <span class="status-badge ${statusClass}">
-              <span>●</span>
-              <span>${st.status}</span>
-            </span>
-          </td>
-        `;
-        tableBody.appendChild(tr);
-      });
-    }
-
-    // Update total count badge in Khmer digits
-    if (countBadge) {
-      const count = students.length;
-      const arabicToKhmer = { '0': '០', '1': '១', '2': '២', '3': '៣', '4': '៤', '5': '៥', '6': '៦', '7': '៧', '8': '៨', '9': '៩' };
-      const khmerCount = String(count).split('').map(d => arabicToKhmer[d] || d).join('');
-      countBadge.innerText = `${khmerCount} នាក់`;
-    }
+          </div>
+        </td>
+        <td>
+          <a href="tel:${st.phone}" style="color: var(--cyan-glow); text-decoration: none; font-family: var(--font-number); font-weight: 600;">
+            ${st.phone || '-'}
+          </a>
+        </td>
+        <td style="text-align: center; font-size: 0.82rem; color: var(--text-muted);">
+          ${st.date || '-'}
+        </td>
+        <td style="text-align: center;">
+          <div style="display: flex; gap: 6px; justify-content: center;">
+            <button class="student-action-btn" title="ចម្លងសិស្សនេះសម្រាប់ Google Sheets" onclick="window.copySingleStudent(${st.id})">
+              📋
+            </button>
+            <button class="student-action-btn btn-del" title="លុបទិន្នន័យសិស្សនេះ" onclick="window.deleteSingleStudent(${st.id})">
+              🗑️
+            </button>
+          </div>
+        </td>
+      `;
+      tableBody.appendChild(tr);
+    });
   }
 
-  // Filter button handlers
+  // Filter Buttons
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      currentGradeFilter = btn.dataset.grade || 'all';
+      activeFilter = btn.dataset.filter || 'all';
       renderTable();
     });
   });
 
-  // Search input handler
+  // Search Input
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
-      currentSearchQuery = e.target.value.trim();
+      activeSearch = e.target.value.trim();
       renderTable();
     });
   }
 
-  // Render initially
-  renderTable();
+  // 1-Click Copy for Google Sheets (Formatted in TSV for instant Ctrl+V)
+  function copyAllForGoogleSheets() {
+    if (!students || students.length === 0) {
+      showToast('មិនទាន់មានទិន្នន័យសិស្សជាក់ស្តែងសម្រាប់ចម្លងទេ!');
+      return;
+    }
+    const header = ['ល.រ', 'ឈ្មោះសិស្ស', 'ថ្នាក់ទី', 'ថ្ងៃសិក្សា', 'ម៉ោងសិក្សា', 'លេខទូរស័ព្ទ', 'កាលបរិច្ឆេទ'].join('\t');
+    const rows = students.map((st, i) => {
+      const sDay = st.day || (st.schedule.includes('សៅរ៍') ? 'សៅរ៍ - អាទិត្យ' : 'ចន្ទ - សុក្រ');
+      const sTime = st.time || st.schedule.replace(/^[^(]+\(([^)]+)\).*$/, '$1');
+      return [
+        i + 1,
+        st.name || '',
+        st.grade || '',
+        sDay,
+        sTime,
+        st.phone || '',
+        st.date || ''
+      ].join('\t');
+    });
 
-  // Expose global helper to add new enrolled student
-  window.addEnrolledStudent = function(newStudent) {
-    students.unshift(newStudent);
+    const tsv = [header, ...rows].join('\n');
+    navigator.clipboard.writeText(tsv).then(() => {
+      const khmerTotal = toKhmerDigits(students.length);
+      showToast(`📋 បានចម្លងបញ្ជីសិស្សជាក់ស្តែង ${khmerTotal} នាក់រួចរាល់! លោកគ្រូអាចបើក Google Sheets រួចចុច Ctrl+V ដើម្បីបិទភ្ជាប់បានភ្លាមៗ។`);
+    }).catch(() => {
+      fallbackCopy(tsv);
+    });
+  }
+
+  if (copySheetsBtn) {
+    copySheetsBtn.addEventListener('click', copyAllForGoogleSheets);
+  }
+
+  // Fallback copy helper
+  function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('📋 បានចម្លងទិន្នន័យសម្រាប់ Google Sheets រួចរាល់ (Ctrl+V ដើម្បីបិទភ្ជាប់)!');
+  }
+
+  // Download CSV (UTF-8 BOM preserves Khmer fonts in Excel & Sheets)
+  if (downloadCsvBtn) {
+    downloadCsvBtn.addEventListener('click', () => {
+      if (!students || students.length === 0) {
+        showToast('មិនទាន់មានទិន្នន័យសិស្សជាក់ស្តែងសម្រាប់ទាញយកទេ!');
+        return;
+      }
+      const header = ['"ល.រ"', '"ឈ្មោះសិស្ស"', '"ថ្នាក់ទី"', '"ថ្ងៃសិក្សា"', '"ម៉ោងសិក្សា"', '"លេខទូរស័ព្ទ"', '"កាលបរិច្ឆេទ"'].join(',');
+      const rows = students.map((st, i) => {
+        const sDay = st.day || (st.schedule.includes('សៅរ៍') ? 'សៅរ៍ - អាទិត្យ' : 'ចន្ទ - សុក្រ');
+        const sTime = st.time || st.schedule;
+        return [
+          `"${i + 1}"`,
+          `"${(st.name || '').replace(/"/g, '""')}"`,
+          `"${(st.grade || '').replace(/"/g, '""')}"`,
+          `"${sDay.replace(/"/g, '""')}"`,
+          `"${sTime.replace(/"/g, '""')}"`,
+          `"${(st.phone || '').replace(/"/g, '""')}"`,
+          `"${(st.date || '').replace(/"/g, '""')}"`
+        ].join(',');
+      });
+
+      const csvContent = '\uFEFF' + [header, ...rows].join('\r\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `បញ្ជីឈ្មោះសិស្សជាក់ស្តែង_${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('📥 បានទាញយកឯកសារ CSV បញ្ជីឈ្មោះសិស្សជាក់ស្តែងដោយជោគជ័យ!');
+    });
+  }
+
+  // Clear all students button
+  if (clearStudentsBtn) {
+    clearStudentsBtn.addEventListener('click', () => {
+      if (students.length === 0) {
+        showToast('បញ្ជីឈ្មោះសិស្សទទេស្រាប់ហើយ!');
+        return;
+      }
+      if (confirm('តើលោកគ្រូពិតជាចង់សម្អាតបញ្ជីឈ្មោះសិស្សទាំងអស់មែនទេ? (សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ)')) {
+        students = [];
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
+        } catch (e) {}
+        renderTable();
+        showToast('🗑️ បានសម្អាតបញ្ជីឈ្មោះសិស្សរួចរាល់!');
+      }
+    });
+  }
+
+  // Seed sample records for testing
+  function seedSampleStudents() {
+    students = [
+      {
+        id: 1,
+        name: 'ជា សុខា',
+        grade: 'ថ្នាក់ទី ១២',
+        day: 'ចន្ទ - សុក្រ',
+        time: 'ម៉ោង 5-6',
+        schedule: 'ចន្ទ - សុក្រ (ម៉ោង 5-6)',
+        phone: '012-962-818',
+        date: formatRegistrationDate(new Date(Date.now() - 86400000 * 2)),
+        status: 'បានចុះឈ្មោះជាក់ស្តែង'
+      },
+      {
+        id: 2,
+        name: 'ស៊ន វ៉ាន់នី',
+        grade: 'ថ្នាក់ទី ១២',
+        day: 'សៅរ៍ - អាទិត្យ',
+        time: 'ម៉ោង 1-3',
+        schedule: 'សៅរ៍ - អាទិត្យ (ម៉ោង 1-3)',
+        phone: '015-962-818',
+        date: formatRegistrationDate(new Date(Date.now() - 86400000)),
+        status: 'បានចុះឈ្មោះជាក់ស្តែង'
+      },
+      {
+        id: 3,
+        name: 'គង់ ពិសិដ្ឋ',
+        grade: 'ថ្នាក់ទី ១១',
+        day: 'ចន្ទ - សុក្រ',
+        time: 'ម៉ោង 6-7',
+        schedule: 'ចន្ទ - សុក្រ (ម៉ោង 6-7)',
+        phone: '097-123-456',
+        date: formatRegistrationDate(new Date()),
+        status: 'បានចុះឈ្មោះជាក់ស្តែង'
+      }
+    ];
     try {
-      localStorage.setItem('ap_phy_enrolled_students', JSON.stringify(students));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
     } catch (e) {}
     renderTable();
+    showToast('🔄 បានបញ្ចូលទិន្នន័យគំរូសាកល្បង ៣ នាក់ដោយជោគជ័យ!');
+  }
+
+  // Global helper: Copy single student row
+  window.copySingleStudent = function(studentId) {
+    const st = students.find(s => s.id === studentId);
+    if (!st) return;
+    const sDay = st.day || (st.schedule.includes('សៅរ៍') ? 'សៅរ៍ - អាទិត្យ' : 'ចន្ទ - សុក្រ');
+    const sTime = st.time || st.schedule;
+    const rowTsv = [st.name, st.grade, sDay, sTime, st.phone, st.date].join('\t');
+    navigator.clipboard.writeText(rowTsv).then(() => {
+      showToast(`📋 បានចម្លងព័ត៌មានសិស្ស "${st.name}" សម្រាប់បិទភ្ជាប់ក្នុង Sheets (Ctrl+V)!`);
+    }).catch(() => {
+      fallbackCopy(rowTsv);
+    });
   };
+
+  // Global helper: Delete single student
+  window.deleteSingleStudent = function(studentId) {
+    const st = students.find(s => s.id === studentId);
+    if (!st) return;
+    if (confirm(`តើលោកគ្រូចង់លុបសិស្ស "${st.name}" ចេញពីបញ្ជីជាក់ស្តែងមែនទេ?`)) {
+      students = students.filter(s => s.id !== studentId);
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
+      } catch (e) {}
+      renderTable();
+      showToast(`🗑️ បានលុបសិស្ស "${st.name}" រួចរាល់!`);
+    }
+  };
+
+  // Global helper: Add enrolled student
+  window.addActualStudent = function(newStudent) {
+    students.unshift(newStudent);
+    recentlyAddedId = newStudent.id;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
+    } catch (e) {}
+    renderTable();
+
+    // Trigger auto webhook if configured
+    const webhookUrl = localStorage.getItem('ap_phy_sheet_webhook_url');
+    if (webhookUrl && webhookUrl.startsWith('http')) {
+      fetch(webhookUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newStudent)
+      }).catch(err => console.log('Google Sheets Webhook Sync:', err));
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  // New Student Enrollment Alert Modal Setup
+  // --------------------------------------------------------------------------
+  const alertModal = document.getElementById('new-student-modal');
+  const alertCloseBtn = document.getElementById('new-student-close');
+  const alertCard = document.getElementById('student-alert-card');
+  const alertOpenSheetsBtn = document.getElementById('modal-open-sheets-btn');
+  const alertCopyBtn = document.getElementById('modal-copy-student-btn');
+  const alertViewTableBtn = document.getElementById('modal-view-table-btn');
+
+  let currentAlertStudent = null;
+
+  window.showNewStudentAlertModal = function(student) {
+    if (!alertModal || !alertCard) return;
+    currentAlertStudent = student;
+
+    // Update Sheets Link
+    const currentSheetUrl = localStorage.getItem('ap_phy_google_sheet_url') || defaultSheetUrl;
+    if (alertOpenSheetsBtn) alertOpenSheetsBtn.href = currentSheetUrl;
+
+    const khmerCount = toKhmerDigits(students.length);
+
+    alertCard.innerHTML = `
+      <div style="margin-bottom: 12px; display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:0.85rem; color:var(--cyan-glow); font-weight:700;">
+          🔢 លេខរៀងសិស្សជាក់ស្តែងក្នុងបញ្ជី៖ ${khmerCount}
+        </span>
+        <span class="status-badge new">● បានចុះឈ្មោះជាក់ស្តែង</span>
+      </div>
+      <div class="student-detail-grid">
+        <div class="student-detail-item">
+          <div class="student-detail-label">👤 ឈ្មោះពេញសិស្ស</div>
+          <div class="student-detail-value" style="color:var(--cyan-glow); font-size:1.05rem;">${student.name}</div>
+        </div>
+        <div class="student-detail-item">
+          <div class="student-detail-label">📚 ថ្នាក់សិក្សា</div>
+          <div class="student-detail-value">${student.grade}</div>
+        </div>
+        <div class="student-detail-item">
+          <div class="student-detail-label">📅 ថ្ងៃសិក្សា</div>
+          <div class="student-detail-value" style="color:#38bdf8;">${student.day}</div>
+        </div>
+        <div class="student-detail-item">
+          <div class="student-detail-label">⏰ ម៉ោងសិក្សា</div>
+          <div class="student-detail-value" style="color:#fbbf24;">${student.time}</div>
+        </div>
+        <div class="student-detail-item">
+          <div class="student-detail-label">📱 លេខទូរស័ព្ទ / Telegram</div>
+          <div class="student-detail-value">${student.phone}</div>
+        </div>
+        <div class="student-detail-item">
+          <div class="student-detail-label">🕒 កាលបរិច្ឆេទចុះឈ្មោះ</div>
+          <div class="student-detail-value" style="font-size:0.84rem; color:var(--text-muted);">${student.date}</div>
+        </div>
+      </div>
+    `;
+
+    alertModal.classList.add('active');
+  };
+
+  if (alertCloseBtn) {
+    alertCloseBtn.addEventListener('click', () => {
+      alertModal.classList.remove('active');
+    });
+  }
+
+  if (alertCopyBtn) {
+    alertCopyBtn.addEventListener('click', () => {
+      if (!currentAlertStudent) return;
+      const rowTsv = [
+        students.length,
+        currentAlertStudent.name,
+        currentAlertStudent.grade,
+        currentAlertStudent.day,
+        currentAlertStudent.time,
+        currentAlertStudent.phone,
+        currentAlertStudent.date
+      ].join('\t');
+      navigator.clipboard.writeText(rowTsv).then(() => {
+        showToast('📋 បានចម្លងព័ត៌មានសិស្សនេះសម្រាប់បិទភ្ជាប់ក្នុង Google Sheets (Ctrl+V) រួចរាល់!');
+      }).catch(() => fallbackCopy(rowTsv));
+    });
+  }
+
+  if (alertViewTableBtn) {
+    alertViewTableBtn.addEventListener('click', () => {
+      alertModal.classList.remove('active');
+      const tableSec = document.getElementById('students');
+      if (tableSec) {
+        tableSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+
+  if (alertModal) {
+    alertModal.addEventListener('click', (e) => {
+      if (e.target === alertModal) alertModal.classList.remove('active');
+    });
+  }
+
+  // --------------------------------------------------------------------------
+  // Quick Add Student Modal Setup (➕ បន្ថែមសិស្សផ្ទាល់)
+  // --------------------------------------------------------------------------
+  const quickAddModal = document.getElementById('quick-add-student-modal');
+  const quickAddClose = document.getElementById('quick-add-close');
+  const quickAddForm = document.getElementById('quick-add-form');
+  const quickDaySelect = document.getElementById('quick-day');
+  const quickTimeSelect = document.getElementById('quick-time');
+
+  if (quickDaySelect && quickTimeSelect) {
+    syncScheduleTimeDropdown(quickDaySelect, quickTimeSelect);
+    quickDaySelect.addEventListener('change', () => {
+      syncScheduleTimeDropdown(quickDaySelect, quickTimeSelect);
+    });
+  }
+
+  if (quickAddBtn && quickAddModal) {
+    quickAddBtn.addEventListener('click', () => {
+      quickAddModal.classList.add('active');
+    });
+  }
+
+  if (quickAddClose && quickAddModal) {
+    quickAddClose.addEventListener('click', () => {
+      quickAddModal.classList.remove('active');
+    });
+  }
+
+  if (quickAddForm) {
+    quickAddForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('quick-name').value.trim();
+      const phone = document.getElementById('quick-phone').value.trim();
+      const grade = document.getElementById('quick-grade').value;
+      const day = quickDaySelect ? quickDaySelect.value : 'ចន្ទ - សុក្រ';
+      const time = quickTimeSelect ? quickTimeSelect.value : 'ម៉ោង 5-6';
+
+      if (!name || !phone) {
+        showToast('សូមបំពេញឈ្មោះ និងលេខទូរស័ព្ទ!');
+        return;
+      }
+
+      const newRec = {
+        id: Date.now(),
+        name: name,
+        grade: grade,
+        day: day,
+        time: time,
+        schedule: `${day} (${time})`,
+        phone: phone,
+        date: formatRegistrationDate(new Date()),
+        status: 'បានចុះឈ្មោះជាក់ស្តែង'
+      };
+
+      window.addActualStudent(newRec);
+      playEnrollmentChime();
+      quickAddForm.reset();
+      if (quickDaySelect && quickTimeSelect) {
+        syncScheduleTimeDropdown(quickDaySelect, quickTimeSelect);
+      }
+      quickAddModal.classList.remove('active');
+      showToast(`✅ បានបន្ថែមសិស្ស "${name}" ចូលក្នុងបញ្ជីជាក់ស្តែងដោយជោគជ័យ!`);
+
+      // Show alert modal for the added student
+      window.showNewStudentAlertModal(newRec);
+    });
+  }
+
+  if (quickAddModal) {
+    quickAddModal.addEventListener('click', (e) => {
+      if (e.target === quickAddModal) quickAddModal.classList.remove('active');
+    });
+  }
+
+  // --------------------------------------------------------------------------
+  // Google Sheets Integration Configuration Modal
+  // --------------------------------------------------------------------------
+  const sheetModal = document.getElementById('sheet-config-modal');
+  const sheetClose = document.getElementById('sheet-config-close');
+  const cfgSheetUrlInput = document.getElementById('cfg-sheet-url');
+  const cfgWebhookInput = document.getElementById('cfg-webhook-url');
+  const cfgSaveBtn = document.getElementById('cfg-sheet-save');
+  const cfgResetBtn = document.getElementById('cfg-sheet-reset');
+
+  if (configSheetBtn && sheetModal) {
+    configSheetBtn.addEventListener('click', () => {
+      if (cfgSheetUrlInput) {
+        cfgSheetUrlInput.value = localStorage.getItem('ap_phy_google_sheet_url') || defaultSheetUrl;
+      }
+      if (cfgWebhookInput) {
+        cfgWebhookInput.value = localStorage.getItem('ap_phy_sheet_webhook_url') || '';
+      }
+      sheetModal.classList.add('active');
+    });
+  }
+
+  if (sheetClose && sheetModal) {
+    sheetClose.addEventListener('click', () => {
+      sheetModal.classList.remove('active');
+    });
+  }
+
+  if (cfgSaveBtn) {
+    cfgSaveBtn.addEventListener('click', () => {
+      const url = cfgSheetUrlInput ? cfgSheetUrlInput.value.trim() : '';
+      const webhook = cfgWebhookInput ? cfgWebhookInput.value.trim() : '';
+
+      if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+        localStorage.setItem('ap_phy_google_sheet_url', url);
+        if (googleSheetBtn) googleSheetBtn.href = url;
+      }
+      if (webhook) {
+        localStorage.setItem('ap_phy_sheet_webhook_url', webhook);
+      } else {
+        localStorage.removeItem('ap_phy_sheet_webhook_url');
+      }
+
+      sheetModal.classList.remove('active');
+      showToast('💾 បានរក្សាទុកការកំណត់ Google Sheets និង Webhook ដោយជោគជ័យ!');
+    });
+  }
+
+  if (cfgResetBtn) {
+    cfgResetBtn.addEventListener('click', () => {
+      if (cfgSheetUrlInput) cfgSheetUrlInput.value = defaultSheetUrl;
+      if (cfgWebhookInput) cfgWebhookInput.value = '';
+      localStorage.removeItem('ap_phy_google_sheet_url');
+      localStorage.removeItem('ap_phy_sheet_webhook_url');
+      if (googleSheetBtn) googleSheetBtn.href = defaultSheetUrl;
+      showToast('🔄 បានកំណត់តំណភ្ជាប់ Google Sheets មកលំនាំដើមវិញ!');
+    });
+  }
+
+  if (sheetModal) {
+    sheetModal.addEventListener('click', (e) => {
+      if (e.target === sheetModal) sheetModal.classList.remove('active');
+    });
+  }
+
+  // Initial table render
+  renderTable();
 }
 
 // Global Toast System
