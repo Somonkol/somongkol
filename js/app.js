@@ -573,15 +573,61 @@ function initEnrolledStudentsTable() {
   const searchInput = document.getElementById('student-search-input');
   const filterBtns = document.querySelectorAll('.student-filter-btn');
 
-  // Sheet configuration & Webhook
-  const defaultSheetUrl = 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit?usp=sharing';
+  // ==========================================================================
+  // Google Sheets & Webhook Configuration
+  // លោកគ្រូអាចដាក់ Webhook URL ឬ Google Sheets URL នៅទីនេះ ដើម្បីឱ្យគ្រប់ Device ទាំងអស់ Sync
+  // ==========================================================================
+  const DEFAULT_WEBHOOK_URL = ''; // e.g. 'https://script.google.com/macros/s/.../exec'
+  const DEFAULT_SHEET_URL = '';   // e.g. 'https://docs.google.com/spreadsheets/d/.../edit'
+  const defaultSheetUrl = DEFAULT_SHEET_URL;
+  const defaultWebhookUrl = DEFAULT_WEBHOOK_URL;
+
   const savedSheetUrl = localStorage.getItem('ap_phy_google_sheet_url') || defaultSheetUrl;
   if (googleSheetBtn) {
-    googleSheetBtn.href = savedSheetUrl;
+    googleSheetBtn.href = savedSheetUrl || 'https://drive.google.com/drive/my-drive';
   }
 
   // Storage key for client cache
   const STORAGE_KEY = 'ap_phy_actual_students';
+
+  // Automatically purge any dummy sample data ('Gender', 'Female', 'Male', old dummy test data, etc.)
+  function purgeSampleData() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        let list = JSON.parse(stored);
+        if (Array.isArray(list)) {
+          list = list.filter(st => {
+            const str = (String(st.name || '') + ' ' + String(st.grade || '') + ' ' + String(st.schedule || '') + ' ' + String(st.phone || '')).toLowerCase();
+            const isSampleEnglish = str.includes('gender') ||
+                   str.includes('female') ||
+                   str.includes('male') ||
+                   str.includes('senior') ||
+                   str.includes('freshman') ||
+                   str.includes('sophomore') ||
+                   str.includes('junior') ||
+                   str.includes('alexandra') ||
+                   str.includes('andrew') ||
+                   str.includes('extracurricular') ||
+                   str.includes('drama club') ||
+                   str.includes('lacrosse') ||
+                   str.includes('student name');
+            const isOldSampleDummy = (st.name === 'ជា សុខា' && st.phone === '012-962-818') ||
+                   (st.name === 'ស៊ន វ៉ាន់នី' && st.phone === '015-962-818') ||
+                   (st.name === 'គង់ ពិសិដ្ឋ' && st.phone === '097-123-456');
+            return !isSampleEnglish && !isOldSampleDummy;
+          });
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        }
+      }
+      const savedUrl = localStorage.getItem('ap_phy_google_sheet_url');
+      if (savedUrl && savedUrl.includes('1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms')) {
+        localStorage.removeItem('ap_phy_google_sheet_url');
+      }
+    } catch (e) {}
+  }
+  purgeSampleData();
+
   let students = [];
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -633,23 +679,17 @@ function initEnrolledStudentsTable() {
             <div style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
               មិនទាន់មានសិស្សចុះឈ្មោះជាក់ស្តែងនៅឡើយទេ
             </div>
-            <div style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 18px; max-width: 500px; margin-left: auto; margin-right: auto;">
-              នៅពេលសិស្សចុះឈ្មោះក្នុងទម្រង់ខាងក្រោម ទិន្នន័យនឹងត្រូវបញ្ជូនទៅ Google Sheets និងទាញយកមកបង្ហាញនៅទីនេះជាក់ស្តែងភ្លាមៗ។
+            <div style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 18px; max-width: 480px; margin-left: auto; margin-right: auto;">
+              សូមបំពេញទម្រង់ចុះឈ្មោះខាងក្រោមដើម្បីចុះឈ្មោះចូលរៀន។ ទិន្នន័យជាក់ស្តែងនឹងបង្ហាញនៅទីនេះភ្លាមៗ!
             </div>
-            <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-              <a href="#contact" class="btn-primary" style="padding: 7px 18px; font-size: 0.86rem;">
+            <div>
+              <a href="#contact" class="btn-primary" style="padding: 8px 22px; font-size: 0.88rem;">
                 <span>✍️ ចុះឈ្មោះសិស្សថ្មី</span>
               </a>
-              <button id="btn-seed-sample" class="btn-outline" style="padding: 7px 16px; font-size: 0.86rem;">
-                <span>🔄 បញ្ចូលទិន្នន័យគំរូសាកល្បង</span>
-              </button>
             </div>
           </td>
         </tr>
       `;
-
-      const seedBtn = document.getElementById('btn-seed-sample');
-      if (seedBtn) seedBtn.addEventListener('click', seedSampleStudents);
       return;
     }
 
@@ -730,14 +770,30 @@ function initEnrolledStudentsTable() {
   // Core Google Sheets Pull / Fetch Logic
   // --------------------------------------------------------------------------
   async function fetchStudentsFromGoogleSheets(silent = false) {
+    const currentSheetUrl = localStorage.getItem('ap_phy_google_sheet_url') || defaultSheetUrl;
+    const webhookUrl = localStorage.getItem('ap_phy_sheet_webhook_url');
+
+    // If neither is configured, or if sheetUrl points to the old example sheet, DO NOT fetch dummy template!
+    if ((!currentSheetUrl || currentSheetUrl.includes('1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms')) && (!webhookUrl || !webhookUrl.startsWith('http'))) {
+      if (syncStatusPill) {
+        syncStatusPill.className = 'sync-status-pill';
+        const khmerTotal = toKhmerDigits(students.length);
+        if (syncStatusText) {
+          syncStatusText.innerText = students.length > 0 
+            ? `🟢 សិស្សចុះឈ្មោះជាក់ស្តែង (${khmerTotal} នាក់)` 
+            : `⚪ មិនទាន់ភ្ជាប់ Google Sheets`;
+        }
+      }
+      renderTable();
+      return;
+    }
+
     if (syncSheetsBtn) syncSheetsBtn.classList.add('syncing');
     if (syncStatusPill) {
       syncStatusPill.className = 'sync-status-pill syncing';
       if (syncStatusText) syncStatusText.innerText = 'កំពុងទាញយកទិន្នន័យពី Sheets...';
     }
 
-    const currentSheetUrl = localStorage.getItem('ap_phy_google_sheet_url') || defaultSheetUrl;
-    const webhookUrl = localStorage.getItem('ap_phy_sheet_webhook_url');
     let fetchedStudents = null;
 
     // 1. First attempt: Google Apps Script Webhook (GET request)
@@ -755,8 +811,8 @@ function initEnrolledStudentsTable() {
       }
     }
 
-    // 2. Second attempt: Google Visualization API (GViz) from Google Sheets URL
-    if (!fetchedStudents && currentSheetUrl) {
+    // 2. Second attempt: Google Visualization API (GViz) from custom Google Sheets URL
+    if (!fetchedStudents && currentSheetUrl && !currentSheetUrl.includes('1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms')) {
       const sheetId = extractGoogleSheetId(currentSheetUrl);
       if (sheetId) {
         try {
@@ -771,7 +827,6 @@ function initEnrolledStudentsTable() {
               const rows = gvizData.table.rows;
               const parsed = [];
 
-              // Detect header row
               let startIdx = 0;
               if (rows.length > 0 && rows[0].c) {
                 const c0 = String(rows[0].c[0]?.v || '').toLowerCase();
@@ -795,14 +850,19 @@ function initEnrolledStudentsTable() {
                 let date = cells[6];
                 let status = cells[7] || 'បានចុះឈ្មោះជាក់ស្តែង';
 
-                // Check if name is in column 0
                 if (!name || String(name).trim() === '') {
                   if (cells[0] && isNaN(cells[0])) {
                     name = cells[0];
                     id = i + 1;
                   } else {
-                    continue; // Skip empty row
+                    continue;
                   }
+                }
+
+                // Filter out any sample template rows
+                const nLower = String(name).toLowerCase();
+                if (nLower === 'student name' || nLower === 'gender' || nLower === 'female' || nLower === 'male') {
+                  continue;
                 }
 
                 parsed.push({
@@ -829,8 +889,14 @@ function initEnrolledStudentsTable() {
 
     if (syncSheetsBtn) syncSheetsBtn.classList.remove('syncing');
 
-    if (fetchedStudents !== null) {
-      students = fetchedStudents;
+    if (fetchedStudents !== null && fetchedStudents.length > 0) {
+      // Merge any pending local real students that are not yet reflected in the sheet
+      const sheetPhones = new Set(fetchedStudents.map(s => String(s.phone || '').trim().replace(/[-\s]/g, '')));
+      const pendingLocal = students.filter(s => {
+        const cleanPhone = String(s.phone || '').trim().replace(/[-\s]/g, '');
+        return cleanPhone && !sheetPhones.has(cleanPhone);
+      });
+      students = [...pendingLocal, ...fetchedStudents];
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
       } catch (e) {}
@@ -849,16 +915,18 @@ function initEnrolledStudentsTable() {
         showToast(`✅ បានទាញយកទិន្នន័យសិស្ស ${toKhmerDigits(students.length)} នាក់ពី Google Sheets ដោយជោគជ័យ!`);
       }
     } else {
-      // Fallback to local storage
+      // Keep existing real local registrations! Never wipe them!
       renderTable();
       if (syncStatusPill) {
         syncStatusPill.className = 'sync-status-pill';
         if (syncStatusText) {
-          syncStatusText.innerText = `🟡 ទិន្នន័យក្នុងម៉ាស៊ីន (${toKhmerDigits(students.length)} នាក់)`;
+          syncStatusText.innerText = students.length > 0 
+            ? `🟢 សិស្សជាក់ស្តែង (${toKhmerDigits(students.length)} នាក់)` 
+            : `⚪ មិនទាន់ភ្ជាប់ Google Sheets`;
         }
       }
-      if (!silent) {
-        showToast('💡 បានបង្ហាញទិន្នន័យចុងក្រោយដែលបានរក្សាទុកក្នុងម៉ាស៊ីន (Offline Cache)');
+      if (!silent && (currentSheetUrl || webhookUrl)) {
+        showToast('💡 បានបង្ហាញទិន្នន័យចុងក្រោយដែលបានរក្សាទុកក្នុងម៉ាស៊ីន');
       }
     }
   }
@@ -987,49 +1055,6 @@ function initEnrolledStudentsTable() {
     });
   }
 
-  // Seed sample records for testing
-  function seedSampleStudents() {
-    students = [
-      {
-        id: 1,
-        name: 'ជា សុខា',
-        grade: 'ថ្នាក់ទី ១២',
-        day: 'ចន្ទ - សុក្រ',
-        time: 'ម៉ោង 5-6',
-        schedule: 'ចន្ទ - សុក្រ (ម៉ោង 5-6)',
-        phone: '012-962-818',
-        date: formatRegistrationDate(new Date(Date.now() - 86400000 * 2)),
-        status: 'បានចុះឈ្មោះជាក់ស្តែង'
-      },
-      {
-        id: 2,
-        name: 'ស៊ន វ៉ាន់នី',
-        grade: 'ថ្នាក់ទី ១២',
-        day: 'សៅរ៍ - អាទិត្យ',
-        time: 'ម៉ោង 1-3',
-        schedule: 'សៅរ៍ - អាទិត្យ (ម៉ោង 1-3)',
-        phone: '015-962-818',
-        date: formatRegistrationDate(new Date(Date.now() - 86400000)),
-        status: 'បានចុះឈ្មោះជាក់ស្តែង'
-      },
-      {
-        id: 3,
-        name: 'គង់ ពិសិដ្ឋ',
-        grade: 'ថ្នាក់ទី ១១',
-        day: 'ចន្ទ - សុក្រ',
-        time: 'ម៉ោង 6-7',
-        schedule: 'ចន្ទ - សុក្រ (ម៉ោង 6-7)',
-        phone: '097-123-456',
-        date: formatRegistrationDate(new Date()),
-        status: 'បានចុះឈ្មោះជាក់ស្តែង'
-      }
-    ];
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
-    } catch (e) {}
-    renderTable();
-    showToast('🔄 បានបញ្ចូលទិន្នន័យគំរូសាកល្បង ៣ នាក់ដោយជោគជ័យ!');
-  }
 
   // Global helper: Copy single student row
   window.copySingleStudent = function(studentId) {
@@ -1071,30 +1096,20 @@ function initEnrolledStudentsTable() {
 
   // Global helper: Send student to Google Sheets via Webhook (POST)
   window.sendStudentToGoogleSheet = function(newStudent) {
-    const webhookUrl = localStorage.getItem('ap_phy_sheet_webhook_url');
+    const webhookUrl = localStorage.getItem('ap_phy_sheet_webhook_url') || defaultWebhookUrl;
     if (!webhookUrl || !webhookUrl.startsWith('http')) {
-      console.warn('Google Apps Script Webhook URL is not configured.');
+      console.warn('Google Apps Script Webhook URL is not configured yet. Student is saved locally.');
       return;
     }
 
     try {
-      const params = new URLSearchParams();
-      params.append('name', newStudent.name || '');
-      params.append('grade', newStudent.grade || '');
-      params.append('day', newStudent.day || '');
-      params.append('time', newStudent.time || '');
-      params.append('schedule', newStudent.schedule || '');
-      params.append('phone', newStudent.phone || '');
-      params.append('date', newStudent.date || '');
-      params.append('status', newStudent.status || 'បានចុះឈ្មោះជាក់ស្តែង');
-
       fetch(webhookUrl, {
         method: 'POST',
         mode: 'no-cors',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'text/plain;charset=utf-8'
         },
-        body: params.toString()
+        body: JSON.stringify(newStudent)
       }).then(() => {
         console.log('Student successfully sent to Google Sheets via Webhook');
         // Re-fetch from Google Sheets after 2 seconds to synchronize
@@ -1126,7 +1141,7 @@ function initEnrolledStudentsTable() {
     currentAlertStudent = student;
 
     const currentSheetUrl = localStorage.getItem('ap_phy_google_sheet_url') || defaultSheetUrl;
-    if (alertOpenSheetsBtn) alertOpenSheetsBtn.href = currentSheetUrl;
+    if (alertOpenSheetsBtn) alertOpenSheetsBtn.href = currentSheetUrl || 'https://drive.google.com/drive/my-drive';
 
     const khmerCount = toKhmerDigits(students.length);
 
@@ -1312,7 +1327,7 @@ function initEnrolledStudentsTable() {
         cfgSheetUrlInput.value = localStorage.getItem('ap_phy_google_sheet_url') || defaultSheetUrl;
       }
       if (cfgWebhookInput) {
-        cfgWebhookInput.value = localStorage.getItem('ap_phy_sheet_webhook_url') || '';
+        cfgWebhookInput.value = localStorage.getItem('ap_phy_sheet_webhook_url') || defaultWebhookUrl;
       }
       sheetModal.classList.add('active');
     });
@@ -1332,8 +1347,12 @@ function initEnrolledStudentsTable() {
       if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
         localStorage.setItem('ap_phy_google_sheet_url', url);
         if (googleSheetBtn) googleSheetBtn.href = url;
+      } else {
+        localStorage.removeItem('ap_phy_google_sheet_url');
+        if (googleSheetBtn) googleSheetBtn.href = defaultSheetUrl || 'https://drive.google.com/drive/my-drive';
       }
-      if (webhook) {
+
+      if (webhook && (webhook.startsWith('http://') || webhook.startsWith('https://'))) {
         localStorage.setItem('ap_phy_sheet_webhook_url', webhook);
       } else {
         localStorage.removeItem('ap_phy_sheet_webhook_url');
@@ -1350,10 +1369,10 @@ function initEnrolledStudentsTable() {
   if (cfgResetBtn) {
     cfgResetBtn.addEventListener('click', () => {
       if (cfgSheetUrlInput) cfgSheetUrlInput.value = defaultSheetUrl;
-      if (cfgWebhookInput) cfgWebhookInput.value = '';
+      if (cfgWebhookInput) cfgWebhookInput.value = defaultWebhookUrl;
       localStorage.removeItem('ap_phy_google_sheet_url');
       localStorage.removeItem('ap_phy_sheet_webhook_url');
-      if (googleSheetBtn) googleSheetBtn.href = defaultSheetUrl;
+      if (googleSheetBtn) googleSheetBtn.href = defaultSheetUrl || 'https://drive.google.com/drive/my-drive';
       showToast('🔄 បានកំណត់តំណភ្ជាប់ Google Sheets មកលំនាំដើមវិញ!');
       fetchStudentsFromGoogleSheets(false);
     });
